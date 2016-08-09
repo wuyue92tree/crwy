@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 from bs4 import BeautifulSoup
-from pyv8 import PyV8
+# from pyv8 import PyV8
 
 
 class HtmlParser(object):

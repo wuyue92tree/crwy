@@ -9,7 +9,7 @@ from optparse import OptionParser
 
 class Command(object):
     def main(self):
-        Usage = "Usage:  crwy crawl [option] [args]"
+        Usage = "Usage:  crwy runspider [option] [args]"
         parser = OptionParser(Usage)
         parser.add_option('-p', '--path', dest='args', help='path to spider', metavar="PATH")
         opt, args = parser.parse_args()
