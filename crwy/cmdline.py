@@ -5,22 +5,28 @@
 import sys
 import os
 
-from commands.runspider import Command as RunspiderCommand
-from commands.startproject import Command as StartprojectCommand
+from configparser import ConfigParser
+from crwy.commands.runspider import Command as RunspiderCommand
+from crwy.commands.startproject import Command as StartprojectCommand
 
 
 def under_conf():
-    if os.path.exists('config.py'):
+    if os.path.exists('crwy.cfg'):
         return True
     else:
         return False
 
 
+def get_project_name():
+    conf = ConfigParser()
+    conf.read('crwy.cfg', encoding='utf-8')
+    project_name = conf.get('project', 'project_name').encode('utf-8')
+    return project_name
+
+
 def execute():
     if under_conf():
-        import config
-
-        Header = 'Crwy 1.0.0 - active\n'
+        Header = 'Crwy 1.0.0 - project: %s \n' % get_project_name()
     else:
         Header = 'Crwy 1.0.0 - no active project found!!!\n'
 

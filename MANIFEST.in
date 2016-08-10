@@ -1,0 +1,5 @@
+include MANIFEST.in
+include README.rst
+include requirements.txt
+include crwy/VERSION
+recursive-include crwy/templates *

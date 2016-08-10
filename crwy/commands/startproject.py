@@ -7,10 +7,31 @@ import sys
 import os
 import shutil
 
-from crwy.settings.default_settings import BASE_DIR
+from crwy.settings.default_settings import TEMPLATE_DIR
+from crwy.changetmpl import change_project_name
+
+PATH = os.path.join(TEMPLATE_DIR, 'project')
+DATA_PATH = os.path.join(PATH, 'data')
+SRC_PATH = os.path.join(PATH, 'src')
+CONFIG_PATH = os.path.join(PATH, 'crwy.cfg.tmpl')
+SETTINGS_PATH = os.path.join(PATH, 'settings.py.tmpl')
 
 
 class Command(object):
+    def create_project(self, project_name):
+        os.mkdir(project_name)
+        os.mkdir(project_name + '/' + project_name)
+        shutil.copytree(DATA_PATH, project_name + '/' + 'data')
+        shutil.copytree(SRC_PATH, project_name + '/' + 'src')
+
+        config = change_project_name(project_name, CONFIG_PATH)
+        f1 = open(project_name+'/crwy.cfg', 'w')
+        f1.write(config)
+
+        settings = change_project_name(project_name, SETTINGS_PATH)
+        f2 = open(project_name+'/'+project_name+'/settings.py', 'w')
+        f2.write(settings)
+
     def main(self):
         Usage = "Usage:  crwy startproject <project_name>\n"
         # print sys.argv
@@ -24,9 +45,9 @@ class Command(object):
             if os.path.exists(project_name):
                 print '[ERROR] Path "%s" has exists!!!' % project_name
             else:
-                os.mkdir(project_name)
-                os.mkdir(project_name + '/' + project_name)
-                shutil.copy(BASE_DIR+'/config.py', project_name)
+
+                self.create_project(project_name)
+
                 print "Project start......enjoy^.^"
         except IndexError:
             print Usage
