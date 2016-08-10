@@ -8,6 +8,7 @@ import os
 from configparser import ConfigParser
 from crwy.commands.runspider import Command as RunspiderCommand
 from crwy.commands.startproject import Command as StartprojectCommand
+from crwy.commands.createspider import Command as CreatespiderCommand
 
 
 def under_conf():
@@ -49,18 +50,25 @@ def execute():
         print Usage
         print Options
         print Notice
-        sys.exit()
+        sys.exit(1)
+
+    if project == 'startproject':
+        cmd = StartprojectCommand()
+        cmd.main()
 
     if project == 'runspider':
         if under_conf():
             cmd = RunspiderCommand()
             cmd.main()
         else:
-            print '[ERROR] No active project found!!!'
-    if project == 'startproject':
-        cmd = StartprojectCommand()
-        cmd.main()
+            print '[ERROR] Please makesure that you are under project path!!!'
 
+    if project == 'createspider':
+        if under_conf():
+            cmd = CreatespiderCommand()
+            cmd.main()
+        else:
+            print '[ERROR] Please makesure that you are under project path!!!'
 
 if __name__ == '__main__':
     execute()

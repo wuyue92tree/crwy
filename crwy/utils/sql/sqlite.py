@@ -9,7 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 
-class Sql(object):
+class Sqlite(object):
     def __init__(self, path=None, database=None):
         self.engine = create_engine('sqlite:///%s/%s.db' % (path, database))
         DBSession = sessionmaker(bind=self.engine)

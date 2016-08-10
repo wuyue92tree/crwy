@@ -18,6 +18,3 @@ class Command(object):
         if len(args) < 2:
             print Usage
             sys.exit(1)
-
-    def run(self):
-        self.main()
