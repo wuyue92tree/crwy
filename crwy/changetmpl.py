@@ -10,3 +10,11 @@ def change_project_name(name, path):
     t = Template(f.read()).substitute(project_name=name)
 
     return t
+
+
+def change_spider_name(name, path):
+    f = open(path, 'r')
+    class_name = name.capitalize()
+    spider_name = name
+    t = Template(f.read()).substitute(class_name=class_name, spider_name=spider_name)
+    return t

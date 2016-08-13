@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # author: wuyue92tree@163.com
 
+from __future__ import print_function
 import sys
 import os
 
@@ -9,6 +10,7 @@ from configparser import ConfigParser
 from crwy.commands.runspider import Command as RunspiderCommand
 from crwy.commands.startproject import Command as StartprojectCommand
 from crwy.commands.createspider import Command as CreatespiderCommand
+from crwy.commands.list import Command as ListCommand
 
 
 def under_conf():
@@ -32,24 +34,29 @@ def execute():
         Header = 'Crwy 1.0.0 - no active project found!!!\n'
 
     Usage = 'Usage:\n  crwy <commands> [option] [args]\n'
-    project_list = ['runspider', 'startproject', 'createspider']
-    Options = 'Avaliable Commands:\n  runspider\trun a spider\n  startproject\tcreate a new project\n  createspider\tcreate a new spider\n'
+    project_list = ['runspider', 'startproject', 'createspider', 'list']
+    Options = 'Avaliable Commands:\n' \
+              '  list\t\tlist all spider in your project\n' \
+              '  runspider\trun a spider\n' \
+              '  startproject\tcreate a new project\n' \
+              '  createspider\tcreate a new spider\n'
+
     Notice = 'Use "crwy <command> -h" to see more info about a command'
     # print sys.argv
     if len(sys.argv) < 2:
-        print Header
-        print Usage
-        print Options
-        print Notice
+        print (Header)
+        print (Usage)
+        print (Options)
+        print (Notice)
         sys.exit(1)
 
     project = sys.argv[1]
 
     if project not in project_list:
-        print Header
-        print Usage
-        print Options
-        print Notice
+        print (Header)
+        print (Usage)
+        print (Options)
+        print (Notice)
         sys.exit(1)
 
     if project == 'startproject':
@@ -61,14 +68,21 @@ def execute():
             cmd = RunspiderCommand()
             cmd.main()
         else:
-            print '[ERROR] Please makesure that you are under project path!!!'
+            print ('[ERROR] Please makesure that you are under project path!!!')
 
     if project == 'createspider':
         if under_conf():
             cmd = CreatespiderCommand()
             cmd.main()
         else:
-            print '[ERROR] Please makesure that you are under project path!!!'
+            print ('[ERROR] Please makesure that you are under project path!!!')
+
+    if project == 'list':
+        if under_conf():
+            cmd = ListCommand()
+            cmd.main()
+        else:
+            print ('[ERROR] Please makesure that you are under project path!!!')
 
 if __name__ == '__main__':
     execute()

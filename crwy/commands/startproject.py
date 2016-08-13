@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # author: wuyue92tree@163.com
 
-
+from __future__ import print_function
 import sys
 import os
 import shutil
@@ -34,23 +34,23 @@ class Command(object):
 
     def main(self):
         Usage = "Usage:  crwy startproject <project_name>\n"
-        # print sys.argv
+
         try:
             project_name = sys.argv[2]
             if project_name == '-h':
-                print Usage
-                print "  Add a new project"
+                print(Usage)
+                print("  Add a new project")
                 sys.exit(1)
-            # print project_name
+
             if os.path.exists(project_name):
-                print '[ERROR] Path "%s" has exists!!!' % project_name
+                print('[ERROR] Path "%s" has exists!!!' % project_name)
             else:
 
                 self.create_project(project_name)
 
-                print "Project start......enjoy^.^"
+                print("Project start......enjoy^.^")
         except IndexError:
-            print Usage
-            print "[ERROR] Please enter a project_name!!!"
+            print(Usage)
+            print("[ERROR] Please enter a project_name!!!")
 
 
