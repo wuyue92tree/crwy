@@ -17,7 +17,7 @@ class HtmlParser(object):
         if html_cont is None:
             return
 
-        soup = BeautifulSoup(str(html_cont), from_encoding='gb18030')
+        soup = BeautifulSoup(str(html_cont), 'html.parser', from_encoding='gb18030')
 
         return soup
 

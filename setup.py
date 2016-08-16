@@ -42,7 +42,6 @@ setup(
     ],
     install_requires=[
         'beautifulsoup4>=4.5.1',
-        'bs4>=0.0.1',
         'pycurl>=7.43.0',
         'configparser>=3.5.0',
         'SQLAlchemy>=1.0.14',

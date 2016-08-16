@@ -3,7 +3,10 @@
 import zlib
 import random
 import pycurl
-from StringIO import StringIO
+try:
+    from io import BytesIO
+except ImportError:
+    from StringIO import StringIO as BytesIO
 
 
 class HtmlDownloader(object):
@@ -25,10 +28,12 @@ class HtmlDownloader(object):
             headers.append('Accept-Encoding: gzip, deflate')
 
         c = pycurl.Curl()
-        buffer = StringIO()
+        buffer = BytesIO()
 
         # self.c.setopt(c.VERBOSE, True)
         c.setopt(c.URL, url)
+        # 设置最大refer次数
+        c.setopt(pycurl.MAXREDIRS, 5)
 
         if Proxy is not None:
             proxy = 'http://' + str(random.sample(Proxy, 1)[0][0].encode('utf-8'))

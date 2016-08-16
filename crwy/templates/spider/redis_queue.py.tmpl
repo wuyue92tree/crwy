@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from __future__ import print_function
+
+from optparse import OptionParser
+from crwy.spider import Spider
+from crwy.RedisQueue import RedisQueue
+
+queue = RedisQueue('test')
+
+
+class ${class_name}Spider(Spider):
+    def __init__(self, queue):
+        Spider.__init__(self)
+        self.queue = queue
+
+    def crawler_${spider_name}(self):
+        while True:
+            url = 'http://example.com/%d' % int(self.queue.get())
+            html_cont = self.html_downloader.download(url)
+            soups = self.html_parser.parser(html_cont)
+            print(url)
+            print('Length of queue : %d' % queue.qsize())
+
+def crawler():
+    run=${class_name}Spider(queue)
+    run.crawler_${spider_name}()
+
+def add_queue():
+    for i in range(1, 10):
+        queue.put(i)
+
+if __name__ == '__main__':
+    Usage = "Usage:  python ${spider_name}.py <commands>"
+    parser = OptionParser(Usage)
+    opt, args = parser.parse_args()
+    if len(args) < 1:
+        print(Usage)
+        exit()
+
+    if args[0] == 'crawler':
+        crawler()
+    if args[0] == 'queue':
+        add_queue()

@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from __future__ import print_function
+
+import Queue
+from crwy.spider import Spider
+from crwy.RedisQueue import RedisQueue
+
+queue = Queue.Queue()
+
+
+class ${class_name}Spider(Spider):
+    def __init__(self, queue):
+        Spider.__init__(self)
+        self.queue = queue
+
+    def crawler_${spider_name}(self):
+        while True:
+            if not queue.empty():
+                url = 'http://example.com/%d' % self.queue.get()
+                html_cont = self.html_downloader.download(url)
+                soups = self.html_parser.parser(html_cont)
+                print(url)
+                print('Length of queue : %d' % queue.qsize())
+            else:
+                return False
+
+def main():
+    for i in range(1, 10):
+        queue.put(i)
+
+    run = ${class_name}Spider(queue)
+    run.crawler_${spider_name}()
+
+
+if __name__ == '__main__':
+    main()

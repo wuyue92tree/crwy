@@ -12,23 +12,23 @@ from crwy.changetmpl import change_spider_name
 from crwy.commands.list import Command as ListCommand
 
 PATH = os.path.join(TEMPLATE_DIR, 'spider')
-BASIC_PATH = os.path.join(PATH, 'basic.py.tmpl')
-SPIDER_TMPL_LIST = ['basic', 'sqlite', 'casperjs']
+TMPLATE_PATH = os.path.join(PATH, '%s.py.tmpl')
+SPIDER_TMPL_LIST = ['basic', 'sqlite', 'queue', 'redis_queue']
 
 
 class Command(object):
-
     def create_spider(self, name, tmpl):
         spider_list = ListCommand.get_spider_list()
         if name in spider_list:
             print('[ERROR] spider "%s" is exists!!!' % name)
             sys.exit(1)
-        if tmpl == 'basic':
-            spider = change_spider_name(name, BASIC_PATH)
 
+        path = TMPLATE_PATH % tmpl
+        spider = change_spider_name(name, path)
         f = open('src/%s.py' % name, 'w')
         f.write(spider)
-        print('Create spider success!!!')
+        print('Spider is base on : %s template' % tmpl)
+        print('Create spider : "%s" success!!!' % name)
 
     def main(self):
         Usage = "Usage:  crwy createspider [option] [args]"

@@ -5,7 +5,6 @@
 from __future__ import print_function
 import sys
 
-
 from optparse import OptionParser
 from crwy.commands.list import Command as ListCommand
 
@@ -20,5 +19,4 @@ class Command(object):
         if len(args) < 1:
             print(Usage)
             sys.exit(1)
-
 

@@ -4,18 +4,26 @@
 from __future__ import print_function
 
 from crwy.spider import Spider
+from crwy.utils.sql.sqlite import *
+
+
+class Test(Base):
+    __tablename__ = "test"
+    id = Column(Integer, primary_key=True, unique=True)
+    name = Column(String(20))
 
 
 class ${class_name}Spider(Spider):
     def __init__(self):
         Spider.__init__(self)
+        self.sql = Sqlite('${spider_name}')
+        self.sql.init_table()
 
     def crawler_${spider_name}(self):
         url = 'http://example.com'
         html_cont = self.html_downloader.download(url)
         soups = self.html_parser.parser(html_cont)
         print(soups)
-
 
 def main():
     run=${class_name}Spider()
