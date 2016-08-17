@@ -33,24 +33,39 @@ class Command(object):
     def main(self):
         Usage = "Usage:  crwy createspider [option] [args]"
         parser = OptionParser(Usage)
+        parser.add_option('-l', '--list', action='store_true', dest='list', help='list available spider template name', metavar="LIST")
+        parser.add_option('-p', '--preview', dest='preview', help='preview spider template', metavar="PREVIEW")
         parser.add_option('-t', '--tmpl', dest='template', help='spider template', metavar="TEMPLATE")
         parser.add_option('-n', '--name', dest='name', help='new spider name', metavar="NAME")
-        opt, args = parser.parse_args()
 
-        if len(args) < 1:
+        opt, args = parser.parse_args()
+        # print(opt)
+        if not opt.name and not opt.list and not opt.template and not opt.preview:
             print(Usage)
             sys.exit(1)
 
-        if opt.template is None:
-            tmpl = 'basic'
+        if opt.list:
+            print('Available template:')
+            for template in SPIDER_TMPL_LIST:
+                print('  %s' % template)
+            sys.exit(1)
+
+        if opt.preview is not None:
+            if opt.preview in SPIDER_TMPL_LIST:
+                print(open(TMPLATE_PATH % opt.preview, 'r').read())
+                sys.exit(1)
+            else:
+                print('[ERROR] Illegal template name!!!')
+                sys.exit(1)
 
         if opt.template is not None:
             if opt.template in SPIDER_TMPL_LIST:
                 tmpl = opt.template
-                global tmpl
             else:
                 print('[ERROR] Illegal template name!!!')
                 sys.exit(1)
+        else:
+            tmpl = 'basic'
 
         if opt.name is not None:
             name = opt.name

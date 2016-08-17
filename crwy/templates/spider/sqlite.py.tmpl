@@ -10,7 +10,8 @@ from crwy.utils.sql.sqlite import *
 class Test(Base):
     __tablename__ = "test"
     id = Column(Integer, primary_key=True, unique=True)
-    name = Column(String(20))
+    title = Column(String(20))
+    url = Column(String(20))
 
 
 class ${class_name}Spider(Spider):
@@ -23,6 +24,10 @@ class ${class_name}Spider(Spider):
         url = 'http://example.com'
         html_cont = self.html_downloader.download(url)
         soups = self.html_parser.parser(html_cont)
+        title = soups.find('title').text
+        item = Test(title=title.decode('utf-8'), url=url.decode('utf-8'))
+        self.sql.session.merge(item)
+        self.sql.session.commit()
         print(soups)
 
 def main():
