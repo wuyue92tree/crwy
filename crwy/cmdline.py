@@ -11,6 +11,7 @@ from crwy.commands.runspider import Command as RunspiderCommand
 from crwy.commands.startproject import Command as StartprojectCommand
 from crwy.commands.createspider import Command as CreatespiderCommand
 from crwy.commands.list import Command as ListCommand
+from crwy.settings.default_settings import BASE_DIR
 
 
 def under_conf():
@@ -29,17 +30,18 @@ def get_project_name():
 
 def execute():
     if under_conf():
-        Header = 'Crwy 1.0.0 - project: %s \n' % get_project_name()
+        Header = 'Crwy - project: %s \n' % get_project_name()
     else:
-        Header = 'Crwy 1.0.0 - no active project found!!!\n'
+        Header = 'Crwy - no active project found!!!\n'
 
     Usage = 'Usage:\n  crwy <commands> [option] [args]\n'
-    project_list = ['runspider', 'startproject', 'createspider', 'list']
+    project_list = ['runspider', 'startproject', 'createspider', 'list', 'version']
     Options = 'Avaliable Commands:\n' \
               '  list\t\tlist all spider in your project\n' \
               '  runspider\trun a spider\n' \
               '  startproject\tcreate a new project\n' \
-              '  createspider\tcreate a new spider\n'
+              '  createspider\tcreate a new spider\n' \
+              '  version\tshow version\n'
 
     Notice = 'Use "crwy <command> -h" to see more info about a command'
     # print sys.argv
@@ -83,6 +85,10 @@ def execute():
             cmd.main()
         else:
             print ('[ERROR] Please makesure that you are under project path!!!')
+
+    if project == 'version':
+        version_path = os.path.join(BASE_DIR, 'VERSION')
+        print(open(version_path, 'r').read())
 
 if __name__ == '__main__':
     execute()

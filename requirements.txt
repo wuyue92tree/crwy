@@ -1,5 +1,4 @@
 beautifulsoup4>=4.5.1
 configparser>=3.5.0
-Crwy>=1.0.0
 pycurl>=7.43.0
 SQLAlchemy>=1.0.14
