@@ -1,6 +1,12 @@
 ====
 Crwy
 ====
+.. image:: https://img.shields.io/pypi/v/Crwy.svg
+   :target: https://pypi.python.org/pypi/Crwy
+   :alt: PyPI Version
+.. image:: https://img.shields.io/travis/crwy/crwy/master.svg
+   :target: http://travis-ci.org/crwy/crwy
+   :alt: Build Status
 
 简介
 ====
