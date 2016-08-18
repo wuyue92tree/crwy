@@ -43,7 +43,8 @@ or
 
 友情链接
 ===================
-https://pypi.python.org/pypi/beautifulsoup4/
-https://pypi.python.org/pypi/pycurl/
-https://pypi.python.org/pypi/configparser/
-https://pypi.python.org/pypi/SQLAlchemy/
+- https://pypi.python.org/pypi/beautifulsoup4/
+- https://pypi.python.org/pypi/pycurl/
+- https://pypi.python.org/pypi/configparser/
+- https://pypi.python.org/pypi/SQLAlchemy/
+
