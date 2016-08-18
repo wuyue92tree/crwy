@@ -37,4 +37,4 @@ or
 
 使用手册
 =======
-敬请期待^ . ^
+在这里: http://crwy.readthedocs.io
