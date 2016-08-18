@@ -13,10 +13,11 @@ with open(join(dirname(__file__), 'crwy/VERSION'), 'rb') as f:
 setup(
     name='Crwy',
     version=version,
-    url='http://monkeyspace.cn',
+    url='https://github.com/wuyue92tree/crwy',
     description='A Simple Web Crawling and Web Scraping framework',
     long_description=open('README.rst').read(),
     author='wuyue',
+    author_email='wuyue92tree@163.com',
     maintainer='wuyue',
     maintainer_email='wuyue92tree@163.com',
     license='BSD',
@@ -26,20 +27,6 @@ setup(
     entry_points={
         'console_scripts': ['crwy = crwy.cmdline:execute']
     },
-    classifiers=[
-        'Framework :: Crwy',
-        'Development Status :: Just Begin',
-        'Environment :: Console',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Topic :: Internet :: WWW/HTTP',
-        'Topic :: Software Development :: Libraries :: Application Frameworks',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-    ],
     install_requires=[
         'beautifulsoup4>=4.5.1',
         'pycurl>=7.43.0',
