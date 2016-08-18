@@ -1,1 +1,0 @@
-Search.setIndex({envversion:49,filenames:["helloworld","index"],objects:{},objnames:{},objtypes:{},terms:{"\u641c\u7d22\u9875\u9762":1,"\u6a21\u5757\u7d22\u5f15":1,"\u7d22\u5f15":1,content:1,hello:[],world:[]},titles:["Hello World","Welcome to Crwy&#8217;s documentation!"],titleterms:{crwy:1,document:1,hello:0,indice:1,tabl:1,welcom:1,world:0}})
