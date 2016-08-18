@@ -3,8 +3,8 @@ Crwy
 .. image:: https://img.shields.io/pypi/v/Crwy.svg
    :target: https://pypi.python.org/pypi/Crwy
    :alt: PyPI Version
-.. image:: https://img.shields.io/travis/crwy/crwy/master.svg
-   :target: http://travis-ci.org/crwy/crwy
+.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=master
+   :target: https://travis-ci.org/wuyue92tree/crwy
    :alt: Build Status
 .. image:: https://readthedocs.org/projects/crwy/badge/?version=latest
    :target: http://crwy.readthedocs.io/zh_CN/latest/?badge=latest
