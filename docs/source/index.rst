@@ -9,7 +9,7 @@ Crwy说明文档
 目录:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :glob:
 
    *
