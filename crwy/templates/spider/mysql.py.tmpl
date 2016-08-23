@@ -5,7 +5,7 @@ from __future__ import print_function
 
 from sqlalchemy import Integer, Column, String
 from crwy.spider import Spider
-from crwy.utils.sql.sqlite import Sqlite, Base
+from crwy.utils.sql.mysql import Mysql, Base
 
 
 class Test(Base):
@@ -18,7 +18,7 @@ class Test(Base):
 class ${class_name}Spider(Spider):
     def __init__(self):
         Spider.__init__(self)
-        self.sql = Sqlite(database='${spider_name}')
+        self.sql = Mysql(username='root', password='123456', database ='${spider_name}')
         self.sql.init_table()
 
     def crawler_${spider_name}(self):

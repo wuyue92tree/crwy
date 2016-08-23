@@ -25,11 +25,11 @@ class Command(object):
         shutil.copytree(SRC_PATH, project_name + '/' + 'src')
 
         config = change_project_name(project_name, CONFIG_PATH)
-        f1 = open(project_name+'/crwy.cfg', 'w')
+        f1 = open(project_name + '/crwy.cfg', 'w')
         f1.write(config)
 
         settings = change_project_name(project_name, SETTINGS_PATH)
-        f2 = open(project_name+'/'+project_name+'/settings.py', 'w')
+        f2 = open(project_name + '/' + project_name + '/settings.py', 'w')
         f2.write(settings)
 
     def main(self):
@@ -52,5 +52,3 @@ class Command(object):
         except IndexError:
             print(Usage)
             print("[ERROR] Please enter a project_name!!!")
-
-

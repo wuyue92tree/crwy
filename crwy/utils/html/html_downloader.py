@@ -10,7 +10,14 @@ except ImportError:
 
 
 class HtmlDownloader(object):
-    def download(self, url, Gzip=False, Proxy=None, Cookie=None):
+    def download(self,
+                 url,
+                 Gzip=False,
+                 Proxy=None,
+                 Cookie=None,
+                 FOLLOWLOCATION=1,
+                 MAXREDIRS=5,
+                 TIMEOUT=600):
         if url is None:
             return None
 
@@ -32,11 +39,16 @@ class HtmlDownloader(object):
 
         # self.c.setopt(c.VERBOSE, True)
         c.setopt(c.URL, url)
+        # 设置最大重定向次数
+        c.setopt(c.FOLLOWLOCATION, FOLLOWLOCATION)
         # 设置最大refer次数
-        c.setopt(pycurl.MAXREDIRS, 5)
+        c.setopt(pycurl.MAXREDIRS, MAXREDIRS)
+        # 设置超时时间
+        c.setopt(pycurl.TIMEOUT, TIMEOUT)
 
         if Proxy is not None:
-            proxy = 'http://' + str(random.sample(Proxy, 1)[0][0].encode('utf-8'))
+            proxy = 'http://' + str(
+                random.sample(Proxy, 1)[0][0].encode('utf-8'))
             c.setopt(c.PROXY, proxy)
 
         c.setopt(c.HTTPHEADER, headers)

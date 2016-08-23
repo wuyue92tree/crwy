@@ -5,10 +5,8 @@
 from os.path import dirname, join
 from setuptools import setup, find_packages
 
-
 with open(join(dirname(__file__), 'crwy/VERSION'), 'rb') as f:
     version = f.read().decode('ascii').strip()
-
 
 setup(
     name='Crwy',
@@ -32,5 +30,5 @@ setup(
         'pycurl>=7.43.0',
         'configparser>=3.5.0',
         'SQLAlchemy>=1.0.14',
-    ],
-)
+        'MySQL-python>=1.2.5',
+    ], )

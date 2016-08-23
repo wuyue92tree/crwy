@@ -13,7 +13,7 @@ from crwy.commands.list import Command as ListCommand
 
 PATH = os.path.join(TEMPLATE_DIR, 'spider')
 TMPLATE_PATH = os.path.join(PATH, '%s.py.tmpl')
-SPIDER_TMPL_LIST = ['basic', 'sqlite', 'queue', 'redis_queue']
+SPIDER_TMPL_LIST = ['basic', 'sqlite', 'queue', 'redis_queue', 'mysql']
 
 
 class Command(object):
@@ -33,10 +33,31 @@ class Command(object):
     def main(self):
         Usage = "Usage:  crwy createspider [option] [args]"
         parser = OptionParser(Usage)
-        parser.add_option('-l', '--list', action='store_true', dest='list', help='list available spider template name', metavar="LIST")
-        parser.add_option('-p', '--preview', dest='preview', help='preview spider template', metavar="PREVIEW")
-        parser.add_option('-t', '--tmpl', dest='template', help='spider template', metavar="TEMPLATE")
-        parser.add_option('-n', '--name', dest='name', help='new spider name', metavar="NAME")
+        parser.add_option(
+            '-l',
+            '--list',
+            action='store_true',
+            dest='list',
+            help='list available spider template name',
+            metavar="LIST")
+        parser.add_option(
+            '-p',
+            '--preview',
+            dest='preview',
+            help='preview spider template',
+            metavar="PREVIEW")
+        parser.add_option(
+            '-t',
+            '--tmpl',
+            dest='template',
+            help='spider template',
+            metavar="TEMPLATE")
+        parser.add_option(
+            '-n',
+            '--name',
+            dest='name',
+            help='new spider name',
+            metavar="NAME")
 
         opt, args = parser.parse_args()
         # print(opt)
