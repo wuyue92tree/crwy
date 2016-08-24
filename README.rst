@@ -47,4 +47,4 @@ or
 - https://pypi.python.org/pypi/pycurl/
 - https://pypi.python.org/pypi/configparser/
 - https://pypi.python.org/pypi/SQLAlchemy/
-
+- https://pypi.python.org/pypi/MySQL-python/
