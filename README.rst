@@ -7,7 +7,7 @@ Crwy
    :target: https://travis-ci.org/wuyue92tree/crwy
    :alt: Build Status
 .. image:: https://readthedocs.org/projects/crwy/badge/?version=1.0.0
-   :target: http://crwy.readthedocs.io/zh_CN/latest/?badge=1.0.0
+   :target: http://crwy.readthedocs.io/zh_CN/1.0.0/?badge=1.0.0
    :alt: Documentation Status
 
 简介
