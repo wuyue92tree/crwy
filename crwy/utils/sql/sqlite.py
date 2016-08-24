@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # author: wuyue92tree@163.com
 
-from sqlalchemy import *
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 

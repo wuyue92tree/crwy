@@ -35,7 +35,8 @@ def execute():
         Header = 'Crwy - no active project found!!!\n'
 
     Usage = 'Usage:\n  crwy <commands> [option] [args]\n'
-    project_list = ['runspider', 'startproject', 'createspider', 'list', 'version']
+    project_list = ['runspider', 'startproject', 'createspider', 'list',
+                    'version']
     Options = 'Avaliable Commands:\n' \
               '  list\t\tlist all spider in your project\n' \
               '  runspider\trun a spider\n' \
@@ -46,19 +47,19 @@ def execute():
     Notice = 'Use "crwy <command> -h" to see more info about a command'
     # print sys.argv
     if len(sys.argv) < 2:
-        print (Header)
-        print (Usage)
-        print (Options)
-        print (Notice)
+        print(Header)
+        print(Usage)
+        print(Options)
+        print(Notice)
         sys.exit(1)
 
     project = sys.argv[1]
 
     if project not in project_list:
-        print (Header)
-        print (Usage)
-        print (Options)
-        print (Notice)
+        print(Header)
+        print(Usage)
+        print(Options)
+        print(Notice)
         sys.exit(1)
 
     if project == 'startproject':
@@ -70,25 +71,26 @@ def execute():
             cmd = RunspiderCommand()
             cmd.main()
         else:
-            print ('[ERROR] Please makesure that you are under project path!!!')
+            print('[ERROR] Please makesure that you are under project path!!!')
 
     if project == 'createspider':
         if under_conf():
             cmd = CreatespiderCommand()
             cmd.main()
         else:
-            print ('[ERROR] Please makesure that you are under project path!!!')
+            print('[ERROR] Please makesure that you are under project path!!!')
 
     if project == 'list':
         if under_conf():
             cmd = ListCommand()
             cmd.main()
         else:
-            print ('[ERROR] Please makesure that you are under project path!!!')
+            print('[ERROR] Please makesure that you are under project path!!!')
 
     if project == 'version':
         version_path = os.path.join(BASE_DIR, 'VERSION')
         print(open(version_path, 'r').read())
+
 
 if __name__ == '__main__':
     execute()

@@ -2,16 +2,24 @@
 # -*- coding: utf-8 -*-
 # author: wuyue92tree@163.com
 
-from sqlalchemy import *
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
 
-class Sqlite(object):
-    def __init__(self, path=None, database=None):
-        self.engine = create_engine('sqlite:///%s/%s.db' % (path, database))
+class Mysql(object):
+    def __init__(self,
+                 username,
+                 password,
+                 database,
+                 host='127.0.0.1',
+                 port='3306',
+                 charset='utf8'):
+        self.engine = create_engine(
+            'mysql+mysqldb://%s:%s@%s:%s/%s?charset=%s' %
+            (username, password, host, port, database, charset))
         DBSession = sessionmaker(bind=self.engine)
         self.session = DBSession()
 

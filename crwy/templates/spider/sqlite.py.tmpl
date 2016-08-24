@@ -3,8 +3,9 @@
 
 from __future__ import print_function
 
+from sqlalchemy import Integer, Column, String
 from crwy.spider import Spider
-from crwy.utils.sql.sqlite import *
+from crwy.utils.sql.sqlite import Sqlite, Base
 
 
 class Test(Base):
@@ -17,8 +18,10 @@ class Test(Base):
 class ${class_name}Spider(Spider):
     def __init__(self):
         Spider.__init__(self)
-        self.sql = Sqlite('${spider_name}')
+        self.spider_name = '${spider_name}'
+        self.sql = Sqlite(database=self.spider_name)
         self.sql.init_table()
+        # self.logger.setup(name=self.spider_name)
 
     def crawler_${spider_name}(self):
         url = 'http://example.com'
@@ -29,6 +32,9 @@ class ${class_name}Spider(Spider):
         self.sql.session.merge(item)
         self.sql.session.commit()
         print(soups)
+
+    def run(self):
+        self.crawler_${spider_name}()
 
 def main():
     run=${class_name}Spider()

@@ -4,9 +4,11 @@
 
 from crwy.utils.html.html_downloader import HtmlDownloader
 from crwy.utils.html.html_parser import HtmlParser
+from crwy.log import Log
 
 
 class Spider(object):
     def __init__(self):
         self.html_downloader = HtmlDownloader()
         self.html_parser = HtmlParser()
+        self.logger = Log()

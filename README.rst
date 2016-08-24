@@ -8,6 +8,11 @@ Crwy
    :alt: Build Status
 .. image:: https://readthedocs.org/projects/crwy/badge/?version=1.0.0
    :target: http://crwy.readthedocs.io/zh_CN/1.0.0/?badge=1.0.0
+.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.1
+   :target: https://travis-ci.org/wuyue92tree/crwy
+   :alt: Build Status
+.. image:: https://readthedocs.org/projects/crwy/badge/?version=1.0.1
+   :target: http://crwy.readthedocs.io/zh_CN/1.0.1/?badge=1.0.1
    :alt: Documentation Status
 
 简介
@@ -40,6 +45,12 @@ or
 使用手册
 ===================
 在这里: http://crwy.readthedocs.io/zh_CN/1.0.0/
+=======
+前往下载: https://pypi.python.org/pypi/Crwy/1.0.1/
+
+使用手册
+===================
+在这里: http://crwy.readthedocs.io/zh_CN/1.0.1/
 
 友情链接
 ===================
@@ -47,3 +58,4 @@ or
 - https://pypi.python.org/pypi/pycurl/
 - https://pypi.python.org/pypi/configparser/
 - https://pypi.python.org/pypi/SQLAlchemy/
+- https://pypi.python.org/pypi/MySQL-python/
