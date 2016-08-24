@@ -35,11 +35,11 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
     pip install crwy
 
 or
-前往下载: https://pypi.python.org/pypi/Crwy/1.0.0
+前往下载: https://pypi.python.org/pypi/Crwy/1.0.1/
 
 使用手册
 ===================
-在这里: http://crwy.readthedocs.io
+在这里: http://crwy.readthedocs.io/zh_CN/1.0.1/
 
 友情链接
 ===================
