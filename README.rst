@@ -3,11 +3,11 @@ Crwy
 .. image:: https://img.shields.io/pypi/v/Crwy.svg
    :target: https://pypi.python.org/pypi/Crwy
    :alt: PyPI Version
-.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=master
+.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.0
    :target: https://travis-ci.org/wuyue92tree/crwy
    :alt: Build Status
-.. image:: https://readthedocs.org/projects/crwy/badge/?version=latest
-   :target: http://crwy.readthedocs.io/zh_CN/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/crwy/badge/?version=1.0.0
+   :target: http://crwy.readthedocs.io/zh_CN/latest/?badge=1.0.0
    :alt: Documentation Status
 
 简介
@@ -35,11 +35,11 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
     pip install crwy
 
 or
-前往下载: https://pypi.python.org/pypi/Crwy/1.0.0
+前往下载: https://pypi.python.org/pypi/Crwy/1.0.0/
 
 使用手册
 ===================
-在这里: http://crwy.readthedocs.io
+在这里: http://crwy.readthedocs.io/zh_CN/1.0.0/
 
 友情链接
 ===================
@@ -47,4 +47,3 @@ or
 - https://pypi.python.org/pypi/pycurl/
 - https://pypi.python.org/pypi/configparser/
 - https://pypi.python.org/pypi/SQLAlchemy/
-
