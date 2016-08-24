@@ -13,6 +13,7 @@ from crwy.changetmpl import change_project_name
 PATH = os.path.join(TEMPLATE_DIR, 'project')
 DATA_PATH = os.path.join(PATH, 'data')
 SRC_PATH = os.path.join(PATH, 'src')
+LOG_PATH = os.path.join(PATH, 'log')
 CONFIG_PATH = os.path.join(PATH, 'crwy.cfg.tmpl')
 SETTINGS_PATH = os.path.join(PATH, 'settings.py.tmpl')
 
@@ -23,6 +24,7 @@ class Command(object):
         os.mkdir(project_name + '/' + project_name)
         shutil.copytree(DATA_PATH, project_name + '/' + 'data')
         shutil.copytree(SRC_PATH, project_name + '/' + 'src')
+        shutil.copytree(LOG_PATH, project_name + '/' + 'log')
 
         config = change_project_name(project_name, CONFIG_PATH)
         f1 = open(project_name + '/crwy.cfg', 'w')

@@ -4,7 +4,7 @@
 
 from __future__ import print_function
 import sys
-import os
+# import os
 
 from configparser import ConfigParser
 from optparse import OptionParser
@@ -18,6 +18,14 @@ class Command(object):
         settings = conf.get('settings', 'default').encode('utf-8')
         return settings
 
+    def execute(self, spider_name):
+        module = __import__('src.%s' % spider_name)
+        cls_obj = getattr(
+            getattr(module, spider_name), spider_name.capitalize() + 'Spider')
+        spider = cls_obj()
+        res = spider.run()
+        return res
+
     def main(self):
         Usage = "Usage:  crwy runspider [option] [args]"
         parser = OptionParser(Usage)
@@ -30,5 +38,9 @@ class Command(object):
             sys.exit(1)
 
         if opt.name is not None:
-            console = os.popen('python src/%s.py' % opt.name).read()
-            print(console)
+            if opt.name in ListCommand.get_spider_list():
+                sys.path.append('.')
+                self.execute(opt.name)
+            else:
+                print('ERROR spider: "%s" is not found!!!' % opt.name)
+                sys.exit(1)

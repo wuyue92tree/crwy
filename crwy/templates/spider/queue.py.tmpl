@@ -13,8 +13,9 @@ queue = Queue.Queue()
 class ${class_name}Spider(Spider):
     def __init__(self, queue):
         Spider.__init__(self)
+        self.spider_name = '${spider_name}'
         self.queue = queue
-        # self.logger.setup(name='${spider_name}')
+        # self.logger.setup(name=self.spider_name)
 
     def crawler_${spider_name}(self):
         while True:
