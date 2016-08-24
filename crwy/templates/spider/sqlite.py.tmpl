@@ -20,6 +20,7 @@ class ${class_name}Spider(Spider):
         Spider.__init__(self)
         self.sql = Sqlite(database='${spider_name}')
         self.sql.init_table()
+        # self.logger.setup(name='${spider_name}')
 
     def crawler_${spider_name}(self):
         url = 'http://example.com'
