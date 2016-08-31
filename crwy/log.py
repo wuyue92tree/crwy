@@ -10,28 +10,33 @@ class Log(object):
               level=logging.DEBUG,
               console=False,
               path='./log/',
-              name='log',
-              mode='a'):
-        logging.basicConfig(
-            level=level,
-            format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-            datefmt='%a, %d %b %Y %H:%M:%S',
-            filename=path + '%s_%s.log' %
-            (name, time.strftime('%Y-%m-%d', time.localtime(time.time()))),
-            filemode=mode)
+              name='log'):
+        filename = path + '%s_%s.log' % (name, time.strftime(
+            '%Y-%m-%d', time.localtime(time.time())))
+        self.logger = logging.getLogger(name)
+        self.logger.setLevel(level)
+        fmt = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        flog = logging.FileHandler(filename)
+        flog.setFormatter(fmt)
+        flog.setLevel(level)
+        self.logger.addHandler(flog)
+
         if console:
             console = logging.StreamHandler()
             console.setLevel(logging.INFO)
-            formatter = logging.Formatter(
-                '%(name)-12s: %(levelname)-8s %(message)s')
-            console.setFormatter(formatter)
-            logging.getLogger('').addHandler(console)
+            fmt = logging.Formatter('%(name)-12s- %(levelname)-8s %(message)s')
+            console.setFormatter(fmt)
+            self.logger.addHandler(console)
 
     def debug(self, message):
-        logging.debug(message)
+        self.logger.debug(message)
 
     def info(self, message):
-        logging.info(message)
+        self.logger.info(message)
+
+    def error(self, message):
+        self.logger.error(message)
 
     def warning(self, message):
-        logging.warning(message)
+        self.logger.warning(message)
