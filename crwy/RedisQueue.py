@@ -42,3 +42,7 @@ class RedisQueue(object):
     def get_nowait(self):
         """Equivalent to get(False)."""
         return self.get(False)
+
+    def clean(self):
+        """Empty key"""
+        return self.__db.delete(self.key)
