@@ -17,6 +17,8 @@ class Command(object):
                     continue
                 if '.pyc' in i:
                     continue
+                if '_db' in i:
+                    continue
                 if '.py' in i:
                     i = i.split('.')[0]
                     spider_list.append(i)

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import re
+
 from bs4 import BeautifulSoup
 # from pyv8 import PyV8
 
@@ -21,18 +21,7 @@ class HtmlParser(object):
 
         return soup
 
-    def get_parser_urls(self, html_cont):
-        soup = self.parser(str(html_cont))
-        url_list = []
-        for i in soup.find_all('a'):
-            url = i.get('href')
-            url_list.append(url)
-
-        return url_list
-
-    def jsonp_parser(self, html_cont):
-        data = re.findall('(?<=\().*(?=\))', html_cont)[0]
-
+    def jsonp_parser(self, data):
         ctx = PyV8.JSContext()
         ctx.enter()
         ctx.eval("""

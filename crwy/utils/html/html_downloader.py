@@ -64,8 +64,10 @@ class HtmlDownloader(object):
 
         self.c.perform()
 
-        if self.get_response_code() == 200:
-            res = self.buffer.getvalue()
+        if self.get_response_code() != 200:
+            return
+
+        res = self.buffer.getvalue()
 
         if Gzip:
             res = zlib.decompress(res, 16 + zlib.MAX_WBITS)
