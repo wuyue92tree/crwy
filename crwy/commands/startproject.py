@@ -16,6 +16,7 @@ SRC_PATH = os.path.join(PATH, 'src')
 LOG_PATH = os.path.join(PATH, 'log')
 CONFIG_PATH = os.path.join(PATH, 'crwy.cfg.tmpl')
 SETTINGS_PATH = os.path.join(PATH, 'settings.py.tmpl')
+LOGCONFIG_PATH = os.path.join(PATH, 'default_logger.conf.tmpl')
 
 
 class Command(object):
@@ -25,6 +26,7 @@ class Command(object):
         shutil.copytree(DATA_PATH, project_name + '/' + 'data')
         shutil.copytree(SRC_PATH, project_name + '/' + 'src')
         shutil.copytree(LOG_PATH, project_name + '/' + 'log')
+        shutil.copy(LOGCONFIG_PATH, project_name + '/' + project_name + '/default_logger.conf')
 
         config = change_project_name(project_name, CONFIG_PATH)
         f1 = open(project_name + '/crwy.cfg', 'w')

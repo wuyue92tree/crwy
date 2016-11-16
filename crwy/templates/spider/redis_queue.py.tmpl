@@ -3,45 +3,63 @@
 
 from __future__ import print_function
 
-from optparse import OptionParser
+import logging
+import logging.config
+import pycurl
+import inspect
+import sys
 from crwy.spider import Spider
 from crwy.RedisQueue import RedisQueue
 
-queue = RedisQueue('test')
+logging.config.fileConfig('./${project_name}/default_logger.conf')
+
+queue = RedisQueue('foo')
+
+
+def get_current_function_name():
+    return inspect.stack()[1][3]
 
 
 class ${class_name}Spider(Spider):
-    def __init__(self, queue):
+    def __init__(self):
         Spider.__init__(self)
         self.spider_name = '${spider_name}'
-        self.queue = queue
-        # self.logger.setup(name=self.spider_name)
+        self.logger = logging.getLogger('fileLogger')
 
     def crawler_${spider_name}(self):
         while True:
-            url = 'http://example.com/%d' % int(self.queue.get())
-            html_cont = self.html_downloader.download(url)
-            soups = self.html_parser.parser(html_cont)
-            print(url)
-            print('Length of queue : %d' % queue.qsize())
+            try:
+                if not queue.empty():
+                    url = 'http://example.com/%d' % queue.get()
+                    try:
+                        html_cont = self.html_downloader.download(url)
+                    except pycurl.error:
+                        self.logger.warning('%s : fail to access %s' % (get_current_function_name(), url))
+                    try:
+                        soups = self.html_parser.parser(html_cont)
+                    except AttributeError:
+                        self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
+                    print(url)
+                    print('Length of queue : %d' % queue.qsize())
+                else:
+                    self.logger.info('%s : crawler success !!!' % get_current_function_name())
+                    exit()
 
-def crawler():
-    run=${class_name}Spider(queue)
-    run.crawler_${spider_name}()
+            except Exception as e:
+                self.logger.error('%s : you got a error %s' % (get_current_function_name, e))
 
-def add_queue():
-    for i in range(1, 10):
-        queue.put(i)
+    def add_queue(self):
+        for i in range(1, 10):
+            queue.put(i)
 
-if __name__ == '__main__':
-    Usage = "Usage:  python ${spider_name}.py <commands>"
-    parser = OptionParser(Usage)
-    opt, args = parser.parse_args()
-    if len(args) < 1:
-        print(Usage)
-        exit()
+    def run(self):
+        try:
+            worker = sys.argv[4]
+        except :
+            print 'No worker found!!!\n'
 
-    if args[0] == 'crawler':
-        crawler()
-    if args[0] == 'queue':
-        add_queue()
+        if worker == 'crawler':
+            self.crawler_${spider_name}()
+        else:
+            self.add_queue()
+

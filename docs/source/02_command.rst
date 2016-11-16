@@ -95,9 +95,22 @@ runspider
 -------------------
 该命令用以执行爬虫
 
-开发中。。。。。。
+添加"-h"参数,看该命令如何使用:
+::
 
-当前版本中,直接通过python和爬虫py文件执行爬虫。
+    crwy createspider -h
+
+::
+
+
+    Usage:  crwy runspider [option] [args]
+
+    Options:
+      -h, --help            show this help message and exit
+      -n NAME, --name=NAME  spider name
+
+
+* -n: 用以指定将要执行的爬虫的名称
 
 version
 -------------------
