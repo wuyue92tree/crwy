@@ -40,6 +40,7 @@ class ${class_name}Spider(Spider):
                     except AttributeError:
                         self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
                     print(url)
+                    print(soups)
                     print('Length of queue : %d' % queue.qsize())
                 else:
                     self.logger.info('%s : crawler success !!!' % get_current_function_name())
@@ -56,7 +57,7 @@ class ${class_name}Spider(Spider):
         try:
             worker = sys.argv[4]
         except :
-            print 'No worker found!!!\n'
+            print('No worker found!!!\n')
 
         if worker == 'crawler':
             self.crawler_${spider_name}()

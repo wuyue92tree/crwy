@@ -34,6 +34,7 @@ class ${class_name}Spider(Spider):
             except AttributeError:
                 self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
 
+            print(url)
             print(soups)
             self.logger.info('%s : crawler success !!!' % get_current_function_name())
 
