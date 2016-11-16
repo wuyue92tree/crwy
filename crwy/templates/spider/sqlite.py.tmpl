@@ -48,6 +48,7 @@ class ${class_name}Spider(Spider):
             item = Test(title=title.decode('utf-8'), url=url.decode('utf-8'))
             self.sql.session.merge(item)
             self.sql.session.commit()
+            print(url)
             print(soups)
             self.logger.info('%s : crawler success !!!' % get_current_function_name())
 
