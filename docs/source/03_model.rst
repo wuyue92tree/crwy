@@ -50,7 +50,7 @@ basic模板包含最基本的抓取逻辑
                 self.logger.info('%s : crawler success !!!' % get_current_function_name())
 
             except Exception as e:
-                    self.logger.error('%s : you got a error %s' % (get_current_function_name, e))
+                    self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
 
         def run(self):
             self.crawler_${spider_name}()
@@ -123,7 +123,7 @@ sqlite模板将爬取数据存储到sqlite数据库中
                 self.logger.info('%s : crawler success !!!' % get_current_function_name())
 
             except Exception as e:
-                    self.logger.error('%s : you got a error %s' % (get_current_function_name, e))
+                    self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
 
         def run(self):
             self.crawler_${spider_name}()
@@ -196,7 +196,7 @@ queue模块将待爬取页面加载到队列中,实时把控队列进度
                         exit()
 
                 except Exception as e:
-                    self.logger.error('%s : you got a error %s' % (get_current_function_name, e))
+                    self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
 
         def run(self):
             for i in range(1, 10):
@@ -268,7 +268,7 @@ redis_queue模板将队列持久化到redis服务器中,以解决服务器宕机
                         exit()
 
                 except Exception as e:
-                    self.logger.error('%s : you got a error %s' % (get_current_function_name, e))
+                    self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
 
         def add_queue(self):
             for i in range(1, 10):

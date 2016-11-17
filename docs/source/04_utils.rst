@@ -7,7 +7,7 @@ html_downloader
 
 采用Pycurl做为下载器引擎
 
-- download(url, method='GET', postdata=None, proxy=None, cookie=None, cookiefile=None, cookiejar=None, Gzip=False, debug=False, autoclose=True, FOLLOWLOCATION=1, MAXREDIRS=5, TIMEOUT=600)
+- download(url, method='GET', postdata=None, proxy=None, cookie=None, cookiefile=None, cookiejar=None, debug=False, autoclose=True, FOLLOWLOCATION=1, MAXREDIRS=5, TIMEOUT=600)
 
  | url: 目标网站URL
  | method: 规定请求方式，默认为GET
@@ -16,7 +16,6 @@ html_downloader
  | cookie: 指定Cookie
  | cookiefile: 指定Cookiefile
  | cookiejar: 指定Cookiejar
- | Gzip: 网站返回值,是否通过Gzip压缩(默认为False)
  | debug: 开启pycurl调试模式(默认为False)
  | autoclose: 是否自动关闭连接(默认为True)
  | FOLLOWLOCATION: 是否开启自动跳转(默认为1)
