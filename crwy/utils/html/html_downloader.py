@@ -14,10 +14,10 @@ except ImportError:
 
 
 class HtmlDownloader(object):
-    def download(self, url, method='GET', postdata=None, proxy=None, cookie=None, cookiefile=None, cookiejar=None, Gzip=False, debug=False, autoclose=True, FOLLOWLOCATION=1, MAXREDIRS=5, TIMEOUT=600):
+    def download(self, url, method='GET', postdata=None, proxy=None, cookie=None, cookiefile=None, cookiejar=None, Gzip=False, debug=False, autoclose=True, useragent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:46.0) Gecko/20100101 Firefox/46.0', referer='http://spider.wuyue.tk', FOLLOWLOCATION=1, MAXREDIRS=5, TIMEOUT=600):
         self.c = pycurl.Curl()
-        self.c.setopt(pycurl.USERAGENT, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:46.0) Gecko/20100101 Firefox/46.0')
-        self.c.setopt(pycurl.REFERER, 'http://spider.wuyue.tk')
+        self.c.setopt(pycurl.USERAGENT, useragent)
+        self.c.setopt(pycurl.REFERER, referer)
         self.c.setopt(pycurl.HTTPHEADER, ['text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'])
         self.buffer = BytesIO()
         self.header = BytesIO()

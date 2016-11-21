@@ -7,7 +7,7 @@ html_downloader
 
 采用Pycurl做为下载器引擎
 
-- download(url, method='GET', postdata=None, proxy=None, cookie=None, cookiefile=None, cookiejar=None, debug=False, autoclose=True, FOLLOWLOCATION=1, MAXREDIRS=5, TIMEOUT=600)
+- download(url, method='GET', postdata=None, proxy=None, cookie=None, cookiefile=None, cookiejar=None, debug=False, autoclose=True, useragent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:46.0) Gecko/20100101 Firefox/46.0', referer='http://spider.wuyue.tk', FOLLOWLOCATION=1, MAXREDIRS=5, TIMEOUT=600)
 
  | url: 目标网站URL
  | method: 规定请求方式，默认为GET
@@ -18,6 +18,8 @@ html_downloader
  | cookiejar: 指定Cookiejar
  | debug: 开启pycurl调试模式(默认为False)
  | autoclose: 是否自动关闭连接(默认为True)
+ | useragent: 指定请求useragent， 默认为：'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:46.0) Gecko/20100101 Firefox/46.0'
+ | referer: 指定请求referer， 默认为：'http://spider.wuyue.tk'
  | FOLLOWLOCATION: 是否开启自动跳转(默认为1)
  | MAXREDIRS: 规定最大跳转次数(默认为5)
  | TIMEOUT: 规定超时时间(默认为600)
