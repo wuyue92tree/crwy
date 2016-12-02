@@ -28,6 +28,13 @@ def get_project_name():
     return project_name
 
 
+def get_project_settings(self):
+    conf = ConfigParser()
+    conf.read('crwy.cfg', encoding='utf-8')
+    settings = conf.get('settings', 'default').encode('utf-8')
+    return settings
+
+
 def execute():
     if under_conf():
         Header = 'Crwy - project: %s \n' % get_project_name()

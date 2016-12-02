@@ -6,18 +6,11 @@ from __future__ import print_function
 import sys
 # import os
 
-from configparser import ConfigParser
 from optparse import OptionParser
 from crwy.commands.list import Command as ListCommand
 
 
 class Command(object):
-    def get_project_settings(self):
-        conf = ConfigParser()
-        conf.read('crwy.cfg', encoding='utf-8')
-        settings = conf.get('settings', 'default').encode('utf-8')
-        return settings
-
     def execute(self, spider_name):
         module = __import__('src.%s' % spider_name)
         cls_obj = getattr(
