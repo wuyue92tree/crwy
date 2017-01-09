@@ -3,11 +3,11 @@ Crwy
 .. image:: https://img.shields.io/pypi/v/Crwy.svg
    :target: https://pypi.python.org/pypi/Crwy
    :alt: PyPI Version
-.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.1
+.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.2
    :target: https://travis-ci.org/wuyue92tree/crwy
    :alt: Build Status
-.. image:: https://readthedocs.org/projects/crwy/badge/?version=1.0.1
-   :target: http://crwy.readthedocs.io/zh_CN/1.0.1/?badge=1.0.1
+.. image:: https://readthedocs.org/projects/crwy/badge/?version=1.0.2
+   :target: http://crwy.readthedocs.io/zh_CN/1.0.2/?badge=1.0.2
    :alt: Documentation Status
 
 简介
@@ -26,7 +26,6 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
  * pycurl>=7.43.0
  * configparser>=3.5.0
  * SQLAlchemy>=1.0.14
- * MySQL-python>=1.2.5
 
 安装
 ===================
@@ -36,11 +35,11 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
     pip install crwy
 
 or
-前往下载: https://pypi.python.org/pypi/Crwy/1.0.1/
+前往下载: https://pypi.python.org/pypi/Crwy/1.0.2/
 
 使用手册
 ===================
-在这里: http://crwy.readthedocs.io/zh_CN/1.0.1/
+在这里: http://crwy.readthedocs.io/zh_CN/1.0.2/
 
 友情链接
 ===================
@@ -48,4 +47,11 @@ or
 - https://pypi.python.org/pypi/pycurl/
 - https://pypi.python.org/pypi/configparser/
 - https://pypi.python.org/pypi/SQLAlchemy/
-- https://pypi.python.org/pypi/MySQL-python/
+
+修改日志
+===================
+2017-01-09
+
+- 1. 去除mysqldb依赖，用户根据自行需求进行安装；
+- 2. 讲utils中的sqlite包名称更改为db，且功能上更新为通用数据链接。
+
