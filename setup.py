@@ -30,5 +30,5 @@ setup(
         'pycurl>=7.43.0',
         'configparser>=3.5.0',
         'SQLAlchemy>=1.0.14',
-        'MySQL-python>=1.2.5',
-    ], )
+    ],
+)

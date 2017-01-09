@@ -63,14 +63,15 @@ beautifulsoup4传送门: https://www.crummy.com/software/BeautifulSoup/
 
 Sql
 -------------------
-sqlite
+db
 >>>>>>>>>>>>>>>>>>>
 
-采用sqlalchemy操作sqlite数据库
+采用sqlalchemy操作数据库
+具体支持数据库，参考：http://docs.sqlalchemy.org/en/latest/core/engines.html
 
-- __init__(database)
+- __init__(db_url, \*\*kwargs)
 
- | database为生成数据库的名称
+ | db_url为数据库地址
 
 - init_table()
 
