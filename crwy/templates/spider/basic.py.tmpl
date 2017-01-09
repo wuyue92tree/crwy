@@ -39,7 +39,7 @@ class ${class_name}Spider(Spider):
             self.logger.info('%s : crawler success !!!' % get_current_function_name())
 
         except Exception as e:
-                self.logger.error('%s : you got a error %s' % (get_current_function_name, e))
+                self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
 
     def run(self):
         self.crawler_${spider_name}()

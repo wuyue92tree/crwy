@@ -47,7 +47,7 @@ class ${class_name}Spider(Spider):
                     exit()
 
             except Exception as e:
-                self.logger.error('%s : you got a error %s' % (get_current_function_name, e))
+                self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
 
     def add_queue(self):
         for i in range(1, 10):
