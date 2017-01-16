@@ -80,7 +80,7 @@ sqlite模板将爬取数据存储到sqlite数据库中
     import inspect
     from sqlalchemy import Integer, Column, String
     from crwy.spider import Spider
-    from crwy.utils.sql.sqlite import Sqlite, Base
+    from crwy.utils.sql.db import Database, Base
 
     logging.config.fileConfig('./${project_name}/default_logger.conf')
 
@@ -100,7 +100,7 @@ sqlite模板将爬取数据存储到sqlite数据库中
         def __init__(self):
             Spider.__init__(self)
             self.spider_name = '${spider_name}'
-            self.sql = Sqlite(database=self.spider_name)
+            self.sql = Database('sqlite:///./data/test.db')
             self.sql.init_table()
             self.logger = logging.getLogger('fileLogger')
 
