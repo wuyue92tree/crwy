@@ -28,7 +28,7 @@ def get_project_name():
     return project_name
 
 
-def get_project_settings(self):
+def get_project_settings():
     conf = ConfigParser()
     conf.read('crwy.cfg', encoding='utf-8')
     settings = conf.get('settings', 'default').encode('utf-8')

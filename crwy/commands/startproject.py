@@ -36,6 +36,9 @@ class Command(object):
         f2 = open(project_name + '/' + project_name + '/settings.py', 'w')
         f2.write(settings)
 
+        f3 = open(project_name + '/' + project_name + '/__init__.py', 'w')
+        f3.write('')
+
     def main(self):
         Usage = "Usage:  crwy startproject <project_name>\n"
 
