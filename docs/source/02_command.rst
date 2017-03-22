@@ -108,9 +108,12 @@ runspider
     Options:
       -h, --help            show this help message and exit
       -n NAME, --name=NAME  spider name
+      -p PROCESS, --process=PROCESS
+                            crawler by multi process
 
 
 * -n: 用以指定将要执行的爬虫的名称
+* -p: 用以控制程序采用多进程运行（-p参数后接进程数）
 
 version
 -------------------
