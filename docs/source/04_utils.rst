@@ -24,18 +24,6 @@ html_downloader
  | MAXREDIRS: 规定最大跳转次数(默认为5)
  | TIMEOUT: 规定超时时间(默认为600)
 
-- get_header()
-    返回请求头信息
-
-- get_http_conn_time()
-    返回服务器响应时间
-
-- get_http_total_time()
-    返回请求总用时
-
-- get_response_code()
-    返回状态码
-
 - close()
     关闭连接
 
@@ -46,15 +34,15 @@ html_parser
 
 采用BeautifulSoup4做为解析器引擎
 
-- parser(html_cont)
+- parser(response)
 
  | 解析UTF-8编码网页
 
-- gbk_parser(html_cont)
+- gbk_parser(response)
 
  | 解析GBK编码网页
 
-- jsonp_parser(html_cont)
+- jsonp_parser(response)
 
  | 解析不规则json网页(key不带双引号),返回dict
 
