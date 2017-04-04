@@ -38,14 +38,15 @@ basic模板包含最基本的抓取逻辑
             try:
                 url = 'http://example.com'
                 try:
-                    html_cont = self.html_downloader.download(url)
+                    response = self.html_downloader.download(url)
                 except pycurl.error:
                     self.logger.warning('%s : fail to access %s' % (get_current_function_name(), url))
                 try:
-                    soups = self.html_parser.parser(html_cont)
+                    soups = self.html_parser.parser(response)
                 except AttributeError:
                     self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
 
+                print(url)
                 print(soups)
                 self.logger.info('%s : crawler success !!!' % get_current_function_name())
 
@@ -108,17 +109,18 @@ sqlite模板将爬取数据存储到sqlite数据库中
             try:
                 url = 'http://example.com'
                 try:
-                    html_cont = self.html_downloader.download(url)
+                    response = self.html_downloader.download(url)
                 except pycurl.error:
                     self.logger.warning('%s : fail to access %s' % (get_current_function_name(), url))
                 try:
-                    soups = self.html_parser.parser(html_cont)
+                    soups = self.html_parser.parser(response)
                 except AttributeError:
                     self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
                 title = soups.find('title').text
                 item = Test(title=title.decode('utf-8'), url=url.decode('utf-8'))
                 self.sql.session.merge(item)
                 self.sql.session.commit()
+                print(url)
                 print(soups)
                 self.logger.info('%s : crawler success !!!' % get_current_function_name())
 
@@ -129,10 +131,11 @@ sqlite模板将爬取数据存储到sqlite数据库中
             self.crawler_${spider_name}()
 
 
+
 存储逻辑:
 
 1. 通过创建class继承Base类(该类继承自sqlalchemy的declarative_base)生成table
-2. 通过Sqlite类连接sqlite数据库,执行init_table()创建数据表, Sqlite类是什么 Click_ 。
+2. 通过Database类连接sqlite数据库,执行init_table()创建数据表, Sqlite类是什么 Click_ 。
 3. 调用session.merge()存入相关数据,调用session.commit()使更改生效
 
 .. _Click: 04_utils.html#sql
@@ -182,14 +185,15 @@ queue模块将待爬取页面加载到队列中,实时把控队列进度
                     if not queue.empty():
                         url = 'http://example.com/%d' % queue.get()
                         try:
-                            html_cont = self.html_downloader.download(url)
+                            response = self.html_downloader.download(url)
                         except pycurl.error:
                             self.logger.warning('%s : fail to access %s' % (get_current_function_name(), url))
                         try:
-                            soups = self.html_parser.parser(html_cont)
+                            soups = self.html_parser.parser(response)
                         except AttributeError:
                             self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
                         print(url)
+                        print(soups)
                         print('Length of queue : %d' % queue.qsize())
                     else:
                         self.logger.info('%s : crawler success !!!' % get_current_function_name())
@@ -231,7 +235,7 @@ redis_queue模板将队列持久化到redis服务器中,以解决服务器宕机
     import inspect
     import sys
     from crwy.spider import Spider
-    from crwy.RedisQueue import RedisQueue
+    from crwy.utils.queue.RedisQueue import RedisQueue
 
     logging.config.fileConfig('./${project_name}/default_logger.conf')
 
@@ -246,43 +250,137 @@ redis_queue模板将队列持久化到redis服务器中,以解决服务器宕机
         def __init__(self):
             Spider.__init__(self)
             self.spider_name = '${spider_name}'
-            self.logger = logging.getLogger('fileLogger')
+            self.logger = logging.getLogger('rtLogger')
 
         def crawler_${spider_name}(self):
-            while True:
-                try:
-                    if not queue.empty():
-                        url = 'http://example.com/%d' % queue.get()
-                        try:
-                            html_cont = self.html_downloader.download(url)
-                        except pycurl.error:
-                            self.logger.warning('%s : fail to access %s' % (get_current_function_name(), url))
-                        try:
-                            soups = self.html_parser.parser(html_cont)
-                        except AttributeError:
-                            self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
-                        print(url)
-                        print('Length of queue : %d' % queue.qsize())
-                    else:
-                        self.logger.info('%s : crawler success !!!' % get_current_function_name())
-                        exit()
+            try:
+                while not queue.empty():
+                    url = 'http://example.com/%s' % queue.get()
+                    try:
+                        response = self.html_downloader.download(url)
+                    except pycurl.error:
+                        self.logger.warning('%s : fail to access %s' % (get_current_function_name(), url))
+                    try:
+                        soups = self.html_parser.parser(response)
+                    except AttributeError:
+                        self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
+                    print(url)
+                    print(soups)
+                    print('Length of queue : %s' % queue.qsize())
 
-                except Exception as e:
-                    self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
+                self.logger.info('%s : crawler success !!!' % get_current_function_name())
+
+            except Exception as e:
+                self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
 
         def add_queue(self):
-            for i in range(1, 10):
+            for i in range(100):
                 queue.put(i)
+            print(queue.qsize())
 
         def run(self):
             try:
                 worker = sys.argv[4]
             except :
-                print 'No worker found!!!\n'
+                print('No worker found!!!\n')
+                exit()
 
             if worker == 'crawler':
                 self.crawler_${spider_name}()
-            else:
+            elif worker == 'add_queue':
+                queue.clean()
                 self.add_queue()
+            else:
+                print('Invalid worker <%s>!!!\n' % worker)
+                exit()
+
+
+添加add_queue()方法,可实现在程序不中断的情况下,继续添加新的抓取目标。
+
+async模板
+-------------------
+async模板将队列持久化到redis服务器中,以解决服务器宕机导致任务丢失的问题,导入gevent模块,以实现异步抓取。
+
+* 连接redis服务器: RedisQueue, 新建队列
+* 寻找待爬取页面规则,将页面URL压入队列
+* 从队列中取出一个URL
+* 下载: html_downloader
+* 解析: html_parser
+* 通过gevent.join()创建任务池
+
+模板内容如下:
+::
+
+    #!/usr/bin/env python
+    # -*- coding: utf-8 -*-
+
+    from __future__ import print_function
+
+    import logging
+    import logging.config
+    import pycurl
+    import inspect
+    import gevent
+    import sys
+    from crwy.spider import Spider
+    from crwy.utils.queue.RedisQueue import RedisQueue
+
+    logging.config.fileConfig('./${project_name}/default_logger.conf')
+
+    queue = RedisQueue('foo')
+
+
+    def get_current_function_name():
+        return inspect.stack()[1][3]
+
+
+    class ${class_name}Spider(Spider):
+        def __init__(self):
+            Spider.__init__(self)
+            self.spider_name = '${spider_name}'
+            self.logger = logging.getLogger('rtLogger')
+
+        def crawler_${spider_name}(self, worker):
+            try:
+                while not queue.empty():
+                    url = 'http://example.com/%s' % queue.get()
+                    try:
+                        response = self.html_downloader.download(url)
+                    except pycurl.error:
+                        self.logger.warning('%s : fail to access %s' % (get_current_function_name(), url))
+                    try:
+                        soups = self.html_parser.parser(response)
+                    except AttributeError:
+                        self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
+                    print(url)
+                    print(soups)
+                    print('Length of queue : %s' % queue.qsize())
+
+                self.logger.info('[%s] %s : crawler success !!!' % (worker, get_current_function_name()))
+
+            except Exception as e:
+                self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
+
+        def add_queue(self):
+            for i in range(100):
+                queue.put(i)
+            print(queue.qsize())
+
+        def run(self):
+            try:
+                worker = sys.argv[4]
+            except :
+                print('No worker found!!!\n')
+                exit()
+
+            if worker == 'crawler':
+                gevent.joinall([gevent.spawn(self.crawler_${spider_name}, 'worker%d' % i) for i in range(10)])
+            elif worker == 'add_queue':
+                queue.clean()
+                self.add_queue()
+            else:
+                print('Invalid worker <%s>!!!\n' % worker)
+                exit()
+
 
 添加add_queue()方法,可实现在程序不中断的情况下,继续添加新的抓取目标。

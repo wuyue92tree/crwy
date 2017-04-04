@@ -7,6 +7,7 @@ import logging
 import logging.config
 import pycurl
 import inspect
+import gevent
 import sys
 from crwy.spider import Spider
 from crwy.utils.queue.RedisQueue import RedisQueue
@@ -26,7 +27,7 @@ class ${class_name}Spider(Spider):
         self.spider_name = '${spider_name}'
         self.logger = logging.getLogger('rtLogger')
 
-    def crawler_${spider_name}(self):
+    def crawler_${spider_name}(self, worker):
         try:
             while not queue.empty():
                 url = 'http://example.com/%s' % queue.get()
@@ -42,7 +43,7 @@ class ${class_name}Spider(Spider):
                 print(soups)
                 print('Length of queue : %s' % queue.qsize())
 
-            self.logger.info('%s : crawler success !!!' % get_current_function_name())
+            self.logger.info('[%s] %s : crawler success !!!' % (worker, get_current_function_name()))
 
         except Exception as e:
             self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
@@ -60,7 +61,7 @@ class ${class_name}Spider(Spider):
             exit()
 
         if worker == 'crawler':
-            self.crawler_${spider_name}()
+            gevent.joinall([gevent.spawn(self.crawler_${spider_name}, 'worker%d' % i) for i in range(10)])
         elif worker == 'add_queue':
             queue.clean()
             self.add_queue()

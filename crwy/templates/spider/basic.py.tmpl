@@ -26,11 +26,11 @@ class ${class_name}Spider(Spider):
         try:
             url = 'http://example.com'
             try:
-                html_cont = self.html_downloader.download(url)
+                response = self.html_downloader.download(url)
             except pycurl.error:
                 self.logger.warning('%s : fail to access %s' % (get_current_function_name(), url))
             try:
-                soups = self.html_parser.parser(html_cont)
+                soups = self.html_parser.parser(response)
             except AttributeError:
                 self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
 

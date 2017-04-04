@@ -15,7 +15,7 @@ from crwy.commands.list import Command as ListCommand
 
 PATH = os.path.join(TEMPLATE_DIR, 'spider')
 TMPLATE_PATH = os.path.join(PATH, '%s.py.tmpl')
-SPIDER_TMPL_LIST = ['basic', 'sqlite', 'queue', 'redis_queue']
+SPIDER_TMPL_LIST = ['basic', 'sqlite', 'queue', 'redis_queue', 'async']
 
 
 class Command(object):

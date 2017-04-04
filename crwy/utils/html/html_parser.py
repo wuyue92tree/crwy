@@ -5,19 +5,19 @@ from bs4 import BeautifulSoup
 
 
 class HtmlParser(object):
-    def parser(self, html_cont):
-        if html_cont is None:
+    def parser(self, response):
+        if response is None:
             return
 
-        soup = BeautifulSoup(str(html_cont), 'html.parser', from_encoding='utf-8')
+        soup = BeautifulSoup(str(response), 'html.parser', from_encoding='utf-8')
 
         return soup
 
-    def gbk_parser(self, html_cont):
-        if html_cont is None:
+    def gbk_parser(self, response):
+        if response is None:
             return
 
-        soup = BeautifulSoup(str(html_cont), 'html.parser', from_encoding='gb18030')
+        soup = BeautifulSoup(str(response), 'html.parser', from_encoding='gb18030')
 
         return soup
 

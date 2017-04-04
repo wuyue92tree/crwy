@@ -33,5 +33,6 @@ setup(
         'pyssdb>=0.1.2',
         'redis>=2.10.5',
         'certifi==2016.9.26',
+        'gevent>=1.2.1'
     ],
 )
