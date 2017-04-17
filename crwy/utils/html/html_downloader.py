@@ -35,12 +35,18 @@ class Response(object):
 
 
 class HtmlDownloader(object):
-    def download(self, url, method='GET', postdata=None, proxy=None, proxy_userpwd=None, cookie=None, cookiefile=None, cookiejar=None, debug=False, autoclose=True, useragent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:46.0) Gecko/20100101 Firefox/46.0', referer='http://spider.wuyue.tk', FOLLOWLOCATION=1, MAXREDIRS=5, TIMEOUT=600):
+    def download(self, url, method='GET', postdata=None, proxy=None,
+                 proxy_userpwd=None, cookie=None, cookiefile=None,
+                 headers=None, cookiejar=None, debug=False, autoclose=True,
+                 useragent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:46.0) Gecko/20100101 Firefox/46.0',
+                 referer='http://spider.wuyue.tk',
+                 FOLLOWLOCATION=1, MAXREDIRS=5, TIMEOUT=600):
+
         c = pycurl.Curl()
         response = Response()
         c.setopt(pycurl.USERAGENT, useragent)
         c.setopt(pycurl.REFERER, referer)
-        c.setopt(pycurl.HTTPHEADER, ['text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'])
+        c.setopt(pycurl.HTTPHEADER, headers)
         buffer = BytesIO()
         header = BytesIO()
 
