@@ -6,16 +6,14 @@ from __future__ import print_function
 
 import sys
 import os
-from string import Template
 from optparse import OptionParser
-from configparser import ConfigParser
 from crwy.settings.default_settings import TEMPLATE_DIR
 from crwy.changetmpl import change_spider_name
 from crwy.commands.list import Command as ListCommand
 
 PATH = os.path.join(TEMPLATE_DIR, 'spider')
 TMPLATE_PATH = os.path.join(PATH, '%s.py.tmpl')
-SPIDER_TMPL_LIST = ['basic', 'sqlite', 'queue', 'redis_queue', 'async']
+SPIDER_TMPL_LIST = ['basic', 'sqlite', 'queue', 'redis_queue']
 
 
 class Command(object):

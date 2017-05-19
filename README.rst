@@ -3,11 +3,11 @@ Crwy
 .. image:: https://img.shields.io/pypi/v/Crwy.svg
    :target: https://pypi.python.org/pypi/Crwy
    :alt: PyPI Version
-.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.3
+.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.4
    :target: https://travis-ci.org/wuyue92tree/crwy
    :alt: Build Status
-.. image:: https://readthedocs.org/projects/crwy/badge/?version=1.0.3
-   :target: http://crwy.readthedocs.io/zh_CN/1.0.2/?badge=1.0.3
+.. image:: https://readthedocs.org/projects/crwy/badge/?version=1.0.4
+   :target: http://crwy.readthedocs.io/zh_CN/1.0.4/?badge=1.0.4
    :alt: Documentation Status
 
 简介
@@ -23,13 +23,11 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
 依赖包
 ===================
  * beautifulsoup4>=4.5.1
- * pycurl>=7.43.0
+ * requests==2.12.0
  * configparser>=3.5.0
  * SQLAlchemy>=1.0.14
  * pyssdb>=0.1.2
  * redis>=2.10.5
- * certifi==2016.9.26
- * psutil>=5.1.3
  * gevent>=1.2.1
 
 安装
@@ -40,22 +38,31 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
     pip install crwy
 
 or
-前往下载: https://pypi.python.org/pypi/Crwy/1.0.3/
+前往下载: https://pypi.python.org/pypi/Crwy/1.0.4/
 
 使用手册
 ===================
-在这里: http://crwy.readthedocs.io/zh_CN/1.0.3/
+在这里: http://crwy.readthedocs.io/zh_CN/1.0.4/
 
 友情链接
 ===================
 - https://pypi.python.org/pypi/beautifulsoup4/
-- https://pypi.python.org/pypi/pycurl/
+- https://pypi.python.org/pypi/requests/
 - https://pypi.python.org/pypi/configparser/
 - https://pypi.python.org/pypi/SQLAlchemy/
 - https://pypi.python.org/pypi/gevent/
 
 修改日志
 ===================
+
+2017-05-19  v1.0.4
+
+- 下载器更换为requests, 并新增打文件下载方式;
+- 新增RedisSet模块充当网页去重过滤器;
+- 新增RedisHash模块，用于存储cookies等需持久化参数;
+- 新增Logger模块，将默认日志集成到spider中，简化templates;
+- 将内置的多进程启动更换为多协程，多进程直接由外部方式实现，框架不再支持;
+- 优化templates。
 
 2017-04-17  v1.0.3
 

@@ -27,12 +27,11 @@ setup(
     },
     install_requires=[
         'beautifulsoup4>=4.5.1',
-        'pycurl>=7.43.0',
+        'requests==2.12.0',
         'configparser>=3.5.0',
         'SQLAlchemy>=1.0.14',
         'pyssdb>=0.1.2',
         'redis>=2.10.5',
-        'certifi==2016.9.26',
         'gevent>=1.2.1'
     ],
 )

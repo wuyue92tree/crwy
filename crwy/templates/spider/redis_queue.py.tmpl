@@ -3,49 +3,44 @@
 
 from __future__ import print_function
 
-import logging
-import logging.config
-import pycurl
-import inspect
 import sys
 from crwy.spider import Spider
 from crwy.utils.queue.RedisQueue import RedisQueue
+from crwy.utils.filter.RedisSet import RedisSet
 
-logging.config.fileConfig('./${project_name}/default_logger.conf')
 
 queue = RedisQueue('foo')
-
-
-def get_current_function_name():
-    return inspect.stack()[1][3]
+s_filter = RedisSet('foo')
 
 
 class ${class_name}Spider(Spider):
     def __init__(self):
         Spider.__init__(self)
         self.spider_name = '${spider_name}'
-        self.logger = logging.getLogger('rtLogger')
 
     def crawler_${spider_name}(self):
-        try:
-            while not queue.empty():
-                url = 'http://example.com/%s' % queue.get()
-                try:
+        while True:
+            try:
+                if not queue.empty():
+                    url = 'http://example.com/%s' % queue.get()
+                    if s_filter.sadd(url) is False:
+                        print('You got a crawled url. %s' % url)
+                        continue
                     response = self.html_downloader.download(url)
-                except pycurl.error:
-                    self.logger.warning('%s : fail to access %s' % (get_current_function_name(), url))
-                try:
-                    soups = self.html_parser.parser(response)
-                except AttributeError:
-                    self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
-                print(url)
-                print(soups)
-                print('Length of queue : %s' % queue.qsize())
+                    soups = self.html_parser.parser(response.content)
+                    print(url)
+                    print(soups)
+                    print('Length of queue : %s' % queue.qsize())
+                else:
+                    self.logger.info('%s[%s] --> %s : crawler success !!!' % (
+                        self.spider_name, self.worker, self.func_name()))
+                    sys.exit()
 
-            self.logger.info('%s : crawler success !!!' % get_current_function_name())
-
-        except Exception as e:
-            self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
+            except Exception as e:
+                self.logger.exception('%s[%s] --> %s : %s' % (
+                    self.spider_name, self.worker,
+                    self.func_name(), e))
+                continue
 
     def add_queue(self):
         for i in range(100):
@@ -57,14 +52,14 @@ class ${class_name}Spider(Spider):
             worker = sys.argv[4]
         except :
             print('No worker found!!!\n')
-            exit()
+            sys.exit()
 
         if worker == 'crawler':
             self.crawler_${spider_name}()
         elif worker == 'add_queue':
-            queue.clean()
             self.add_queue()
+        elif worker == 'clean':
+            queue.clean()
+            s_filter.clean()
         else:
             print('Invalid worker <%s>!!!\n' % worker)
-            exit()
-

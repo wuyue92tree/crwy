@@ -3,50 +3,38 @@
 
 from __future__ import print_function
 
-import logging
-import logging.config
-import pycurl
-import inspect
+import sys
 import Queue
 from crwy.spider import Spider
 
-logging.config.fileConfig('./${project_name}/default_logger.conf')
-
 queue = Queue.Queue()
-
-
-def get_current_function_name():
-    return inspect.stack()[1][3]
 
 
 class ${class_name}Spider(Spider):
     def __init__(self):
         Spider.__init__(self)
         self.spider_name = '${spider_name}'
-        self.logger = logging.getLogger('fileLogger')
 
     def crawler_${spider_name}(self):
         while True:
             try:
                 if not queue.empty():
                     url = 'http://example.com/%d' % queue.get()
-                    try:
-                        response = self.html_downloader.download(url)
-                    except pycurl.error:
-                        self.logger.warning('%s : fail to access %s' % (get_current_function_name(), url))
-                    try:
-                        soups = self.html_parser.parser(response)
-                    except AttributeError:
-                        self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
+                    response = self.html_downloader.download(url)
+                    soups = self.html_parser.parser(response.content)
                     print(url)
                     print(soups)
                     print('Length of queue : %d' % queue.qsize())
                 else:
-                    self.logger.info('%s : crawler success !!!' % get_current_function_name())
-                    exit()
+                    self.logger.info('%s[%s] --> %s : crawler success !!!' % (
+                        self.spider_name, self.worker, self.func_name()))
+                    sys.exit()
 
             except Exception as e:
-                self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
+                self.logger.exception('%s[%s] --> %s : %s' % (
+                    self.spider_name, self.worker,
+                    self.func_name(), e))
+                continue
 
     def run(self):
         for i in range(1, 10):

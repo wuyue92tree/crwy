@@ -3,19 +3,9 @@
 
 from __future__ import print_function
 
-import logging
-import logging.config
-import pycurl
-import inspect
 from sqlalchemy import Integer, Column, String
 from crwy.spider import Spider
 from crwy.utils.sql.db import Database, Base
-
-logging.config.fileConfig('./${project_name}/default_logger.conf')
-
-
-def get_current_function_name():
-    return inspect.stack()[1][3]
 
 
 class Test(Base):
@@ -31,29 +21,25 @@ class ${class_name}Spider(Spider):
         self.spider_name = '${spider_name}'
         self.sql = Database('sqlite:///./data/test.db')
         self.sql.init_table()
-        self.logger = logging.getLogger('fileLogger')
 
     def crawler_${spider_name}(self):
         try:
             url = 'http://example.com'
-            try:
-                response = self.html_downloader.download(url)
-            except pycurl.error:
-                self.logger.warning('%s : fail to access %s' % (get_current_function_name(), url))
-            try:
-                soups = self.html_parser.parser(response)
-            except AttributeError:
-                self.logger.warning('%s : analysis fail on %s' % (get_current_function_name(), url))
+            response = self.html_downloader.download(url)
+            soups = self.html_parser.parser(response.content)
             title = soups.find('title').text
             item = Test(title=title.decode('utf-8'), url=url.decode('utf-8'))
             self.sql.session.merge(item)
             self.sql.session.commit()
             print(url)
             print(soups)
-            self.logger.info('%s : crawler success !!!' % get_current_function_name())
+            self.logger.info('%s[%s] --> %s : crawler success !!!' % (
+                self.spider_name, self.worker, self.func_name()))
 
         except Exception as e:
-                self.logger.error('%s : you got a error %s' % (get_current_function_name(), e))
+            self.logger.exception('%s[%s] --> %s : %s' % (
+                self.spider_name, self.worker,
+                self.func_name(), e))
 
     def run(self):
         self.crawler_${spider_name}()
