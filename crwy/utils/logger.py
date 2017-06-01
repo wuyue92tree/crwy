@@ -6,9 +6,17 @@
 
 import logging
 import logging.config
-from crwy.cmdline import get_project_name
+from configparser import NoSectionError
 
-logging.config.fileConfig('./%s/default_logger.conf' % get_project_name())
+try:
+    from crwy.cmdline import get_project_name
+except ImportError:
+    pass
+
+try:
+    logging.config.fileConfig('./%s/default_logger.conf' % get_project_name())
+except NoSectionError:
+    pass
 
 
 class Logger(object):

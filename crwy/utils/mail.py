@@ -6,14 +6,21 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
-from crwy.cmdline import get_project_settings
+from configparser import NoSectionError
 
-default = __import__(get_project_settings())
+try:
+    from crwy.cmdline import get_project_settings
+except ImportError:
+    pass
 
-MAIL_HOST = getattr(default.settings, 'MAIL_HOST', None)
-MAIL_USER = getattr(default.settings, 'MAIL_USER', None)
-MAIL_PASSWORD = getattr(default.settings, 'MAIL_PASSWORD', None)
-MAIL_POSTFIX = getattr(default.settings, 'MAIL_POSTFIX', None)
+try:
+    default = __import__(get_project_settings())
+    MAIL_HOST = getattr(default.settings, 'MAIL_HOST', None)
+    MAIL_USER = getattr(default.settings, 'MAIL_USER', None)
+    MAIL_PASSWORD = getattr(default.settings, 'MAIL_PASSWORD', None)
+    MAIL_POSTFIX = getattr(default.settings, 'MAIL_POSTFIX', None)
+except NoSectionError:
+    pass
 
 
 class Mail(object):
@@ -21,12 +28,10 @@ class Mail(object):
         if mail_host and mail_user and mail_password:
             self.mail_host, self.mail_user, self.mail_password, self.mail_postfix = mail_host, mail_user, mail_password, mail_postfix
         else:
-            if MAIL_HOST and MAIL_USER and MAIL_PASSWORD:
-                self.mail_host, self.mail_user, self.mail_password, self.mail_postfix = MAIL_HOST, MAIL_USER, MAIL_PASSWORD, MAIL_POSTFIX
-            else:
-                raise Exception('No Mail config found !')
+            self.mail_host, self.mail_user, self.mail_password, self.mail_postfix = MAIL_HOST, MAIL_USER, MAIL_PASSWORD, MAIL_POSTFIX
 
-    def send_mail(self, mail_to, sub, content, subtype='plain', charset='utf8', enclosure=None, images=None):
+    def send_mail(self, mail_to, sub, content, subtype='plain', charset='utf8',
+                  enclosure=None, images=None):
         msg = MIMEMultipart()
         txt = MIMEText(content, _subtype=subtype, _charset=charset)
         msg.attach(txt)
