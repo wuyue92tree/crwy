@@ -14,7 +14,7 @@ html_downloader
  | url: 目标网站URL
  | method: 规定请求方式，默认为GET
  | timeout: 规定超时时间(默认为60)
- | **kwargs: 与requests保持一致
+ | \*\*kwargs: 与requests保持一致
 
 - downloadFile(url, save_path='./data/')
 
@@ -22,6 +22,7 @@ html_downloader
  | save_path: 文件保存路径
 
 requests传送门: http://www.python-requests.org/en/master/
+
 
 html_parser
 >>>>>>>>>>>>>>>>>>>
