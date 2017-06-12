@@ -205,8 +205,8 @@ eg: default_logger.conf
     keys=defaultFmt,simpleFmt
 
     [formatter_defaultFmt]
-    format=%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s
-    datefmt=%a, %d %b %Y %H:%M:%S
+    format=%(asctime)s %(filename)s %(funcName)s [line:%(lineno)d] %(levelname)s %(message)s
+    datefmt=%Y-%m-%d %H:%M:%S
 
     [formatter_simpleFmt]
     format=%(name)-12s: %(levelname)-8s %(message)s

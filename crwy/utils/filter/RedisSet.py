@@ -26,6 +26,9 @@ class RedisSet(object):
         """Return True if the queue is empty, False otherwise."""
         return self.__db.scard(self.key)
 
+    def smembers(self):
+        return self.__db.smembers(self.key)
+
     def clean(self):
         """Empty key"""
         return self.__db.delete(self.key)
