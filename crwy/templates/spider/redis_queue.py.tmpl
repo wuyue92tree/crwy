@@ -32,14 +32,13 @@ class ${class_name}Spider(Spider):
                     print(soups)
                     print('Length of queue : %s' % queue.qsize())
                 else:
-                    self.logger.info('%s[%s] --> %s : crawler success !!!' % (
-                        self.spider_name, self.worker, self.func_name()))
+                    self.logger.info('%s[%s] --> crawler success !!!' % (
+                        self.spider_name, self.worker))
                     sys.exit()
 
             except Exception as e:
-                self.logger.exception('%s[%s] --> %s : %s' % (
-                    self.spider_name, self.worker,
-                    self.func_name(), e))
+                self.logger.exception('%s[%s] --> %s' % (
+                    self.spider_name, self.worker, e))
                 continue
 
     def add_queue(self):

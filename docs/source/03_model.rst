@@ -30,13 +30,12 @@ basic模板包含最基本的抓取逻辑
                 soups = self.html_parser.parser(response.content)
                 print(url)
                 print(soups)
-                self.logger.info('%s[%s] --> %s : crawler success !!!' % (
+                self.logger.info('%s[%s] --> crawler success !!!' % (
                     self.spider_name, self.worker, self.func_name()))
 
             except Exception as e:
-                self.logger.exception('%s[%s] --> %s : %s' % (
-                    self.spider_name, self.worker,
-                    self.func_name(), e))
+                self.logger.exception('%s[%s] --> %s' % (
+                    self.spider_name, self.worker, e))
 
         def run(self):
             self.crawler_${spider_name}()
@@ -91,13 +90,12 @@ sqlite模板将爬取数据存储到sqlite数据库中
                 self.sql.session.commit()
                 print(url)
                 print(soups)
-                self.logger.info('%s[%s] --> %s : crawler success !!!' % (
-                    self.spider_name, self.worker, self.func_name()))
+                self.logger.info('%s[%s] --> crawler success !!!' % (
+                    self.spider_name, self.worker))
 
             except Exception as e:
-                self.logger.exception('%s[%s] --> %s : %s' % (
-                    self.spider_name, self.worker,
-                    self.func_name(), e))
+                self.logger.exception('%s[%s] --> %s' % (
+                    self.spider_name, self.worker, e))
 
         def run(self):
             self.crawler_${spider_name}()
@@ -152,14 +150,13 @@ queue模块将待爬取页面加载到队列中,实时把控队列进度
                         print(soups)
                         print('Length of queue : %d' % queue.qsize())
                     else:
-                        self.logger.info('%s[%s] --> %s : crawler success !!!' % (
-                            self.spider_name, self.worker, self.func_name()))
+                        self.logger.info('%s[%s] --> crawler success !!!' % (
+                            self.spider_name, self.worker))
                         sys.exit()
 
                 except Exception as e:
-                    self.logger.exception('%s[%s] --> %s : %s' % (
-                        self.spider_name, self.worker,
-                        self.func_name(), e))
+                    self.logger.exception('%s[%s] --> %s' % (
+                        self.spider_name, self.worker, e))
                     continue
 
         def run(self):
@@ -217,14 +214,13 @@ redis_queue模板将队列持久化到redis服务器中,以解决服务器宕机
                         print(soups)
                         print('Length of queue : %s' % queue.qsize())
                     else:
-                        self.logger.info('%s[%s] --> %s : crawler success !!!' % (
-                            self.spider_name, self.worker, self.func_name()))
+                        self.logger.info('%s[%s] --> crawler success !!!' % (
+                            self.spider_name, self.worker))
                         sys.exit()
 
                 except Exception as e:
-                    self.logger.exception('%s[%s] --> %s : %s' % (
-                        self.spider_name, self.worker,
-                        self.func_name(), e))
+                    self.logger.exception('%s[%s] --> %s' % (
+                        self.spider_name, self.worker, e))
                     continue
 
         def add_queue(self):
