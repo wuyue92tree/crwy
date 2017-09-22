@@ -64,10 +64,6 @@ class Command(object):
             help='crawler by multi thread', metavar="THREAD")
         opt, args = parser.parse_args()
 
-        if len(args) < 1:
-            print(Usage)
-            sys.exit(1)
-
         if opt.name is not None:
             if opt.name in ListCommand.get_spider_list():
                 sys.path.append('.')
@@ -85,3 +81,6 @@ class Command(object):
             else:
                 print('ERROR spider: "%s" is not found!!!' % opt.name)
                 sys.exit(1)
+        else:
+            print(Usage)
+            sys.exit(1)
