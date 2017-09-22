@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# author: wuyue92tree@163.com
+
+from __future__ import print_function
 
 import smtplib
+import traceback
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
@@ -62,6 +64,6 @@ class Mail(object):
             server.sendmail(self.mail_user, mail_to, msg.as_string())
             server.close()
             return True
-        except Exception, e:
-            print str(e)
+        except Exception as e:
+            traceback.format_exc(e)
             return False
