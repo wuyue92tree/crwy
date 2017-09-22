@@ -155,13 +155,13 @@ SSDB队列
 -------------------
 日志采用配置文件的形式工作
 
-eg: default_logger.conf
+eg: logger.conf
 ::
 
     #logger.conf
     ###############################################
     [loggers]
-    keys=root,fileLogger,rtLogger
+    keys=root,fileLogger,rtLogger,timedRtLogger
 
     [logger_root]
     level=INFO
@@ -177,9 +177,14 @@ eg: default_logger.conf
     qualname=rtLogger
     propagate=0
 
+    [logger_timedRtLogger]
+    handlers=consoleHandler,timedRtHandler
+    qualname=timedRtLogger
+    propagate=0
+
     ###############################################
     [handlers]
-    keys=consoleHandler,fileHandler,rtHandler
+    keys=consoleHandler,fileHandler,rtHandler,timedRtHandler
 
     [handler_consoleHandler]
     class=StreamHandler
@@ -197,7 +202,14 @@ eg: default_logger.conf
     class=handlers.RotatingFileHandler
     level=DEBUG
     formatter=defaultFmt
-    args=('./log/default.log', 'a', 10*1024*1024, 5)
+    args=('./log/default.log', 'a', 100*1024*1024, 10)
+
+    [handler_timedRtHandler]
+    class=handlers.TimedRotatingFileHandler
+    level=DEBUG
+    formatter=defaultFmt
+    args=('./log/default.log', 'M', 1, 10)
+
 
     ###############################################
 
@@ -205,10 +217,10 @@ eg: default_logger.conf
     keys=defaultFmt,simpleFmt
 
     [formatter_defaultFmt]
-    format=%(asctime)s %(filename)s %(funcName)s [line:%(lineno)d] %(levelname)s %(message)s
+    format=%(asctime)s %(filename)s %(funcName)s %(threadName)s [line:%(lineno)d] %(levelname)s %(message)s
     datefmt=%Y-%m-%d %H:%M:%S
 
     [formatter_simpleFmt]
-    format=%(name)-12s: %(levelname)-8s %(message)s
-    datefmt=
+    format=%(asctime)s %(threadName)s %(levelname)s %(message)s
+    datefmt=%Y-%m-%d %H:%M:%S
 
