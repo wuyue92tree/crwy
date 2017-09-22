@@ -18,12 +18,11 @@ class ${class_name}Spider(Spider):
             soups = self.html_parser.parser(response.content)
             print(url)
             print(soups)
-            self.logger.info('%s[%s] --> crawler success !!!' % (
-                self.spider_name, self.worker))
+            self.logger.info('%s --> crawler success !!!' % self.spider_name)
 
         except Exception as e:
-            self.logger.exception('%s[%s] --> %s' % (
-                self.spider_name, self.worker, e))
+            self.logger.exception('%s --> %s' % (
+                self.spider_name, e))
 
     def run(self):
         self.crawler_${spider_name}()
