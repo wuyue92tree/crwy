@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# author: wuyue92tree@163.com
 
 from os.path import dirname, join
 from setuptools import setup, find_packages

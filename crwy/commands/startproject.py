@@ -16,27 +16,27 @@ SRC_PATH = os.path.join(PATH, 'src')
 LOG_PATH = os.path.join(PATH, 'log')
 CONFIG_PATH = os.path.join(PATH, 'crwy.cfg.tmpl')
 SETTINGS_PATH = os.path.join(PATH, 'settings.py.tmpl')
-LOGCONFIG_PATH = os.path.join(PATH, 'default_logger.conf.tmpl')
+LOGCONFIG_PATH = os.path.join(PATH, 'logger.conf.tmpl')
 
 
 class Command(object):
     def create_project(self, project_name):
         os.mkdir(project_name)
-        os.mkdir(project_name + '/' + project_name)
+        os.mkdir(project_name + '/conf')
         shutil.copytree(DATA_PATH, project_name + '/' + 'data')
         shutil.copytree(SRC_PATH, project_name + '/' + 'src')
         shutil.copytree(LOG_PATH, project_name + '/' + 'log')
-        shutil.copy(LOGCONFIG_PATH, project_name + '/' + project_name + '/default_logger.conf')
+        shutil.copy(LOGCONFIG_PATH, project_name + '/conf/logger.conf')
 
         config = change_project_name(project_name, CONFIG_PATH)
         f1 = open(project_name + '/crwy.cfg', 'w')
         f1.write(config)
 
         settings = change_project_name(project_name, SETTINGS_PATH)
-        f2 = open(project_name + '/' + project_name + '/settings.py', 'w')
+        f2 = open(project_name + '/conf/settings.py', 'w')
         f2.write(settings)
 
-        f3 = open(project_name + '/' + project_name + '/__init__.py', 'w')
+        f3 = open(project_name + '/conf/__init__.py', 'w')
         f3.write('')
 
     def main(self):

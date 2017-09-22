@@ -6,16 +6,10 @@
 
 import logging
 import logging.config
-from configparser import NoSectionError
 
 try:
-    from crwy.cmdline import get_project_name
-except ImportError:
-    pass
-
-try:
-    logging.config.fileConfig('./%s/default_logger.conf' % get_project_name())
-except NoSectionError:
+    logging.config.fileConfig('./conf/logger.conf')
+except:
     pass
 
 
@@ -27,3 +21,11 @@ class Logger(object):
     @staticmethod
     def rt_logger():
         return logging.getLogger('rtLogger')
+
+    @staticmethod
+    def timed_rt_logger():
+        return logging.getLogger('timedRtLogger')
+
+    @staticmethod
+    def extra_logger(name=None):
+        return logging.getLogger(name)

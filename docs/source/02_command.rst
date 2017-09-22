@@ -98,7 +98,7 @@ runspider
 添加"-h"参数,看该命令如何使用:
 ::
 
-    crwy createspider -h
+    crwy runspider -h
 
 ::
 
@@ -108,12 +108,16 @@ runspider
     Options:
       -h, --help            show this help message and exit
       -n NAME, --name=NAME  spider name
-      -p PROCESS, --process=PROCESS
-                            crawler by multi process
+      -c COROUTINE, --coroutine=COROUTINE
+                            crawler by multi coroutine
+      -t THREAD, --thread=THREAD
+                            crawler by multi thread
+
 
 
 * -n: 用以指定将要执行的爬虫的名称
-* -p: 用以控制程序采用多进程运行（-p参数后接进程数）
+* -c: 用以控制程序采用多协程运行（-c参数后接协程数）
+* -t: 用以控制程序采用多线程运行（-t参数后接线程数）
 
 version
 -------------------
