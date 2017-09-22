@@ -3,11 +3,11 @@ Crwy
 .. image:: https://img.shields.io/pypi/v/Crwy.svg
    :target: https://pypi.python.org/pypi/Crwy
    :alt: PyPI Version
-.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.5
+.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.6
    :target: https://travis-ci.org/wuyue92tree/crwy
    :alt: Build Status
-.. image:: https://readthedocs.org/projects/crwy/badge/?version=1.0.5
-   :target: http://crwy.readthedocs.io/zh_CN/1.0.5/?badge=1.0.5
+.. image:: https://readthedocs.org/projects/crwy/badge/?version=1.0.6
+   :target: http://crwy.readthedocs.io/zh_CN/1.0.6/?badge=1.0.6
    :alt: Documentation Status
 
 简介
@@ -38,11 +38,11 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
     pip install crwy
 
 or
-前往下载: https://pypi.python.org/pypi/Crwy/1.0.5/
+前往下载: https://pypi.python.org/pypi/Crwy/1.0.6/
 
 使用手册
 ===================
-在这里: http://crwy.readthedocs.io/zh_CN/1.0.5/
+在这里: http://crwy.readthedocs.io/zh_CN/1.0.6/
 
 友情链接
 ===================
@@ -54,6 +54,12 @@ or
 
 修改日志
 ===================
+
+2017-09-21  v1.0.6
+
+- 日志新增timedRtLogger模板及自定义Logger调用接口
+- 爬虫执行脚本新增thread支持
+- 修改项目创建脚本，配置文件固定在conf目录
 
 2017-06-13  v1.0.5
 
