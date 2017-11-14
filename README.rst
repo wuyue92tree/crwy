@@ -3,11 +3,11 @@ Crwy
 .. image:: https://img.shields.io/pypi/v/Crwy.svg
    :target: https://pypi.python.org/pypi/Crwy
    :alt: PyPI Version
-.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.6
+.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.7
    :target: https://travis-ci.org/wuyue92tree/crwy
    :alt: Build Status
-.. image:: https://readthedocs.org/projects/crwy/badge/?version=1.0.6
-   :target: http://crwy.readthedocs.io/zh_CN/1.0.6/?badge=1.0.6
+.. image:: https://readthedocs.org/projects/crwy/badge/?version=1.0.7
+   :target: http://crwy.readthedocs.io/zh_CN/1.0.7/?badge=1.0.7
    :alt: Documentation Status
 
 简介
@@ -29,6 +29,7 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
  * pyssdb>=0.1.2
  * redis>=2.10.5
  * gevent>=1.2.1
+ * IMAPClient>=1.0.2
 
 安装
 ===================
@@ -38,11 +39,11 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
     pip install crwy
 
 or
-前往下载: https://pypi.python.org/pypi/Crwy/1.0.6/
+前往下载: https://pypi.python.org/pypi/Crwy/1.0.7/
 
 使用手册
 ===================
-在这里: http://crwy.readthedocs.io/zh_CN/1.0.6/
+在这里: http://crwy.readthedocs.io/zh_CN/1.0.7/
 
 友情链接
 ===================
@@ -51,9 +52,15 @@ or
 - https://pypi.python.org/pypi/configparser/
 - https://pypi.python.org/pypi/SQLAlchemy/
 - https://pypi.python.org/pypi/gevent/
+- https://pypi.python.org/pypi/IMAPClient/
 
 修改日志
 ===================
+
+2017-11-14  v1.0.7
+
+- utils工具包中添加extend模块，用于添加第三方调用api;
+- 升级mail包，改用imapclient接收解析邮件。
 
 2017-09-21  v1.0.6
 
