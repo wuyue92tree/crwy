@@ -1,69 +1,102 @@
-#!/usr/bin/env python
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
+# Author: wuyue
+# Email: wuyue@mofanghr.com
+
 
 from __future__ import print_function
-
-import smtplib
+from imapclient import IMAPClient
+import email
+from email.header import decode_header
 import traceback
-from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
-from email.mime.multipart import MIMEMultipart
-from configparser import NoSectionError
 
-try:
-    from crwy.cmdline import get_project_settings
-except ImportError:
-    pass
-
-try:
-    default = __import__(get_project_settings())
-    MAIL_HOST = getattr(default.settings, 'MAIL_HOST', None)
-    MAIL_USER = getattr(default.settings, 'MAIL_USER', None)
-    MAIL_PASSWORD = getattr(default.settings, 'MAIL_PASSWORD', None)
-    MAIL_POSTFIX = getattr(default.settings, 'MAIL_POSTFIX', None)
-except NoSectionError:
-    pass
+SEEN = br'\Seen'
 
 
-class Mail(object):
-    def __init__(self, mail_host=None, mail_user=None, mail_password=None, mail_postfix=None):
-        if mail_host and mail_user and mail_password:
-            self.mail_host, self.mail_user, self.mail_password, self.mail_postfix = mail_host, mail_user, mail_password, mail_postfix
-        else:
-            self.mail_host, self.mail_user, self.mail_password, self.mail_postfix = MAIL_HOST, MAIL_USER, MAIL_PASSWORD, MAIL_POSTFIX
+class MailReceiver(object):
+    def __init__(self, host=None, username=None, password=None,
+                 port=None, SSL=True):
+        self.server = IMAPClient(host=host, ssl=SSL, timeout=10)
+        self.username = username
+        self.password = password
 
-    def send_mail(self, mail_to, sub, content, subtype='plain', charset='utf8',
-                  enclosure=None, images=None):
-        msg = MIMEMultipart()
-        txt = MIMEText(content, _subtype=subtype, _charset=charset)
-        msg.attach(txt)
-
-        if enclosure:
-            for path in enclosure:
-                filename = path.split('/')[-1]
-                att = MIMEText(open(path, 'rb').read(), 'base64', charset)
-                att["Content-Type"] = 'application/octet-stream'
-                att["Content-Disposition"] = 'attachment; filename="%s"' % filename
-                msg.attach(att)
-
-        if images:
-            for path in images:
-                imagename = path.split('/')[-1]
-                image = MIMEImage(open(path, 'rb').read())
-                image.add_header('Content-ID', '<%s>' % imagename)
-                msg.attach(image)
-
-        msg['Subject'] = sub
-        msg['From'] = self.mail_user
-        msg['To'] = ";".join(mail_to)
+    def folder_list(self):
+        folders = self.server.list_folders()
 
         try:
-            server = smtplib.SMTP()
-            server.connect(self.mail_host)
-            server.login(self.mail_user, self.mail_password)
-            server.sendmail(self.mail_user, mail_to, msg.as_string())
-            server.close()
+            res_list = []
+            for folder in folders:
+                if folder:
+                    # print(folder[2].encode("utf-8"))
+                    res_list.append(folder[2].encode("utf-8"))
+            return res_list
+        except AttributeError:
+            return
+
+    def message_list(self, mailbox='INBOX'):
+        try:
+            self.server.select_folder(mailbox)
+            message_list = self.server.search()
+            msg_data = self.server.fetch(
+                message_list, ['INTERNALDATE', 'FLAGS', 'BODY.PEEK[]'])
+            if not msg_data:
+                # print(self.username)
+                return None, None
+            return message_list, msg_data
+
+        except Exception as e:
+            # print("Message from [%s]: %s" % (self.username, e))
+            return None, None
+
+    def get_content(self, message):
+        try:
+            while True:
+                res = {}
+                msg = email.message_from_string(message['BODY[]'])
+                for s, c in decode_header(msg['subject']):
+                    try:
+                        res['subject'] = s.decode(c, 'ignore')
+                    except TypeError:
+                        res['subject'] = s
+                    # print('Subject: ' + res['subject'])
+                    # print('From: ' + email.utils.parseaddr(msg['from'])[1])
+                    # print('To: ' + email.utils.parseaddr(msg['to'])[1])
+
+                for par in msg.walk():
+                    if not par.is_multipart():
+                        name = par.get_param("name")
+                        if name:
+                            # print(name)
+                            pass
+                        else:
+                            body = par.get_payload(decode=True)
+                            if not body:
+                                continue
+                            try:
+                                code = par.get_content_charset()
+                                res['body'] = body.decode(code, 'ignore')
+                            except TypeError:
+                                res['body'] = body
+
+                # print('____________________________________________')
+                return res
+
+        except Exception as e:
+            traceback.print_exc()
+            # print('got msg error: %s' % e)
+            return
+
+    def delete_message(self, messages, deleted_folder=u"Deleted Messages"):
+        try:
+            self.server.add_flags(messages, SEEN)
+            self.server.copy(messages, deleted_folder)
+            self.server.delete_messages(messages)
+            self.server.expunge()
             return True
         except Exception as e:
-            traceback.format_exc(e)
-            return False
+            # print("邮件删除失败： %s" % e)
+            traceback.print_exc()
+            return
+
+    def close(self):
+        self.server.logout()
