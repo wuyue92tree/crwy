@@ -16,8 +16,8 @@ class SpiderBase(object):
         """
         self.html_downloader = HtmlDownloader()
         self.html_parser = HtmlParser()
-        self.logger = Logger.rt_logger()
-        self.worker = None
+        self.logger = Logger.timed_rt_logger()
+        self.login_kwargs = None    # 用于存放登录时所需的参数
         self.proxies = None
 
 
@@ -33,6 +33,9 @@ class Spider(SpiderBase):
         pass
 
     def save(self, *args, **kwargs):
+        pass
+
+    def get_cookie(self):
         pass
 
     @staticmethod
