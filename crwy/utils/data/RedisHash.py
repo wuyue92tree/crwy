@@ -24,6 +24,9 @@ class RedisHash(object):
     def hexists(self, item):
         return self.__db.hexists(self.key, item)
 
+    def hlen(self):
+        return self.__db.hlen(self.key)
+
     def clean(self):
         """Empty key"""
         return self.__db.delete(self.key)
