@@ -5,4 +5,3 @@ SQLAlchemy>=1.0.14
 pyssdb>=0.1.2
 redis>=2.10.5
 gevent>=1.2.1
-IMAPClient>=1.0.2
