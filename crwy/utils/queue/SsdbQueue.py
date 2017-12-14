@@ -38,3 +38,6 @@ class SsdbQueue(object):
     def clean(self):
         """Empty key"""
         return self.__db.qclear(self.key)
+
+    def db(self):
+        return self.__db

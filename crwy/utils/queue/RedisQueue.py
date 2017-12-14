@@ -46,3 +46,6 @@ class RedisQueue(object):
     def clean(self):
         """Empty key"""
         return self.__db.delete(self.key)
+
+    def db(self):
+        return self.__db
