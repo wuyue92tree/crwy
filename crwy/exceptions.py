@@ -19,6 +19,21 @@ class CrwyException(Exception):
         return repr(self.value)
 
 
-class CrwyCookieValidException(CrwyException):
+class CrwyImportException(CrwyException):
     pass
 
+
+class CrwyKafkaException(CrwyException):
+    pass
+
+
+class CrwyMnsException(CrwyException):
+    pass
+
+
+class CrwyDbException(CrwyException):
+    pass
+
+
+class CrwyCookieValidException(CrwyException):
+    pass
