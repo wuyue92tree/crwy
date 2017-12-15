@@ -10,6 +10,9 @@ Base = declarative_base()
 
 
 class Database(object):
+    """
+    以ORM的方式连接数据库
+    """
     def __init__(self, db_url, **kwargs):
         self.engine = create_engine(db_url, **kwargs)
         DBSession = sessionmaker(bind=self.engine)
