@@ -4,8 +4,8 @@
 @author: wuyue
 @contact: wuyue92tree@163.com
 @software: PyCharm
-@file: mysql.py
-@create at: 2017-12-15 14:20
+@file: pg.py
+@create at: 2017-12-15 14:28
 
 这一行开始写关于本文件的说明与解释
 """
@@ -13,25 +13,24 @@
 from crwy.exceptions import CrwyImportException, CrwyDbException
 
 try:
-    import MySQLdb
+    import PyGreSQL
 except ImportError:
-    raise CrwyImportException(
-        "You should install MySQLdb first! try: pip install "
-        "mysql-python")
+    raise CrwyImportException("You should install PyGreSQL first! try: pip "
+                              "install PyGreSQL")
 try:
-    from DBUtils.PersistentDB import PersistentDB
+    from DBUtils.PersistentPg import PersistentPg
 except ImportError:
     raise CrwyImportException(
         "You should install DBUtils first! try: pip install "
         "dbutils")
 
 
-class MysqlHandle(object):
+class PgHandle(object):
     def __init__(self, **kwargs):
-        self._mysql_pool = PersistentDB(MySQLdb, **kwargs)
+        self._pg_pool = PersistentPg(PyGreSQL, **kwargs)
 
     def query_by_sql(self, sql):
-        conn = self._mysql_pool.connection()
+        conn = self._pg_pool.connection()
         cur = conn.cursor()
         try:
             cur.execute(sql)
@@ -44,7 +43,7 @@ class MysqlHandle(object):
             conn.close()
 
     def save(self, sql, data, many=False):
-        conn = self._mysql_pool.connection()
+        conn = self._pg_pool.connection()
         cur = conn.cursor()
         try:
             if many is False:
