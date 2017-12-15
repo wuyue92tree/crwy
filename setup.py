@@ -28,9 +28,5 @@ setup(
         'beautifulsoup4>=4.5.1',
         'requests==2.12.0',
         'configparser>=3.5.0',
-        'SQLAlchemy>=1.0.14',
-        'pyssdb>=0.1.2',
-        'redis>=2.10.5',
-        'gevent>=1.2.1'
     ],
 )
