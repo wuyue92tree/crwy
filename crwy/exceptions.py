@@ -35,5 +35,9 @@ class CrwyDbException(CrwyException):
     pass
 
 
+class CrwyExtendException(CrwyException):
+    pass
+
+
 class CrwyCookieValidException(CrwyException):
     pass

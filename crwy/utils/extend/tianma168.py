@@ -12,11 +12,11 @@
 
 from __future__ import print_function
 
-import traceback
-from crwy.spider import Spider
+from crwy.spider import BaseSpider
+from crwy.exceptions import CrwyExtendException
 
 
-class TianMa168(Spider):
+class TianMa168(BaseSpider):
     def __init__(self, username, password, item_id):
         super(TianMa168, self).__init__()
         if username and password and item_id:
@@ -24,8 +24,7 @@ class TianMa168(Spider):
             self.password = password
             self.item_id = item_id
         else:
-            print("[TianMa168] 参数不足.")
-            exit()
+            raise CrwyExtendException("[TianMa168] param not enough.")
 
     def login(self):
         """
@@ -39,8 +38,7 @@ class TianMa168(Spider):
             res = self.html_downloader.download(url)
 
             if res.content is None:
-                print("[TianMa168] 登录失败.")
-                return
+                raise CrwyExtendException("[TianMa168] login failed.")
 
             res_lst = res.content.strip().split("&")
 
@@ -49,8 +47,7 @@ class TianMa168(Spider):
             # print(res.content)
             return res_lst
         except Exception as e:
-            traceback.print_exc(e)
-            return
+            raise CrwyExtendException(e)
 
     def get_phone(self, token, count=1, area='', phone_type=0,
                   phone='', not_prefix=''):
@@ -72,14 +69,12 @@ class TianMa168(Spider):
 
             res = self.html_downloader.download(url)
             if not res.content:
-                print("[TianMa168] 获取手机号失败.")
-                return
+                raise CrwyExtendException("[TianMa168] get phone failed.")
             # print(res.content)
             return res.content.strip().split(';')[:-1]
 
         except Exception as e:
-            traceback.print_exc(e)
-            return
+            raise CrwyExtendException(e)
 
     def get_message(self, token, phone):
         """
@@ -94,16 +89,13 @@ class TianMa168(Spider):
             res = self.html_downloader.download(url)
 
             if 'False' in res.content:
-                print("[TianMa168] 获取短信失败.")
-                return
+                raise CrwyExtendException("[TianMa168] get message failed.")
 
             else:
-                print(res.text.encode('utf-8'))
                 return res.text
 
         except Exception as e:
-            traceback.print_exc(e)
-            return
+            raise CrwyExtendException(e)
 
     def release_phone(self, token, phone):
         try:
@@ -112,16 +104,13 @@ class TianMa168(Spider):
             res = self.html_downloader.download(url)
 
             if phone in res.content:
-                print("[TianMa168] 手机号释放成功.")
                 return res.content
 
             else:
-                print("[TianMa168] 手机号释放失败.")
-                return
+                raise CrwyExtendException("[TianMa168] phone release failed.")
 
         except Exception as e:
-            traceback.print_exc(e)
-            return
+            CrwyExtendException(e)
 
     def add_black(self, token, phone):
         try:
@@ -129,15 +118,11 @@ class TianMa168(Spider):
                   "=%s&phoneList=%s-%s;" % (token, self.item_id, phone)
             res = self.html_downloader.download(url)
 
-            print(res.content)
             if 'Ok' in res.content:
-                print("[TianMa168] 手机号拉黑成功.")
                 return res.content
 
             else:
-                print("[TianMa168] 手机号拉黑失败.")
-                return
+                raise CrwyExtendException("[TianMa168] black phone failed.")
 
         except Exception as e:
-            traceback.print_exc(e)
-            return
+            raise CrwyExtendException(e)
