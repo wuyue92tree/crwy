@@ -2,15 +2,18 @@
 # -*- coding: utf-8 -*-
 # author: wuyue92tree@163.com
 
-import redis
+from crwy.utils.sql import get_redis_client
 
 
 class RedisHash(object):
     """Simple Hash with Redis Backend"""
 
     def __init__(self, name, **redis_kwargs):
-        """The default connection parameters are: host='localhost', port=6379, db=0"""
-        self.__db = redis.Redis(**redis_kwargs)
+        """
+        The default connection parameters are:
+        host='localhost', port=6379, db=0
+        """
+        self.__db = get_redis_client(**redis_kwargs)
         self.key = name
 
     def hget(self, item):

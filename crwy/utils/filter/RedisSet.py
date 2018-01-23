@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # author: wuyue92tree@163.com
 
-import redis
+from crwy.utils.sql import get_redis_client
 
 
 class RedisSet(object):
@@ -10,9 +10,10 @@ class RedisSet(object):
 
     def __init__(self, name, namespace='deduplicate', **redis_kwargs):
         """
-        The default connection parameters are: host='localhost', port=6379, db=0
+        The default connection parameters are:
+        host='localhost', port=6379, db=0
         """
-        self.__db = redis.Redis(**redis_kwargs)
+        self.__db = get_redis_client(**redis_kwargs)
         self.key = '%s:%s' % (namespace, name)
 
     def sadd(self, item):
