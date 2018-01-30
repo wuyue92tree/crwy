@@ -13,7 +13,7 @@
 from crwy.exceptions import CrwyImportException, CrwyDbException
 
 try:
-    import PyGreSQL
+    import pgdb
 except ImportError:
     raise CrwyImportException("You should install PyGreSQL first! try: pip "
                               "install PyGreSQL")
@@ -27,7 +27,7 @@ except ImportError:
 
 class PgHandle(object):
     def __init__(self, **kwargs):
-        self._pg_pool = PersistentPg(PyGreSQL, **kwargs)
+        self._pg_pool = PersistentPg(pgdb, **kwargs)
 
     def query_by_sql(self, sql):
         conn = self._pg_pool.connection()
