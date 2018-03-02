@@ -43,7 +43,7 @@ class MysqlHandle(object):
             cur.close()
             conn.close()
 
-    def save(self, sql, data, many=False):
+    def save(self, sql, data, many=False, get_last_insert_id=False):
         conn = self._mysql_pool.connection()
         cur = conn.cursor()
         try:
@@ -51,6 +51,14 @@ class MysqlHandle(object):
                 cur.execute(sql, data)
             else:
                 cur.executemany(sql, data)
+            conn.commit()
+
+            if get_last_insert_id is False:
+                return
+
+            cur.execute("select last_insert_id()")
+            return cur.fetchone()[0]
+
         except Exception as e:
             raise CrwyDbException(e)
         finally:
