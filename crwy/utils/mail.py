@@ -38,15 +38,15 @@ class MailReceiver(object):
         return res_list
 
     @retry(stop_max_attempt_number=3)
-    def message_list(self, mailbox='INBOX', date=None):
-        if date:
-            search_ = 'ON %s' % date
-        else:
-            search_ = 'all'
+    def message_list(self, mailbox='INBOX', search_='all'):
         self.server.select_folder(
-            mailbox)  # message_list = self.server.search('ON 21-Dec-2017')
+            mailbox)
+        # message_list = self.server.search('ON 21-Dec-2017')
         message_list = self.server.search(search_)
+        return message_list
 
+    @retry(stop_max_attempt_number=3)
+    def download_message_list(self, message_list):
         msg_data = self.server.fetch(
             message_list, ['INTERNALDATE', 'FLAGS', 'BODY.PEEK[]'])
         if not msg_data:
@@ -95,7 +95,9 @@ class MailReceiver(object):
     def delete_message(self, messages, deleted_folder=u"Deleted Messages"):
         try:
             self.server.add_flags(messages, SEEN)
-            self.server.copy(messages, deleted_folder)
+            if deleted_folder:
+                # 将邮件移动到 已删除
+                self.server.copy(messages, deleted_folder)
             self.server.delete_messages(messages)
             self.server.expunge()
             return True
@@ -106,4 +108,3 @@ class MailReceiver(object):
 
     def close(self):
         self.server.logout()
-
