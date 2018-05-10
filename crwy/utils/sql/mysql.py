@@ -13,11 +13,11 @@
 from crwy.exceptions import CrwyImportException, CrwyDbException
 
 try:
-    import MySQLdb
+    import pymysql
 except ImportError:
     raise CrwyImportException(
-        "You should install MySQLdb first! try: pip install "
-        "mysql-python")
+        "You should install pymysql first! try: pip install "
+        "pymysql")
 try:
     from DBUtils.PersistentDB import PersistentDB
 except ImportError:
@@ -28,7 +28,7 @@ except ImportError:
 
 class MysqlHandle(object):
     def __init__(self, **kwargs):
-        self._mysql_pool = PersistentDB(MySQLdb, **kwargs)
+        self._mysql_pool = PersistentDB(pymysql, **kwargs)
 
     def query_by_sql(self, sql):
         conn = self._mysql_pool.connection()
