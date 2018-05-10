@@ -12,7 +12,7 @@ setup(
     version=version,
     url='https://github.com/wuyue92tree/crwy',
     description='A Simple Web Crawling and Web Scraping framework',
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
     author='wuyue',
     author_email='wuyue92tree@163.com',
     maintainer='wuyue',
