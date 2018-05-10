@@ -1,7 +1,7 @@
 # Crwy
 
 [![PyPI Version](https://img.shields.io/pypi/v/Crwy.svg)](https://pypi.python.org/pypi/Crwy)
-[![Build Status](https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.7)](https://travis-ci.org/wuyue92tree/crwy)
+[![Build Status](https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.8)](https://travis-ci.org/wuyue92tree/crwy)
 
 # 简介
 
@@ -32,19 +32,27 @@ pip install crwy
 ```
 
 or
-前往下载: https://pypi.python.org/pypi/Crwy/1.0.7/
+前往下载: https://pypi.python.org/pypi/Crwy/1.0.8/
 
-使用手册
-===================
+# 使用手册
+
 在这里: http://wuyue92tree.antio.top/opensource/crwy.html
 
-友情链接
-===================
+# 友情链接
+
 - https://pypi.python.org/pypi/beautifulsoup4/
 - https://pypi.python.org/pypi/requests/
 - https://pypi.python.org/pypi/configparser/
 - https://pypi.python.org/pypi/SQLAlchemy/
 - https://pypi.python.org/pypi/gevent/
 - https://pypi.python.org/pypi/IMAPClient/
+
+# 更新日志
+
+http://wuyue92tree.antio.top/opensource/crwy.html#更新日志
+
+# TODO
+
+- 兼容python3
 
 
