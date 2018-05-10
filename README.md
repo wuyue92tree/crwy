@@ -1,11 +1,7 @@
 # Crwy
 
-.. image:: https://img.shields.io/pypi/v/Crwy.svg
-   :target: https://pypi.python.org/pypi/Crwy
-   :alt: PyPI Version
-.. image:: https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.7
-   :target: https://travis-ci.org/wuyue92tree/crwy
-   :alt: Build Status
+[![PyPI Version](https://img.shields.io/pypi/v/Crwy.svg)](https://pypi.python.org/pypi/Crwy)
+[![Build Status](https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.0.7)](https://travis-ci.org/wuyue92tree/crwy)
 
 # 简介
 
