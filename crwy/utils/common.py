@@ -135,7 +135,11 @@ def remove_emoji(content):
     return pattern.sub(r'', content)
 
 
-if __name__ == '__main__':
-    obj = dict2obj({'a': 1, 'b': 'a'})
+def change_kv(dict_ori):
+    """
+    字典kv调换
+    :param dict_ori: 原字典
+    :return: 新字典
+    """
+    return dict(zip(dict_ori.values(), dict_ori.keys()))
 
-    print obj2dict(obj)
