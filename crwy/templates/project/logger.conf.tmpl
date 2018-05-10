@@ -48,7 +48,7 @@ args=('./log/default.log', 'a', 100*1024*1024, 10)
 class=handlers.TimedRotatingFileHandler
 level=DEBUG
 formatter=defaultFmt
-args=('./log/default.log', 'M', 1, 10)
+args=('./log/default.log', 'D', 1, 0)
 
 
 ###############################################
@@ -61,5 +61,5 @@ format=%(asctime)s %(filename)s %(funcName)s %(threadName)s [line:%(lineno)d] %(
 datefmt=%Y-%m-%d %H:%M:%S
 
 [formatter_simpleFmt]
-format=%(asctime)s %(threadName)s %(levelname)s %(message)s
+format=%(asctime)s %(filename)s %(funcName)s %(threadName)s [line:%(lineno)d] %(levelname)s %(message)s
 datefmt=%Y-%m-%d %H:%M:%S

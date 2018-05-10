@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 # author: wuyue92tree@163.com
 
-import redis
+from crwy.utils.sql import get_redis_client
 
 
 class RedisQueue(object):
     """Simple Queue with Redis Backend"""
 
     def __init__(self, name, namespace='queue', **redis_kwargs):
-        """The default connection parameters are: host='localhost', port=6379, db=0"""
-        self.__db = redis.Redis(**redis_kwargs)
+        """The default connection parameters are:
+        host='localhost', port=6379, db=0"""
+        self.__db = get_redis_client(**redis_kwargs)
         self.key = '%s:%s' % (namespace, name)
 
     def qsize(self):
@@ -46,3 +47,6 @@ class RedisQueue(object):
     def clean(self):
         """Empty key"""
         return self.__db.delete(self.key)
+
+    def db(self):
+        return self.__db

@@ -8,7 +8,7 @@ from crwy.utils.html.html_parser import HtmlParser
 from crwy.utils.logger import Logger
 
 
-class SpiderBase(object):
+class BaseSpider(object):
     """ Spider基础类 """
     def __init__(self):
         """
@@ -16,15 +16,18 @@ class SpiderBase(object):
         """
         self.html_downloader = HtmlDownloader()
         self.html_parser = HtmlParser()
-        self.logger = Logger.rt_logger()
-        self.worker = None
-        self.proxies = None
 
 
-class Spider(SpiderBase):
+class Spider(BaseSpider):
     """ Spider类 提供基本方法 """
-    def __init__(self):
+    def __init__(self, logger=None):
         super(Spider, self).__init__()
+        self.login_kwargs = None    # 用于存放登录时所需的参数
+        self.proxies = None
+        if logger:
+            self.logger = logger
+        else:
+            self.logger = Logger.timed_rt_logger()
 
     def login(self, *args, **kwargs):
         pass
@@ -33,6 +36,9 @@ class Spider(SpiderBase):
         pass
 
     def save(self, *args, **kwargs):
+        pass
+
+    def get_cookie(self):
         pass
 
     @staticmethod

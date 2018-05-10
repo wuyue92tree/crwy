@@ -9,20 +9,23 @@
 
 这一行开始写关于本文件的说明与解释
 """
+
 import json
-import traceback
 
-import requests
+from crwy.spider import BaseSpider
+from crwy.exceptions import CrwyExtendException
 
 
-class DingDingRobot(object):
+class DingDingRobot(BaseSpider):
     def __init__(self, access_token=None,
                  api_url="https://oapi.dingtalk.com/robot/send?access_token="):
+        super(DingDingRobot, self).__init__()
+        if not api_url:
+            raise CrwyExtendException('access_token unset.')
         self.api_url = api_url
         self.header = {'Content-Type': 'application/json'}
         self.access_token = access_token
-        self.session = requests.session()
-        self.session.headers = self.header
+        self.html_downloader.session.headers = self.header
 
     def send_text(self, content, at_mobiles=list(), is_at_all=False):
         try:
@@ -37,12 +40,13 @@ class DingDingRobot(object):
                 }
             }
 
-            res = self.session.post(self.api_url + self.access_token,
-                                    data=json.dumps(data))
+            res = self.html_downloader.download(
+                self.api_url + self.access_token,
+                method='POST',
+                data=json.dumps(data))
             return res
         except Exception as e:
-            traceback.print_exc(e)
-            return None
+            raise CrwyExtendException(e)
 
     def send_markdown(self, title, content, at_mobiles=list(),
                       is_at_all=False):
@@ -59,12 +63,13 @@ class DingDingRobot(object):
                 }
             }
 
-            res = self.session.post(self.api_url + self.access_token,
-                                    data=json.dumps(data))
+            res = self.html_downloader.download(
+                self.api_url + self.access_token,
+                method='POST',
+                data=json.dumps(data))
             return res
         except Exception as e:
-            traceback.print_exc(e)
-            return None
+            raise CrwyExtendException(e)
 
     def send_action_card(self, title, content, hide_avatar="0",
                          btn_oriengtation="0", single_title="阅读全文",
@@ -81,12 +86,13 @@ class DingDingRobot(object):
                 },
                 "msgtype": "actionCard"
             }
-            res = self.session.post(self.api_url + self.access_token,
-                                    data=json.dumps(data))
+            res = self.html_downloader.download(
+                self.api_url + self.access_token,
+                method='POST',
+                data=json.dumps(data))
             return res
         except Exception as e:
-            traceback.print_exc(e)
-            return None
+            raise CrwyExtendException(e)
 
     def send_feed_card(self, links):
         """
@@ -101,9 +107,10 @@ class DingDingRobot(object):
                 },
                 "msgtype": "feedCard"
             }
-            res = self.session.post(self.api_url + self.access_token,
-                                    data=json.dumps(data))
+            res = self.html_downloader.download(
+                self.api_url + self.access_token,
+                method='POST',
+                data=json.dumps(data))
             return res
         except Exception as e:
-            traceback.print_exc(e)
-            return None
+            raise CrwyExtendException(e)

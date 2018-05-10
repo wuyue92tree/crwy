@@ -9,7 +9,8 @@ class SsdbQueue(object):
     """Simple Queue with SSDB Backend"""
 
     def __init__(self, name, **ssdb_kwargs):
-        """The default connection parameters are: host='localhost', port=8888"""
+        """The default connection parameters are:
+        host='localhost', port=8888"""
         self.__db = pyssdb.Client(**ssdb_kwargs)
         self.key = name
 
@@ -38,3 +39,6 @@ class SsdbQueue(object):
     def clean(self):
         """Empty key"""
         return self.__db.qclear(self.key)
+
+    def db(self):
+        return self.__db

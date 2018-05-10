@@ -2,7 +2,7 @@
 
 from bs4 import BeautifulSoup
 try:
-    from pyv8 import PyV8
+    import PyV8
 except ImportError:
     pass
 
