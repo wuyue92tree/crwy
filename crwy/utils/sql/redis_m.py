@@ -16,7 +16,7 @@ try:
     import redis
 except ImportError:
     raise CrwyImportException(
-        "You should install MySQLdb first! try: pip install redis")
+        "You should install redis plugin first! try: pip install redis")
 
 
 def get_redis_client(**kwargs):
