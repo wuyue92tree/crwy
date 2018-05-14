@@ -17,17 +17,25 @@ class RedisSet(object):
         self.key = '%s:%s' % (namespace, name)
 
     def sadd(self, item):
-        """Return the approximate size of the queue."""
+        """Add item."""
         if self.__db.sadd(self.key, item) == 0:
             return False
         else:
             return True
 
+    def srem(self, item):
+        """Del item."""
+        if self.__db.srem(self.key, item) == 0:
+            return False
+        else:
+            return True
+
     def scard(self):
-        """Return True if the queue is empty, False otherwise."""
+        """Return total count."""
         return self.__db.scard(self.key)
 
     def smembers(self):
+        """Return all item."""
         return self.__db.smembers(self.key)
 
     def clean(self):

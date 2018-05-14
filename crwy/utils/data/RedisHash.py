@@ -17,17 +17,19 @@ class RedisHash(object):
         self.key = name
 
     def hget(self, item):
-        """Return the approximate size of the queue."""
+        """Get item value."""
         return self.__db.hget(self.key, item)
 
     def hset(self, item, value):
-        """Return True if the queue is empty, False otherwise."""
+        """Set item value."""
         return self.__db.hset(self.key, item, value)
 
     def hexists(self, item):
+        """Is item exist."""
         return self.__db.hexists(self.key, item)
 
     def hlen(self):
+        """Return total count."""
         return self.__db.hlen(self.key)
 
     def clean(self):
