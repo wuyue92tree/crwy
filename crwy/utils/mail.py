@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 # Author: wuyue
-# Email: wuyue@mofanghr.com
+# Email: wuyue92tree@163.com
 
 
 from __future__ import print_function

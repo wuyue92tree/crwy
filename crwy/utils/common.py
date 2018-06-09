@@ -11,9 +11,13 @@
 """
 
 import os
-import datetime
-import ConfigParser
 import re
+import datetime
+
+try:
+    import ConfigParser
+except ImportError:
+    from configparser import ConfigParser
 
 __all__ = ['cookie2str', 'cookie2dict', 'config_handle', 'file_handle']
 

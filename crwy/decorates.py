@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @author: wuyue
-@contact: wuyue@mofanghr.com
+@contact: wuyue92tree@163.com
 @software: PyCharm
 @file: decorates.py
 @create at: 2017-12-07 09:47

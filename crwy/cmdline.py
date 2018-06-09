@@ -6,12 +6,16 @@ from __future__ import print_function
 import sys
 import os
 
-from configparser import ConfigParser
 from crwy.commands.runspider import Command as RunspiderCommand
 from crwy.commands.startproject import Command as StartprojectCommand
 from crwy.commands.createspider import Command as CreatespiderCommand
 from crwy.commands.list import Command as ListCommand
 from crwy.settings.default_settings import BASE_DIR
+
+try:
+    import ConfigParser
+except ImportError:
+    from configparser import ConfigParser
 
 
 def under_conf():
