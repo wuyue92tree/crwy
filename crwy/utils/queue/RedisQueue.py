@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # author: wuyue92tree@163.com
 
-from crwy.utils.sql import get_redis_client
+from crwy.utils.sql.redis_m import get_redis_client
 
 
 class RedisQueue(object):
