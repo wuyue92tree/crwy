@@ -5,14 +5,17 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from crwy.decorates import cls2singleton
 
 Base = declarative_base()
 
 
-class Database(object):
+@cls2singleton
+class SqlalchemyHandle(object):
     """
     以ORM的方式连接数据库
     """
+
     def __init__(self, db_url, **kwargs):
         self.engine = create_engine(db_url, **kwargs)
         DBSession = sessionmaker(bind=self.engine)

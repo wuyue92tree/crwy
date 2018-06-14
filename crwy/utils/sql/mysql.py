@@ -11,6 +11,7 @@
 """
 
 from crwy.exceptions import CrwyImportException, CrwyDbException
+from crwy.decorates import cls2singleton
 
 try:
     import pymysql
@@ -26,6 +27,7 @@ except ImportError:
         "dbutils")
 
 
+@cls2singleton
 class MysqlHandle(object):
     def __init__(self, **kwargs):
         self._mysql_pool = PersistentDB(pymysql, **kwargs)

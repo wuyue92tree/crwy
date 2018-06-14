@@ -11,6 +11,7 @@
 """
 
 from crwy.exceptions import CrwyImportException, CrwyDbException
+from crwy.decorates import cls2singleton
 
 try:
     import pgdb
@@ -25,6 +26,7 @@ except ImportError:
         "dbutils")
 
 
+@cls2singleton
 class PgHandle(object):
     def __init__(self, **kwargs):
         self._pg_pool = PersistentPg(pgdb, **kwargs)
