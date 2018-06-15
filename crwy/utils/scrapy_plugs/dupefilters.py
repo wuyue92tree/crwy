@@ -13,6 +13,7 @@
 import logging
 from crwy.utils.filter.RedisSet import RedisSet
 from scrapy.dupefilters import BaseDupeFilter
+from scrapy.exceptions import NotConfigured
 
 
 class RedisRFPDupeFilter(BaseDupeFilter):
@@ -53,6 +54,9 @@ class RedisRFPDupeFilter(BaseDupeFilter):
         redis_password = settings.get('DUPEFILTER_REDIS_PASSWORD', '')
         bot_name = settings.get('BOT_NAME')
         spider_name = settings.get('SPIDER_NAME')
+        if not spider_name:
+            raise NotConfigured('%s - "SPIDER_NAME" is not found.' %
+                                cls.__name__)
         return cls(debug=debug, redis_host=redis_host, redis_port=redis_port,
                    redis_db=redis_db, redis_password=redis_password,
                    bot_name=bot_name, spider_name=spider_name)
