@@ -6,7 +6,7 @@ from crwy.utils.sql.redis_m import get_redis_client
 
 
 class RedisSortedSet(object):
-    """Simple Deduplicate with Redis Backend"""
+    """Simple Sorted Deduplicate with Redis Backend"""
 
     def __init__(self, name, namespace='deduplicate_sorted', **redis_kwargs):
         """
