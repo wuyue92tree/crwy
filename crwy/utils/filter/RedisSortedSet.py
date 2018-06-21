@@ -34,6 +34,10 @@ class RedisSortedSet(object):
         """Return total count."""
         return self.__db.zcard(self.key)
 
+    def zscore(self, item):
+        """Return item score."""
+        return self.__db.zscore(self.key, item)
+
     def zmembers(self):
         """Return all item."""
         return self.__db.zmembers(self.key)
