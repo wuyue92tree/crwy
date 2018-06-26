@@ -100,8 +100,8 @@ class RedisRFPDupeFilter(BaseDupeFilter):
                 z.zadd(now, request.meta.get('dupefilter_key'))
                 return False
 
-            if datetime.datetime.utcfromtimestamp(now) - \
-                    datetime.datetime.utcfromtimestamp(last_time) > \
+            if (datetime.datetime.utcfromtimestamp(now) -
+                datetime.datetime.utcfromtimestamp(last_time)).days > \
                     self.duperliter_delay_day:
                 z.zadd(now, request.meta.get('dupefilter_key'))
                 return False
