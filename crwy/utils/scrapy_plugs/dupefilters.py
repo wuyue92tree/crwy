@@ -30,6 +30,7 @@ class RedisRFPDupeFilter(BaseDupeFilter):
         DUPEFILTER_REDIS_PORT = 6379
         DUPEFILTER_REDIS_DB = 0
         DUPEFILTER_REDIS_PASSWORD = ''
+        DUPEFILTER_DELAY_DAY = 0
     """
 
     def __init__(self, debug=False,
@@ -85,6 +86,8 @@ class RedisRFPDupeFilter(BaseDupeFilter):
                          password=self.redis_password)
             if s.sadd(request.meta.get('dupefilter_key')) is True:
                 return False
+            self.logger.info('Filtered dupefilter_key: %s' %
+                             request.meta.get('dupefilter_key'))
             return True
         else:
             z = RedisSortedSet(key,
@@ -105,7 +108,9 @@ class RedisRFPDupeFilter(BaseDupeFilter):
                     self.duperliter_delay_day:
                 z.zadd(now, request.meta.get('dupefilter_key'))
                 return False
-
+            self.logger.info('Filtered dupefilter_key within %s day(s): %s' %
+                             (self.duperliter_delay_day,
+                              request.meta.get('dupefilter_key')))
             return True
 
     def log(self, request, spider):  # log that a request has been filtered
