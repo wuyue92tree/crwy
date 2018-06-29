@@ -13,6 +13,7 @@
 import logging
 import time
 import datetime
+import hashlib
 from crwy.utils.filter.RedisSet import RedisSet
 from crwy.utils.filter.RedisSortedSet import RedisSortedSet
 from scrapy.dupefilters import BaseDupeFilter
@@ -40,7 +41,8 @@ class RedisRFPDupeFilter(BaseDupeFilter):
                  redis_password=None,
                  bot_name=None,
                  spider_name=None,
-                 duperliter_delay_day=None):
+                 duperliter_delay_day=None,
+                 do_hash=None):
         self.debug = debug
         self.logdupes = True
         self.redis_host = redis_host
@@ -50,6 +52,7 @@ class RedisRFPDupeFilter(BaseDupeFilter):
         self.bot_name = bot_name
         self.spider_name = spider_name
         self.duperliter_delay_day = duperliter_delay_day
+        self.do_hash = do_hash
         self.logger = logging.getLogger(__name__)
 
     @classmethod
@@ -62,32 +65,43 @@ class RedisRFPDupeFilter(BaseDupeFilter):
         bot_name = settings.get('BOT_NAME')
         spider_name = settings.get('SPIDER_NAME')
         duperliter_delay_day = settings.getint('DUPEFILTER_DELAY_DAY', 0)
+        do_hash = settings.getbool('DUPEFILTER_DO_HASH', True)
         if not spider_name:
             raise NotConfigured('%s - "SPIDER_NAME" is not found.' %
                                 cls.__name__)
         return cls(debug=debug, redis_host=redis_host, redis_port=redis_port,
                    redis_db=redis_db, redis_password=redis_password,
                    bot_name=bot_name, spider_name=spider_name,
-                   duperliter_delay_day=duperliter_delay_day)
+                   duperliter_delay_day=duperliter_delay_day,
+                   do_hash=do_hash)
 
     def request_seen(self, request):
         if not request.meta.get('dupefilter_key', None):
             return False
 
+        dupefilter_key = request.meta.get('dupefilter_key')
+        dupefilter_key = hashlib.sha1(dupefilter_key).hexdigest() if \
+            self.do_hash else dupefilter_key
+
         # SPIDER_NAME for dupefilter
         key = '{bot_name}:{spider_name}'.format(
             bot_name=self.bot_name,
             spider_name=self.spider_name)
+
+        if request.meta.get('duperliter_delay_day', ''):
+            self.duperliter_delay_day = int(request.meta.get(
+                'duperliter_delay_day'))
+
         if self.duperliter_delay_day == 0:
             s = RedisSet(key,
                          host=self.redis_host,
                          port=self.redis_port,
                          db=self.redis_db,
                          password=self.redis_password)
-            if s.sadd(request.meta.get('dupefilter_key')) is True:
+            if s.sadd(dupefilter_key) is True:
                 return False
             self.logger.info('Filtered dupefilter_key: %s' %
-                             request.meta.get('dupefilter_key'))
+                             dupefilter_key)
             return True
         else:
             z = RedisSortedSet(key,
@@ -97,16 +111,16 @@ class RedisRFPDupeFilter(BaseDupeFilter):
                                password=self.redis_password)
 
             now = time.time()
-            last_time = z.zscore(request.meta.get('dupefilter_key'))
+            last_time = z.zscore(dupefilter_key)
 
             if not last_time:
-                z.zadd(now, request.meta.get('dupefilter_key'))
+                z.zadd(now, dupefilter_key)
                 return False
 
             if (datetime.datetime.utcfromtimestamp(now) -
                 datetime.datetime.utcfromtimestamp(last_time)).days > \
                     self.duperliter_delay_day:
-                z.zadd(now, request.meta.get('dupefilter_key'))
+                z.zadd(now, dupefilter_key)
                 return False
             self.logger.info('Filtered dupefilter_key within %s day(s): %s' %
                              (self.duperliter_delay_day,
