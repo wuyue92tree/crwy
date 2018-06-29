@@ -17,13 +17,26 @@ from scrapy.exceptions import NotConfigured
 from scrapy.utils.python import to_bytes
 
 
-class AbyProxyMiddleware(object):
-    def __init__(self, username=None, password=None, server=None,
-                 auth_encoding='utf-8'):
+class ProxyMiddleware(object):
+    def __init__(self, username=None, password=None, server=None, notice=True,
+                 auth_encoding='latin-1'):
         self.username = username
         self.password = password
         self.server = server
+        self.notice = notice
         self.auth_encoding = auth_encoding
+
+    @classmethod
+    def from_settings(cls, settings):
+        username = settings.get('PROXY_USERNAME', None)
+        password = settings.get('PROXY_PASSWORD', None)
+        server = settings.get('PROXY_SERVER', None)
+        notice = settings.getbool('PROXY_NOTICE', True)
+        auth_encoding = settings.get('PROXY_AUTH_ENCODING', 'latin-1')
+        if not server:
+            raise NotConfigured('PROXY_SEVER_NOT_SET')
+        return cls(username=username, password=password, server=server,
+                   notice=notice, auth_encoding=auth_encoding)
 
     def _basic_auth_header(self, username, password):
         user_pass = to_bytes(
@@ -31,22 +44,21 @@ class AbyProxyMiddleware(object):
             encoding=self.auth_encoding)
         return base64.b64encode(user_pass).strip()
 
-    @classmethod
-    def from_settings(cls, settings):
-        username = settings.get('ABY_PROXY_USERNAME', None)
-        password = settings.get('ABY_PROXY_PASSWORD', None)
-        server = settings.get('ABY_PROXY_SERVER', None)
-        auth_encoding = settings.get('ABY_AUTH_ENCODING', 'utf-8')
-        if not username or not password or not server:
-            raise NotConfigured('ABY_PROXY_CONFIG_NOT_ENOUGH')
-        return cls(username=username, password=password, server=server,
-                   auth_encoding=auth_encoding)
-
     def process_request(self, request, spider):
         parsed = urlparse_cached(request)
         scheme = parsed.scheme
-        request.meta["proxy"] = scheme + '://' + self.server
-        request.headers["Proxy-Authorization"] = \
-            b'Basic ' + self._basic_auth_header(self.username, self.password)
-        spider.logger.info('Aby proxy setup: %s | %s'
-                           % (self.username, self.password))
+        auth_prefix = ''
+        request.meta['proxy'] = scheme + '://' + self.server
+        if request.meta.get('proxy_user_pass', ''):
+            self.username, self.password = request.meta.get(
+                'proxy_user_pass').split(':')
+        if self.username and self.password:
+            auth_prefix = '%s:%s@' % (self.username, self.password)
+            request.headers["Proxy-Authorization"] = \
+                b'Basic ' + self._basic_auth_header(
+                    self.username, self.password)
+        if self.notice:
+            spider.logger.info(
+                'Proxy setup: %s://%s%s'
+                % (scheme, auth_prefix, self.server)
+            )
