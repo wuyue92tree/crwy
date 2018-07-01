@@ -48,7 +48,8 @@ class ProxyMiddleware(object):
         parsed = urlparse_cached(request)
         scheme = parsed.scheme
         auth_prefix = ''
-        request.meta['proxy'] = scheme + '://' + self.server
+        if not request.meta.get('proxy', ''):
+            request.meta['proxy'] = scheme + '://' + self.server
         if request.meta.get('proxy_user_pass', ''):
             self.username, self.password = request.meta.get(
                 'proxy_user_pass').split(':')
