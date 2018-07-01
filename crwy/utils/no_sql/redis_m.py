@@ -11,6 +11,7 @@
 """
 
 from crwy.exceptions import CrwyImportException
+from crwy.decorates import cls2singleton
 
 try:
     import redis
@@ -19,6 +20,13 @@ except ImportError:
         "You should install redis plugin first! try: pip install redis")
 
 
+@cls2singleton
+class RedisDb(object):
+    def __init__(self, **kwargs):
+        self.pool = redis.ConnectionPool(**kwargs)
+        self.db = redis.StrictRedis(connection_pool=self.pool)
+
+
 def get_redis_client(**kwargs):
-    pool = redis.ConnectionPool(**kwargs)
-    return redis.StrictRedis(connection_pool=pool)
+    r = RedisDb(**kwargs)
+    return r.db

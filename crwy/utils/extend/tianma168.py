@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @author: wuyue
-@contact: wuyue@mofanghr.com
+@contact: wuyue92tree@163.com
 @software: PyCharm
 @file: tianma168.py
 @create at: 2017-10-27 09:57

@@ -11,6 +11,7 @@
 """
 
 from crwy.exceptions import CrwyImportException, CrwyDbException
+from crwy.decorates import cls2singleton
 
 try:
     import pymysql
@@ -26,6 +27,7 @@ except ImportError:
         "dbutils")
 
 
+@cls2singleton
 class MysqlHandle(object):
     def __init__(self, **kwargs):
         self._mysql_pool = PersistentDB(pymysql, **kwargs)
@@ -56,8 +58,14 @@ class MysqlHandle(object):
             if get_last_insert_id is False:
                 return
 
-            cur.execute("select last_insert_id()")
-            return cur.fetchone()[0]
+            cur.execute("select last_insert_id() as id")
+            res = cur.fetchone()
+            if isinstance(res, tuple):
+                return res[0]
+            elif isinstance(res, dict):
+                return res.get('id')
+            else:
+                return res
 
         except Exception as e:
             raise CrwyDbException(e)

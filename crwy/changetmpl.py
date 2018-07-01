@@ -2,8 +2,12 @@
 # -*- coding: utf-8 -*-
 # author: wuyue92tree@163.com
 
-from configparser import ConfigParser
 from string import Template
+
+try:
+    import ConfigParser
+except ImportError:
+    from configparser import ConfigParser
 
 
 def get_project_name():

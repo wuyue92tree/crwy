@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @author: wuyue
-@contact: wuyue@mofanghr.com
+@contact: wuyue92tree@163.com
 @software: PyCharm
 @file: dingding_robot.py
 @create at: 2017-10-24 10:57

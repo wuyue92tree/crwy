@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @author: wuyue
-@contact: wuyue@mofanghr.com
+@contact: wuyue92tree@163.com
 @software: PyCharm
 @file: decorates.py
 @create at: 2017-12-07 09:47
@@ -14,6 +14,26 @@ import functools
 from crwy.exceptions import CrwyCookieValidException
 
 
+def cls2singleton(cls, *args, **kwargs):
+    """
+    将类转换为单例模式
+    :param cls: 
+    :param args: 
+    :param kwargs: 
+    :return: 
+    """
+    instances = {}
+
+    def _singleton(*args, **kwargs):
+        if kwargs.pop('cls_singleton', True) is False:
+            return cls(*args, **kwargs)
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+
+    return _singleton
+
+
 def cls_catch_exception(func):
     """
     该装饰器用于捕捉类方法异常
@@ -22,6 +42,7 @@ def cls_catch_exception(func):
     :param func:
     :return:
     """
+
     @functools.wraps(func)
     def wrapper(self, *args, **kwargs):
         try:
@@ -42,6 +63,7 @@ def cls_refresh_cookie(func):
     :param func:
     :return:
     """
+
     @functools.wraps(func)
     def wrapper(self, *args, **kwargs):
         try:

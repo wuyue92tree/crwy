@@ -11,9 +11,13 @@
 """
 
 import os
-import datetime
-import ConfigParser
 import re
+import datetime
+
+try:
+    import ConfigParser
+except ImportError:
+    from configparser import ConfigParser
 
 __all__ = ['cookie2str', 'cookie2dict', 'config_handle', 'file_handle']
 
@@ -61,23 +65,31 @@ def str2datetime(target, fmt='%Y-%m-%d %H:%M:%S'):
     return datetime.datetime.strptime(target, fmt)
 
 
-def dict2obj(target):
+def dict2obj(target, change_dict=True):
     """
     将dict转换成obj对象
+    change_dict 用于控制是否转换target内部dict为obj
+
     :param target: dict
+    :param change_dict: bool
     :return: obj
     """
 
     class Obj(object):
-        def __init__(self, d):
+        def __init__(self, d, change_dict):
             for a, b in d.items():
-                if isinstance(b, (list, tuple)):
-                    setattr(self, a,
-                            [Obj(x) if isinstance(x, dict) else x for x in b])
+                if change_dict is True:
+                    if isinstance(b, (list, tuple)):
+                        setattr(self, a,
+                                [Obj(x, change_dict) if isinstance(x, dict) else x
+                                 for x in b])
+                    else:
+                        setattr(self, a, Obj(b, change_dict) if isinstance(
+                            b, dict) else b)
                 else:
-                    setattr(self, a, Obj(b) if isinstance(b, dict) else b)
+                    setattr(self, a, b)
 
-    return Obj(target)
+    return Obj(target, change_dict=change_dict)
 
 
 def obj2dict(target):

@@ -1,14 +1,18 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 # Author: wuyue
-# Email: wuyue@mofanghr.com
+# Email: wuyue92tree@163.com
 
 
 import logging
 import logging.config
 import logging.handlers
-import ConfigParser
 from crwy.exceptions import CrwyException
+
+try:
+    import ConfigParser
+except ImportError:
+    from configparser import ConfigParser
 
 DEFAULT_LOGGER_CONF = './conf/logger.conf'
 
