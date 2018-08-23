@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import sys
 from bs4 import BeautifulSoup
 try:
     import PyV8
@@ -9,7 +10,8 @@ except ImportError:
 
 class HtmlParser(object):
     """ 解析器 """
-    def parser(self, response):
+    @staticmethod
+    def parser(response):
         """
         utf-8字符处理
         :param response: 待处理字符串
@@ -18,12 +20,16 @@ class HtmlParser(object):
         if response is None:
             return
 
-        soup = BeautifulSoup(str(response), 'html.parser',
-                             from_encoding='utf-8')
+        if sys.version_info < (3, ):
+            soup = BeautifulSoup(str(response), 'html.parser',
+                                 from_encoding='utf-8')
+        else:
+            soup = BeautifulSoup(str(response), 'html.parser')
 
         return soup
 
-    def gbk_parser(self, response):
+    @staticmethod
+    def gbk_parser(response):
         """
         gbk字符处理
         :param response: 待处理字符串
@@ -32,12 +38,16 @@ class HtmlParser(object):
         if response is None:
             return
 
-        soup = BeautifulSoup(str(response), 'html.parser',
-                             from_encoding='gb18030')
+        if sys.version_info < (3, ):
+            soup = BeautifulSoup(str(response), 'html.parser',
+                                 from_encoding='gb18030')
+        else:
+            soup = BeautifulSoup(str(response), 'html.parser')
 
         return soup
 
-    def jsonp_parser(self, data):
+    @staticmethod
+    def jsonp_parser(data):
         """
         非规范json数据处理 {a:1, b:1}
         key非字符串
