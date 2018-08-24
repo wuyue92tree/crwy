@@ -19,7 +19,11 @@ try:
 except ImportError:
     from configparser import ConfigParser
 
-__all__ = ['cookie2str', 'cookie2dict', 'config_handle', 'file_handle']
+__all__ = [
+    'cookie2str', 'cookie2dict', 'config_handle',
+    'file_handle', 'datetime2str', 'str2datetime',
+    'dict2obj', 'obj2dict', 'remove_emoji', 'change_kv'
+]
 
 
 def cookie2str(cookie_dict):
@@ -154,4 +158,3 @@ def change_kv(dict_ori):
     :return: 新字典
     """
     return dict(zip(dict_ori.values(), dict_ori.keys()))
-

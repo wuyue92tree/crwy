@@ -12,7 +12,6 @@
 
 import base64
 import json
-import logging
 import random
 
 from six.moves.urllib.parse import unquote
@@ -21,8 +20,6 @@ from scrapy.utils.python import to_bytes
 from scrapy.downloadermiddlewares.retry import RetryMiddleware
 from crwy.utils.data.RedisHash import RedisHash
 from crwy.exceptions import CrwyScrapyPlugsException
-
-logger = logging.getLogger(__name__)
 
 
 class ProxyMiddleware(object):
@@ -74,6 +71,10 @@ class ProxyMiddleware(object):
 
 
 class CookieMiddleware(RetryMiddleware):
+    """
+    cookie_pool
+        eg: '{"a": 1, "b": "aaa"}'
+    """
     def __init__(self, settings):
         super(CookieMiddleware, self).__init__(settings)
         self.site = settings.get('SITE', None)
@@ -88,24 +89,10 @@ class CookieMiddleware(RetryMiddleware):
             user = random.choice(users)
             cookie = self.h.hget(user)
             if cookie:
-                request.headers['Cookie'] = cookie
-                print(request.headers)
-                logger.debug('get_cookie_success: {}'.format(user))
+                request.cookies = json.loads(cookie)
+                spider.logger.debug('get_cookie_success: {}'.format(user))
             else:
-                logger.warning('get_cookie_failed: {}'.format(user))
+                spider.logger.warning('get_cookie_failed: {}'.format(user))
         else:
             raise CrwyScrapyPlugsException(
                 'no user in cookie_pool:{}'.format(self.site))
-
-    # def process_response(self, request, response, spider):
-
-    # """
-    # 下面的我删了，各位小伙伴可以尝试以下完成后面的工作
-
-    # 你需要在这个位置判断cookie是否失效
-
-    # 然后进行相应的操作，比如更新cookie  删除不能用的账号
-
-    # 写不出也没关系，不影响程序正常使用，
-
-    # """
