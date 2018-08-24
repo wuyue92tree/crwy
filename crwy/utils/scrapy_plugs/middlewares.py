@@ -11,10 +11,15 @@
 """
 
 import base64
+import json
+import random
+
 from six.moves.urllib.parse import unquote
 from scrapy.utils.httpobj import urlparse_cached
-from scrapy.exceptions import NotConfigured
 from scrapy.utils.python import to_bytes
+from scrapy.downloadermiddlewares.retry import RetryMiddleware
+from crwy.utils.data.RedisHash import RedisHash
+from crwy.exceptions import CrwyScrapyPlugsException
 
 
 class ProxyMiddleware(object):
@@ -34,7 +39,7 @@ class ProxyMiddleware(object):
         notice = settings.getbool('PROXY_NOTICE', True)
         auth_encoding = settings.get('PROXY_AUTH_ENCODING', 'latin-1')
         if not server:
-            raise NotConfigured('PROXY_SEVER_NOT_SET')
+            raise CrwyScrapyPlugsException('PROXY_SEVER_NOT_SET')
         return cls(username=username, password=password, server=server,
                    notice=notice, auth_encoding=auth_encoding)
 
@@ -63,3 +68,31 @@ class ProxyMiddleware(object):
                 'Proxy setup: %s://%s%s'
                 % (scheme, auth_prefix, self.server)
             )
+
+
+class CookieMiddleware(RetryMiddleware):
+    """
+    cookie_pool
+        eg: '{"a": 1, "b": "aaa"}'
+    """
+    def __init__(self, settings):
+        super(CookieMiddleware, self).__init__(settings)
+        self.site = settings.get('SITE', None)
+        if not self.site:
+            raise CrwyScrapyPlugsException('SITE_NOT_SET')
+
+        self.h = RedisHash('cookie_pool:{}'.format(self.site))
+
+    def process_request(self, request, spider):
+        users = self.h.hkeys()
+        if len(users) > 0:
+            user = random.choice(users)
+            cookie = self.h.hget(user)
+            if cookie:
+                request.cookies = json.loads(cookie)
+                spider.logger.debug('get_cookie_success: {}'.format(user))
+            else:
+                spider.logger.warning('get_cookie_failed: {}'.format(user))
+        else:
+            raise CrwyScrapyPlugsException(
+                'no user in cookie_pool:{}'.format(self.site))

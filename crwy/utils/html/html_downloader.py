@@ -24,11 +24,11 @@ class HtmlDownloader(object):
         """
 
         if single is False:
-            if method == 'GET':
+            if method.upper() == 'GET':
                 return self.session.get(url, timeout=timeout, **kwargs)
             return self.session.post(url, timeout=timeout, **kwargs)
         else:
-            if method == 'GET':
+            if method.upper() == 'GET':
                 return requests.get(url, timeout=timeout, **kwargs)
             return requests.post(url, timeout=timeout, **kwargs)
 
