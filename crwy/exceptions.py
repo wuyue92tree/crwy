@@ -41,3 +41,7 @@ class CrwyExtendException(CrwyException):
 
 class CrwyCookieValidException(CrwyException):
     pass
+
+
+class CrwyScrapyPlugsException(CrwyException):
+    pass

@@ -32,6 +32,9 @@ class RedisHash(object):
         """Return total count."""
         return self.__db.hlen(self.key)
 
+    def hkeys(self):
+        return self.__db.hkeys(self.key)
+
     def clean(self):
         """Empty key"""
         return self.__db.delete(self.key)
