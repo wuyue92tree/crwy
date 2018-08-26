@@ -81,7 +81,13 @@ class CookieMiddleware(RetryMiddleware):
         if not self.site:
             raise CrwyScrapyPlugsException('SITE_NOT_SET')
 
-        self.h = RedisHash('cookie_pool:{}'.format(self.site))
+        self.h = RedisHash(
+            'cookie_pool:{}'.format(self.site),
+            host=settings.get('COOKIE_REDIS_HOST', '127.0.0.1'),
+            port=settings.get('COOKIE_REDIS_PORT', 6379),
+            password=settings.get('COOKIE_REDIS_PASSWORD', ''),
+            db=settings.get('COOKIE_REDIS_DB', 0),
+        )
 
     def process_request(self, request, spider):
         users = self.h.hkeys()
