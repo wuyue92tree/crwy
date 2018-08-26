@@ -12,6 +12,8 @@
 
 import logging
 from pymysql.cursors import DictCursor
+from sqlalchemy.ext.compiler import compiles
+from sqlalchemy.sql.expression import Insert
 from crwy.utils.sql.mysql import MysqlHandle
 from crwy.utils.sql.sqlalchemy_m import SqlalchemyHandle
 from crwy.exceptions import CrwyScrapyPlugsException
@@ -81,6 +83,14 @@ class MysqlSavePipeline(object):
         self.logger.info('item saved succcess to mysql: %s' % last_insert_id)
         """
         pass
+
+
+@compiles(Insert)
+def append_string(insert, compiler, **kw):
+    s = compiler.visit_insert(insert, **kw)
+    if 'append_string' in insert.kwargs:
+        return s + " " + insert.kwargs['append_string']
+    return s
 
 
 class SqlalchemySavePipeline(object):
