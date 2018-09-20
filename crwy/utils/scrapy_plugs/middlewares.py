@@ -19,8 +19,8 @@ value为 cookie值，必须为json格式
 
 import json
 import random
-
 from scrapy.downloadermiddlewares.retry import RetryMiddleware
+from scrapy_redis.connection import get_redis_from_settings
 from crwy.utils.data.RedisHash import RedisHash
 from crwy.exceptions import CrwyScrapyPlugsException
 
@@ -37,12 +37,11 @@ class CookieMiddleware(RetryMiddleware):
         if not self.site:
             raise CrwyScrapyPlugsException('SITE_NOT_SET')
 
+        self.server = get_redis_from_settings(settings)
+
         self.h = RedisHash(
             'cookie_pool:{}'.format(self.site),
-            host=settings.get('COOKIE_REDIS_HOST', '127.0.0.1'),
-            port=settings.get('COOKIE_REDIS_PORT', 6379),
-            password=settings.get('COOKIE_REDIS_PASSWORD', ''),
-            db=settings.get('COOKIE_REDIS_DB', 0),
+            server=self.server
         )
 
     def process_request(self, request, spider):
