@@ -8,12 +8,16 @@ from crwy.utils.no_sql.redis_m import get_redis_client
 class RedisSortedSet(object):
     """Simple Sorted Deduplicate with Redis Backend"""
 
-    def __init__(self, name, namespace='deduplicate_sorted', **redis_kwargs):
+    def __init__(self, name, namespace='deduplicate_sorted', server=None,
+                 **redis_kwargs):
         """
         The default connection parameters are:
         host='localhost', port=6379, db=0
         """
-        self.__db = get_redis_client(**redis_kwargs)
+        if server:
+            self.__db = server
+        else:
+            self.__db = get_redis_client(**redis_kwargs)
         self.key = '%s:%s' % (namespace, name)
 
     def zadd(self, score, item):
