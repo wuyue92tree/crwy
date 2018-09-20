@@ -8,12 +8,16 @@ from crwy.utils.no_sql.redis_m import get_redis_client
 class RedisSet(object):
     """Simple Deduplicate with Redis Backend"""
 
-    def __init__(self, name, namespace='deduplicate', **redis_kwargs):
+    def __init__(self, name, namespace='deduplicate', server=None,
+                 **redis_kwargs):
         """
         The default connection parameters are:
         host='localhost', port=6379, db=0
         """
-        self.__db = get_redis_client(**redis_kwargs)
+        if server:
+            self.__db = server
+        else:
+            self.__db = get_redis_client(**redis_kwargs)
         self.key = '%s:%s' % (namespace, name)
 
     def sadd(self, item):
