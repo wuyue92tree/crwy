@@ -13,11 +13,11 @@
 
 from __future__ import print_function
 
-from mf_utils.core import BaseInitCore
-from mf_utils.exceptions import MfExtendException
+from crwy.spider import Spider
+from crwy.exceptions import CrwyExtendException
 
 
-class XunMa(BaseInitCore):
+class XunMa(Spider):
     def __init__(self, username, password, item_id):
         super(XunMa, self).__init__()
         if username and password and item_id:
@@ -25,7 +25,7 @@ class XunMa(BaseInitCore):
             self.password = password
             self.item_id = item_id
         else:
-            raise MfExtendException("[XunMa] params not valid.")
+            raise CrwyExtendException("[XunMa] params not valid.")
 
     def login(self):
         """
@@ -40,7 +40,7 @@ class XunMa(BaseInitCore):
 
             return res.content.strip().split("&")[0]
         except Exception as e:
-            raise MfExtendException(e)
+            raise CrwyExtendException(e)
 
     def get_phone(self, token, phone_type='', phone=''):
         """
@@ -65,7 +65,7 @@ class XunMa(BaseInitCore):
             return res.content.strip().split(';')[0]
 
         except Exception as e:
-            raise MfExtendException(e)
+            raise CrwyExtendException(e)
 
     def get_message(self, token, phone):
         """
@@ -85,7 +85,7 @@ class XunMa(BaseInitCore):
             return res.content.strip().split('&')[-1]
 
         except Exception as e:
-            raise MfExtendException(e)
+            raise CrwyExtendException(e)
 
     def release_phone(self, token, phone):
         try:
@@ -96,7 +96,7 @@ class XunMa(BaseInitCore):
             self.html_downloader.download(url)
 
         except Exception as e:
-            raise MfExtendException(e)
+            raise CrwyExtendException(e)
 
     def add_black(self, token, phone):
         try:
@@ -106,4 +106,4 @@ class XunMa(BaseInitCore):
             self.html_downloader.download(url)
 
         except Exception as e:
-            raise MfExtendException(e)
+            raise CrwyExtendException(e)
