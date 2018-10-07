@@ -65,7 +65,10 @@ class CookieMiddleware(RetryMiddleware):
                     'no user in cookie_pool:{}'.format(self.site))
         cookie = self.h.hget(user)
         if cookie:
-            request.cookies = json.loads(cookie)
-            spider.logger.debug('get_cookie_success: {}'.format(user))
+            # 字典存入redis，取出时未string，通过eval进行还原
+            request.cookies = eval(cookie)
+            spider.logger.debug('get_cookie_success: {}'.format(
+                user.decode('utf-8')))
         else:
-            spider.logger.warning('get_cookie_failed: {}'.format(user))
+            spider.logger.warning('get_cookie_failed: {}'.format(
+                user.decode('utf-8')))
