@@ -86,7 +86,7 @@ class FontAnalysis(Spider):
 
         self.save_font()
         self.get_font_xml()
-        with open(self.xml_path, 'r') as xml:
+        with open(self.xml_path, 'rb') as xml:
             soups = self.html_parser.parser(xml.read())
             ttglyph_lst = soups.find('glyf').find_all('ttglyph')[1:]
             analysis_res = []

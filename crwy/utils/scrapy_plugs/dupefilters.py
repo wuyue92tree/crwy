@@ -69,6 +69,10 @@ class RedisRFPDupeFilter(BaseDupeFilter):
         if not request.meta.get('dupefilter_key', None):
             return False
 
+        if len(request.meta.get('redirect_urls', [])) > 0:
+            # skip url from redirect
+            return False
+
         dupefilter_key = request.meta.get('dupefilter_key')
         dupefilter_key = hashlib.sha1(dupefilter_key).hexdigest() if \
             self.do_hash else dupefilter_key

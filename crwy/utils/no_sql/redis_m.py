@@ -24,9 +24,8 @@ except ImportError:
 class RedisDb(object):
     def __init__(self, **kwargs):
         if 'url' in kwargs.keys():
-            url = kwargs.get('url')
-            db = kwargs.get('db', 0)
-            self.pool = redis.ConnectionPool.from_url(url, db=db, **kwargs)
+            url = kwargs.pop('url')
+            self.pool = redis.ConnectionPool.from_url(url, **kwargs)
         else:
             self.pool = redis.ConnectionPool(**kwargs)
         self.db = redis.StrictRedis(connection_pool=self.pool)
