@@ -11,7 +11,7 @@
 """
 
 
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 from crwy.spider import Spider
 from crwy.exceptions import CrwyExtendException
@@ -38,7 +38,7 @@ class XunMa(Spider):
                                                        password=self.password)
             res = self.html_downloader.download(url)
 
-            return res.content.strip().split("&")[0]
+            return res.text.strip().split("&")[0]
         except Exception as e:
             raise CrwyExtendException(e)
 
@@ -58,11 +58,7 @@ class XunMa(Spider):
                                          phone_type=phone_type, phone=phone)
 
             res = self.html_downloader.download(url)
-            # if 'success' not in res.content:
-            #     raise MfExtendException("[XunMa] get phone failed.")
-            #
-            # # print(res.content)
-            return res.content.strip().split(';')[0]
+            return res.text.strip().split(';')[0]
 
         except Exception as e:
             raise CrwyExtendException(e)
@@ -82,7 +78,7 @@ class XunMa(Spider):
                                       item_id=self.item_id, phone=phone)
             res = self.html_downloader.download(url)
 
-            return res.content.strip().split('&')[-1]
+            return res.text.strip().split('&')[-1]
 
         except Exception as e:
             raise CrwyExtendException(e)

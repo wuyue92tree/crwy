@@ -10,7 +10,7 @@
 这一行开始写关于本文件的说明与解释
 """
 
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 from crwy.spider import Spider
 from crwy.exceptions import CrwyException
@@ -39,10 +39,10 @@ class YiMa(Spider):
                                                 password=self.password)
             res = self.html_downloader.download(url)
 
-            if 'success' not in res.content:
+            if 'success' not in res.text:
                 raise CrwyException("[YiMa] Login failed.")
 
-            return res.content.strip().split("|")[-1]
+            return res.text.strip().split("|")[-1]
         except Exception as e:
             raise CrwyException(e)
 
@@ -65,11 +65,11 @@ class YiMa(Spider):
                                           phone_type=phone_type, phone=phone)
 
             res = self.html_downloader.download(url)
-            if 'success' not in res.content:
+            if 'success' not in res.text:
                 raise CrwyException("[YiMa] get phone failed.")
 
-            # print(res.content)
-            return res.content.strip().split('|')[-1]
+            # print(res.text)
+            return res.text.strip().split('|')[-1]
 
         except Exception as e:
             raise CrwyException(e)
@@ -88,11 +88,11 @@ class YiMa(Spider):
                                       phone=phone)
             res = self.html_downloader.download(url)
 
-            if 'success' not in res.content:
+            if 'success' not in res.text:
                 raise CrwyException("[YiMa] get message failed.")
 
             else:
-                return res.content.strip().split('|')[-1]
+                return res.text.strip().split('|')[-1]
 
         except Exception as e:
             raise CrwyException(e)
@@ -105,7 +105,7 @@ class YiMa(Spider):
                                       phone=phone)
             res = self.html_downloader.download(url)
 
-            if 'success' not in res.content:
+            if 'success' not in res.text:
                 raise CrwyException("[YiMa] release phone failed.")
 
         except Exception as e:
@@ -119,7 +119,7 @@ class YiMa(Spider):
                                       phone=phone)
             res = self.html_downloader.download(url)
 
-            if 'success' not in res.content:
+            if 'success' not in res.text:
                 raise CrwyException("[YiMa] black phone failed.")
 
         except Exception as e:
