@@ -43,7 +43,7 @@ def cookie2dict(cookie_str):
     :return: dict
     """
     cookie_dict = dict()
-    for item in cookie_str.strip().split(';'):
+    for item in cookie_str.strip().replace(' ', '').split(';'):
         if not item:
             continue
         name, value = item.split('=', 1)
