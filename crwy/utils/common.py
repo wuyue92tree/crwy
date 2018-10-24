@@ -44,7 +44,9 @@ def cookie2dict(cookie_str):
     """
     cookie_dict = dict()
     for item in cookie_str.strip().split(';'):
-        name, value = item.split('=')
+        if not item:
+            continue
+        name, value = item.split('=', 1)
         cookie_dict[name] = value
     return cookie_dict
 
