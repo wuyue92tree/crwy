@@ -17,7 +17,7 @@ setup(
     author_email='wuyue92tree@163.com',
     maintainer='wuyue',
     maintainer_email='wuyue92tree@163.com',
-    license='BSD',
+    license='MIT',
     packages=find_packages(exclude=('tests', 'tests.*')),
     include_package_data=True,
     zip_safe=False,
