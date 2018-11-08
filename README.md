@@ -16,7 +16,7 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
 # 依赖包
 
  * beautifulsoup4>=4.5.1
- * requests>=2.12.0
+ * requests>=2.20.0
  * configparser>=3.5.0
  * SQLAlchemy>=1.0.14
  * pyssdb>=0.1.2
