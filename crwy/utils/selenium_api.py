@@ -25,7 +25,7 @@ except ImportError:
     raise CrwyImportException(
         "You should install selenium first! suggestion: pip install "
         "selenium==3.6.0")
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver import DesiredCapabilities, ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -233,7 +233,7 @@ class SeleniumApi(Spider):
             the_element = EC.visibility_of_element_located(element)
             assert the_element(driver)
             flag = True
-        except AssertionError:
+        except (AssertionError, NoSuchElementException):
             self.logger.warning('the element is not visible.')
             flag = False
         except Exception as e:
