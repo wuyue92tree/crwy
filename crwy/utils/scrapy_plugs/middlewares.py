@@ -17,7 +17,7 @@ value为 cookie值，必须为json格式
 
 """
 
-import json
+
 import random
 from scrapy.downloadermiddlewares.retry import RetryMiddleware
 from scrapy_redis.connection import get_redis_from_settings

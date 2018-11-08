@@ -1,7 +1,7 @@
 # Crwy
 
 [![PyPI Version](https://img.shields.io/pypi/v/Crwy.svg)](https://pypi.python.org/pypi/Crwy)
-[![Build Status](https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.1.4)](https://travis-ci.org/wuyue92tree/crwy)
+[![Build Status](https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.2.0)](https://travis-ci.org/wuyue92tree/crwy)
 
 # 简介
 
@@ -16,7 +16,7 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
 # 依赖包
 
  * beautifulsoup4>=4.5.1
- * requests==2.12.0
+ * requests>=2.20.0
  * configparser>=3.5.0
  * SQLAlchemy>=1.0.14
  * pyssdb>=0.1.2
@@ -34,7 +34,7 @@ pip install crwy
 ```
 
 or
-前往下载: https://pypi.python.org/pypi/Crwy/1.1.4/
+前往下载: https://pypi.python.org/pypi/Crwy/1.2.0/
 
 # 使用手册
 
@@ -42,12 +42,14 @@ or
 
 # 友情链接
 
-- https://pypi.python.org/pypi/beautifulsoup4/
-- https://pypi.python.org/pypi/requests/
-- https://pypi.python.org/pypi/configparser/
-- https://pypi.python.org/pypi/SQLAlchemy/
-- https://pypi.python.org/pypi/gevent/
-- https://pypi.python.org/pypi/IMAPClient/
+- https://pypi.org/project/Scrapy/
+- https://pypi.org/project/selenium/
+- https://pypi.org/project/beautifulsoup4/
+- https://pypi.org/project/requests/
+- https://pypi.org/project/configparser/
+- https://pypi.org/project/SQLAlchemy/
+- https://pypi.org/project/gevent/
+- https://pypi.org/project/IMAPClient/
 
 # 更新日志
 
@@ -55,6 +57,8 @@ http://wuyue92tree.antio.top/opensource/crwy.html#更新日志
 
 # TODO
 
+- 完善scrapy_plugs
+- 完善selenium_api
 - 兼容python3
 
 
