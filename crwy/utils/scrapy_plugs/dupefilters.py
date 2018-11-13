@@ -103,7 +103,7 @@ class RedisRFPDupeFilter(BaseDupeFilter):
                 return False
 
             if (datetime.datetime.utcfromtimestamp(now) -
-                datetime.datetime.utcfromtimestamp(last_time)).days > \
+                datetime.datetime.utcfromtimestamp(last_time)).days >= \
                     self.duperliter_delay_day:
                 z.zadd(now, dupefilter_key)
                 return False
