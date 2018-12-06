@@ -127,3 +127,36 @@ class RedisRFPDupeFilter(BaseDupeFilter):
             self.logdupes = False
 
         spider.crawler.stats.inc_value('dupefilter/filtered', spider=spider)
+
+
+class ReleaseDupefilterKey(object):
+    """
+    rm dupefilter_key from redis, when call response
+    """
+
+    def call(self, spider, dupefilter_key):
+
+        if not dupefilter_key:
+            return
+
+        obj = RedisRFPDupeFilter().from_settings(spider.settings)
+
+        dupefilter_key = hashlib.sha1(dupefilter_key).hexdigest() if \
+            obj.do_hash else dupefilter_key
+
+        # SPIDER_NAME for dupefilter
+        key = '{bot_name}:{spider_name}'.format(
+            bot_name=obj.bot_name,
+            spider_name=obj.spider_name)
+
+        if obj.duperliter_delay_day == 0:
+            s = RedisSet(key, server=obj.server)
+            s.srem(dupefilter_key)
+        else:
+            z = RedisSortedSet(key, server=obj.server)
+            z.zrem(dupefilter_key)
+        obj.logger.info('dupefilter_key: {} released.'.format(
+            dupefilter_key))
+
+
+release_dupefilter_key = ReleaseDupefilterKey()
