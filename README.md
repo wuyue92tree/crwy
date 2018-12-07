@@ -1,7 +1,7 @@
 # Crwy
 
 [![PyPI Version](https://img.shields.io/pypi/v/Crwy.svg)](https://pypi.python.org/pypi/Crwy)
-[![Build Status](https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.2.0)](https://travis-ci.org/wuyue92tree/crwy)
+[![Build Status](https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.3.0)](https://travis-ci.org/wuyue92tree/crwy)
 
 # 简介
 
@@ -34,7 +34,7 @@ pip install crwy
 ```
 
 or
-前往下载: https://pypi.python.org/pypi/Crwy/1.2.0/
+前往下载: https://pypi.python.org/pypi/Crwy/1.3.0/
 
 # 使用手册
 
