@@ -78,9 +78,9 @@ class SeleniumApi(Spider):
             ip, port = self.proxy.split(':')
             firefox_profile.set_preference('network.proxy.type', 1)
             firefox_profile.set_preference('network.proxy.http', ip)
-            firefox_profile.set_preference('network.proxy.http_port', port)
+            firefox_profile.set_preference('network.proxy.http_port', int(port))
             firefox_profile.set_preference('network.proxy.ssl', ip)
-            firefox_profile.set_preference('network.proxy.ssl_port', port)
+            firefox_profile.set_preference('network.proxy.ssl_port', int(port))
         if self.user_agent:
             firefox_profile.set_preference(
                 'general.useragent.override', self.user_agent)
@@ -105,6 +105,44 @@ class SeleniumApi(Spider):
         elif self.driver_type.upper() == 'FIREFOX':
             return self._init_firefox_driver()
         raise Exception('No supported driver: %s' % self.driver_type)
+
+    @staticmethod
+    def is_similar(image1, image2, x, y, distance=25):
+        """
+        对比RGB值
+        :param image1: 待对比的图片1
+        :param image2: 待对比的图片2
+        :param x: x坐标
+        :param y: y坐标
+        :param distance: 色差
+        :return:
+        """
+        # 获取指定位置的RGB值
+        pixel1 = image1.getpixel((x, y))
+        pixel2 = image2.getpixel((x, y))
+        for i in range(0, 3):
+            # 如果相差超过50则就认为找到了缺口的位置
+            # print(x, y, pixel1, pixel2)
+            if abs(pixel1[i] - pixel2[i]) >= distance:
+                return False
+        return True
+
+    def get_diff_location(self, image1, image2):
+        """
+        计算缺口的位置
+        :param image1:
+        :param image2:
+        :return:
+        """
+        i = 0
+        # 两张原始图的大小都是相同的260*160
+        # 那就通过两个for循环依次对比每个像素点的RGB值
+        # 如果相差超过50则就认为找到了缺口的位置
+        for i in range(0, image1.width):
+            for j in range(0, image1.height):
+                if self.is_similar(image1, image2, i, j) is False:
+                    return i
+        return i
 
     def get_img(self, screenshot, xpath):
         """
