@@ -78,9 +78,9 @@ class SeleniumApi(Spider):
             ip, port = self.proxy.split(':')
             firefox_profile.set_preference('network.proxy.type', 1)
             firefox_profile.set_preference('network.proxy.http', ip)
-            firefox_profile.set_preference('network.proxy.http_port', port)
+            firefox_profile.set_preference('network.proxy.http_port', int(port))
             firefox_profile.set_preference('network.proxy.ssl', ip)
-            firefox_profile.set_preference('network.proxy.ssl_port', port)
+            firefox_profile.set_preference('network.proxy.ssl_port', int(port))
         if self.user_agent:
             firefox_profile.set_preference(
                 'general.useragent.override', self.user_agent)
