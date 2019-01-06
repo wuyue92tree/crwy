@@ -22,7 +22,8 @@ except ImportError:
 __all__ = [
     'cookie2str', 'cookie2dict', 'config_handle',
     'file_handle', 'datetime2str', 'str2datetime',
-    'dict2obj', 'obj2dict', 'remove_emoji', 'change_kv'
+    'dict2obj', 'obj2dict', 'remove_emoji', 'change_kv',
+    'remove_item_from_dict'
 ]
 
 
@@ -160,3 +161,16 @@ def change_kv(dict_ori):
     :return: 新字典
     """
     return dict(zip(dict_ori.values(), dict_ori.keys()))
+
+
+def remove_item_from_dict(obj, keys_to_remove):
+    """
+    移除字典中某些item
+    :param obj:
+    :param keys_to_remove:
+    :return:
+    """
+    for key in keys_to_remove:
+        if obj.get(key, ''):
+            obj.pop(key)
+    return obj

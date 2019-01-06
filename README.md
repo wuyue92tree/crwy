@@ -1,7 +1,7 @@
 # Crwy
 
 [![PyPI Version](https://img.shields.io/pypi/v/Crwy.svg)](https://pypi.python.org/pypi/Crwy)
-[![Build Status](https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.3.2)](https://travis-ci.org/wuyue92tree/crwy)
+[![Build Status](https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.4.0)](https://travis-ci.org/wuyue92tree/crwy)
 
 # 简介
 
@@ -20,7 +20,7 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
  * configparser>=3.5.0
  * SQLAlchemy>=1.0.14
  * pyssdb>=0.1.2
- * redis>=2.10.5
+ * redis>=2.10.5,<3.0.0
  * gevent>=1.2.1
  * retrying>=1.3.3
  * imapclient>=2.0.0
@@ -34,7 +34,7 @@ pip install crwy
 ```
 
 or
-前往下载: https://pypi.python.org/pypi/Crwy/1.3.2/
+前往下载: https://pypi.python.org/pypi/Crwy/1.4.0/
 
 # 使用手册
 

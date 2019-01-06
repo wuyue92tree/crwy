@@ -17,7 +17,7 @@ try:
     import redis
 except ImportError:
     raise CrwyImportException(
-        "You should install redis plugin first! try: pip install redis")
+        "You should install redis plugin first! try: pip install redis==2.10.6")
 
 
 @cls2singleton
