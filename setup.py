@@ -28,6 +28,7 @@ setup(
         'beautifulsoup4>=4.5.1',
         'requests>=2.20.0',
         'configparser>=3.5.0',
-        'gevent>=1.2.1'
+        'gevent>=1.2.1',
+        'redis>=2.10.5,<3.0.0'
     ],
 )
