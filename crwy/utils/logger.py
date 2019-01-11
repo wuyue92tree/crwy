@@ -4,22 +4,24 @@
 # Email: wuyue92tree@163.com
 
 
+import os
 import logging
 import logging.config
 import logging.handlers
 from crwy.exceptions import CrwyException
+from crwy.settings.default_settings import TEMPLATE_DIR
 
 try:
-    import ConfigParser
+    import configparser
 except ImportError:
-    from configparser import ConfigParser
+    import ConfigParser as configparser
 
 DEFAULT_LOGGER_CONF = './conf/logger.conf'
 
 try:
     logging.config.fileConfig(DEFAULT_LOGGER_CONF)
 except:
-    pass
+    logging.config.fileConfig(os.path.join(TEMPLATE_DIR, 'project/logger.conf'))
 
 
 def _install_handlers_custom(cp, formatters, log_path):
@@ -54,7 +56,10 @@ def _install_handlers_custom(cp, formatters, log_path):
 
         if "level" in opts:
             level = cp.get(sectname, "level")
-            h.setLevel(logging._levelNames[level])
+            try:
+                h.setLevel(logging._levelNames[level])
+            except AttributeError:
+                h.setLevel(logging._nameToLevel[level])
         if len(fmt):
             h.setFormatter(formatters[fmt])
         if issubclass(klass, logging.handlers.MemoryHandler):
@@ -81,14 +86,14 @@ def fileConfigWithLogPath(fname=DEFAULT_LOGGER_CONF,
     if not log_path:
         raise CrwyException('Please setup <log_path> first!')
 
-    cp = ConfigParser.ConfigParser(defaults)
+    cp = configparser.ConfigParser(defaults)
     if hasattr(fname, 'readline'):
         cp.readfp(fname)
     else:
         cp.read(fname)
     try:
         formatters = logging.config._create_formatters(cp)
-    except ConfigParser.NoSectionError:
+    except configparser.NoSectionError:
         raise CrwyException('Please make sure fname: "%s" is exist.' % fname)
 
     logging._acquireLock()
