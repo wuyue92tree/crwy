@@ -23,7 +23,7 @@ __all__ = [
     'cookie2str', 'cookie2dict', 'config_handle',
     'file_handle', 'datetime2str', 'str2datetime',
     'dict2obj', 'obj2dict', 'remove_emoji', 'change_kv',
-    'remove_item_from_dict'
+    'remove_item_from_dict', 'splice_list'
 ]
 
 
@@ -174,3 +174,24 @@ def remove_item_from_dict(obj, keys_to_remove):
         if obj.get(key, ''):
             obj.pop(key)
     return obj
+
+
+def splice_list(obj_list, group_number=3):
+    """
+    分割列表
+    :param obj_list:
+    :param group_number:
+    :return:
+    """
+    if len(obj_list) < group_number:
+        raise Exception('obj_list length must greater than group_number.')
+
+    distance = int(len(obj_list) / group_number)
+    new_list = []
+    for group in range(group_number):
+        if group == group_number - 1:
+            # 若有超出部分并入最后一组
+            new_list.append(obj_list[distance*group:len(obj_list)])
+        else:
+            new_list.append(obj_list[distance*group:distance*(group+1)])
+    return new_list
