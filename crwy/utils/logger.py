@@ -5,6 +5,7 @@
 
 
 import os
+import sys
 import logging
 import logging.config
 import logging.handlers
@@ -12,16 +13,24 @@ from crwy.exceptions import CrwyException
 from crwy.settings.default_settings import TEMPLATE_DIR
 
 try:
-    import configparser
-except ImportError:
     import ConfigParser as configparser
+except ImportError:
+    import configparser
 
 DEFAULT_LOGGER_CONF = './conf/logger.conf'
 
+if sys.version_info[0] == 2:
+    BASE_LOGGER_CONF = os.path.join(TEMPLATE_DIR, 'project/logger_py2.conf')
+else:
+    BASE_LOGGER_CONF = os.path.join(TEMPLATE_DIR, 'project/logger_py3.conf')
+
 try:
-    logging.config.fileConfig(DEFAULT_LOGGER_CONF)
+    try:
+        logging.config.fileConfig(DEFAULT_LOGGER_CONF)
+    except KeyError:
+        logging.config.fileConfig(BASE_LOGGER_CONF)
 except:
-    logging.config.fileConfig(os.path.join(TEMPLATE_DIR, 'project/logger.conf'))
+    pass
 
 
 def _install_handlers_custom(cp, formatters, log_path):
@@ -76,7 +85,7 @@ def _install_handlers_custom(cp, formatters, log_path):
     return handlers
 
 
-def fileConfigWithLogPath(fname=DEFAULT_LOGGER_CONF,
+def fileConfigWithLogPath(fname=BASE_LOGGER_CONF,
                           log_path=None,
                           defaults=None,
                           disable_existing_loggers=True):
@@ -88,7 +97,7 @@ def fileConfigWithLogPath(fname=DEFAULT_LOGGER_CONF,
 
     cp = configparser.ConfigParser(defaults)
     if hasattr(fname, 'readline'):
-        cp.readfp(fname)
+        cp.read_file(fname)
     else:
         cp.read(fname)
     try:
