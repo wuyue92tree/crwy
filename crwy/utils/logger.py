@@ -20,9 +20,11 @@ except ImportError:
 DEFAULT_LOGGER_CONF = './conf/logger.conf'
 
 if sys.version_info[0] == 2:
-    BASE_LOGGER_CONF = os.path.join(TEMPLATE_DIR, 'project/logger_py2.conf')
+    BASE_LOGGER_CONF = os.path.join(
+        TEMPLATE_DIR, 'project/logger_py2.conf.tmpl')
 else:
-    BASE_LOGGER_CONF = os.path.join(TEMPLATE_DIR, 'project/logger_py3.conf')
+    BASE_LOGGER_CONF = os.path.join(
+        TEMPLATE_DIR, 'project/logger_py3.conf.tmpl')
 
 try:
     try:

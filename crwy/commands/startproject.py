@@ -18,9 +18,9 @@ CONFIG_PATH = os.path.join(PATH, 'crwy.cfg.tmpl')
 SETTINGS_PATH = os.path.join(PATH, 'settings.py.tmpl')
 
 if sys.version_info[0] == 2:
-    LOGCONFIG_PATH = os.path.join(PATH, 'logger_py2.conf')
+    LOGCONFIG_PATH = os.path.join(PATH, 'logger_py2.conf.tmpl')
 else:
-    LOGCONFIG_PATH = os.path.join(PATH, 'logger_py3.conf')
+    LOGCONFIG_PATH = os.path.join(PATH, 'logger_py3.conf.tmpl')
 
 
 class Command(object):
