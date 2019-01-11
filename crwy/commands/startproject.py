@@ -16,7 +16,7 @@ SRC_PATH = os.path.join(PATH, 'src')
 LOG_PATH = os.path.join(PATH, 'log')
 CONFIG_PATH = os.path.join(PATH, 'crwy.cfg.tmpl')
 SETTINGS_PATH = os.path.join(PATH, 'settings.py.tmpl')
-LOGCONFIG_PATH = os.path.join(PATH, 'logger.conf.tmpl')
+LOGCONFIG_PATH = os.path.join(PATH, 'logger.conf')
 
 
 class Command(object):
