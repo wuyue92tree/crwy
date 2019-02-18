@@ -57,9 +57,9 @@ args=('./log/default.log', 'midnight', 1, 0, 'utf-8')
 keys=defaultFmt,simpleFmt
 
 [formatter_defaultFmt]
-format=%(asctime)s %(filename)s %(funcName)s %(threadName)s [line:%(lineno)d] %(levelname)s %(message)s
+format=%(asctime)s %(filename)s %(funcName)s %(processName)s %(threadName)s [line:%(lineno)d] %(levelname)s: %(message)s
 datefmt=%Y-%m-%d %H:%M:%S
 
 [formatter_simpleFmt]
-format=%(asctime)s %(filename)s %(funcName)s %(threadName)s [line:%(lineno)d] %(levelname)s %(message)s
+format=%(asctime)s %(levelname)s: %(message)s
 datefmt=%Y-%m-%d %H:%M:%S
