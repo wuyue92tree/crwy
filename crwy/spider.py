@@ -5,7 +5,6 @@
 import inspect
 from crwy.utils.html.html_downloader import HtmlDownloader
 from crwy.utils.html.html_parser import HtmlParser
-from crwy.utils.logger import Logger
 
 
 class BaseSpider(object):
@@ -27,6 +26,7 @@ class Spider(BaseSpider):
         if logger:
             self.logger = logger
         else:
+            from crwy.utils.logger import Logger
             self.logger = Logger.timed_rt_logger()
 
     def login(self, *args, **kwargs):
