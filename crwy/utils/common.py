@@ -15,9 +15,9 @@ import re
 import datetime
 
 try:
-    import ConfigParser
+    import ConfigParser as configparser
 except ImportError:
-    from configparser import ConfigParser
+    import configparser
 
 __all__ = [
     'cookie2str', 'cookie2dict', 'config_handle',
@@ -114,7 +114,7 @@ def config_handle(path):
     :param path: config文件路径
     :return: 返回config对象
     """
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read(path)
     return config
 
