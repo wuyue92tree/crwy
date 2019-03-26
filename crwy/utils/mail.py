@@ -69,8 +69,8 @@ class MailReceiver(IMAPClient):
         :param flag: 解析类型标识
         :return: 编码转换后内容
         """
+        res = []
         try:
-            res = []
             for s, c in decode_header(m):
                 if c:
                     res.append(s.decode(c, 'ignore'))
@@ -98,7 +98,7 @@ class MailReceiver(IMAPClient):
 
             return res[0]
         except Exception as e:
-            traceback.print_exc(e)
+            traceback.print_exc()
             return res
 
     def get_message_content(self, message):
@@ -134,7 +134,7 @@ class MailReceiver(IMAPClient):
                 return res
 
         except Exception as e:
-            traceback.print_exc(e)
+            traceback.print_exc()
             return
 
     def delete_message(self, messages, deleted_folder="Deleted Messages"):
