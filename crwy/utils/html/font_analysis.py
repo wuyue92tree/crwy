@@ -24,7 +24,7 @@ like：
 
 '77880914931fb6dda97269a9156404745f609d35': '黄'
 
-hash值与文字对应mapping需要人工，通过字体软件对应 推荐 fontforge
+hash值与文字对应mapping需要人工，通过字体软件对应 推荐 fontforge，或百度字体工具在线编辑 http://fontstore.baidu.com/static/editor/index.html
 
 5. 通过人工确认的mapping，找到页面上字符与真实字体的对应关系；
 6. 替换原始页面中的字符
@@ -42,17 +42,20 @@ from crwy.spider import Spider
 
 
 class FontAnalysis(Spider):
-    def __init__(self, html=None):
+    def __init__(self, html=None, font_path=None, xml_path=None):
         super(FontAnalysis, self).__init__()
         uid = str(uuid.uuid1())
-        self.font_path = './data/font/font-{}.woff'.format(uid)
-        self.xml_path = './data/xml/font-{}.xml'.format(uid)
+        self.font_path = font_path \
+            if font_path else './data/font/font-{}.woff'.format(uid)
+        self.xml_path = xml_path \
+            if xml_path else './data/xml/font-{}.xml'.format(uid)
         self.html = html if html else self.get_test_html()
 
-    def get_test_html(self):
+    def get_test_html(self, url=None):
         # 58简历页
-        url = 'https://bj.58.com/qzyewu/pn2/?' \
-              'PGTID=0d303353-0000-1188-7c8a-829b2b71d0e8&ClickID=2'
+        url = url if url else 'https://bj.58.com/qzyewu/pn2/?' \
+                              'PGTID=0d303353-0000-1188-' \
+                              '7c8a-829b2b71d0e8&ClickID=2'
 
         res = self.html_downloader.download(url)
 
@@ -89,12 +92,20 @@ class FontAnalysis(Spider):
         with open(self.xml_path, 'rb') as xml:
             soups = self.html_parser.parser(xml.read())
             ttglyph_lst = soups.find('glyf').find_all('ttglyph')[1:]
+            # 字体对应关系通过cmap进行处理
+            map_lst = soups.find('cmap').find_all('map')
+            map_dict = {}
+            for map in map_lst:
+                map_dict[map.get('name')] = map.get('code')
+            # print(map_dict, len(map_dict))
             analysis_res = []
             for ttglyph in ttglyph_lst:
                 analysis_dict = dict()
                 analysis_dict['ttglyph_name'] = ttglyph.get('name')
+                # analysis_dict['html_name'] = '&#x{};'.format(
+                #     analysis_dict['ttglyph_name'][3:].lower())
                 analysis_dict['html_name'] = '&#x{};'.format(
-                    analysis_dict['ttglyph_name'][3:].lower())
+                    map_dict.get(ttglyph.get('name'))[2:])
                 ttglyph_value = []
                 contour_lst = ttglyph.find_all('contour')
                 for contour in contour_lst:
@@ -133,9 +144,10 @@ class FontAnalysis(Spider):
 
 
 font_mapping = {
-    '275e74d6bddd35d10b983741abfc488c1edeba55': '技',
+    'e8933be932e70f9afa7eaa9289db728428381314': '',
+    '4fff0f1b24d0de9d52025a7a3a27da552ff57885': '技',
     '8cc5efb98e3e8f3cd7c5349a081a8a5c4584ff9b': '6',
-    '1e45375007c9edf827c83c1dafd1a78bd2fabecb': '经',
+    'd23c43c80a7498c5076156adc55826fbca139650': '经',
     'b7539565b06268d70a91cea2cd4178b4da798089': '王',
     '97817f695aacb359ffb5b8ca0717ca6344e84ccb': '应',
     'cc315ddd20b6361ef77cc82fbbc59f9ac40c3bd5': '专',
@@ -144,20 +156,20 @@ font_mapping = {
     'cec031df25f4fc961f481e6029e9787fd0860d43': '以',
     'a07a8e4e1b273d55773605c33dbeb2b35ab0feff': '吴',
     '91106b5585628e13a9dd99c023436f0720204c33': '女',
-    'dfe982c5707ac95c93c75705a38124fbd4e57446': '杨',
+    '50e496f505193e183f9114a98d1d84cd170d6841': '杨',
     '00acb9148038506dd725b383c8190a2db56ea763': '7',
-    '79da38d1c5900b399df3f42a28217d404fe32620': '5',
+    'ba582a83c79f815c38356c5d74b1695f08b62877': '5',
     'f60ba3e0090eb10b4a1815e0c054fa44b7303aa0': '张',
     '651cc305ff99243489da82fbfecf020446d7c342': 'B',
     'd5f3892cd55e9f22947ac2aba291329711533e81': '本',
-    '8410c547e1dd21cd175d0f0f9ae84bfd30940ade': '男',
+    '22e30284b63bcf5f442f1ee12a1057d3601b11f3': '男',
     '3267ee0dd0cb0e11617788ae753cc369a5c4baae': '博',
     'fd05decfb4e1794a224a9129f6ef92993d325a81': '3',
     '14b002b6241afb1b968cf0b812854d9b0a212cdf': '无',
     'f3686b516fafbdcca4eeef2648e0951f3889de32': '9',
     'a03d1be9168f50f083686d63411c82cbea6db391': '生',
     '4f20412aff68f7f19790761a1cbcaeaa7db0c9e9': '验',
-    '7f129bc4cd21e1eb51c528932e43abb805db2d6c': '8',
+    '1354e12807c09a95d08ec737b6e94abf0396eeb0': '8',
     'a935b6d4b4c63c3c25314ed2e497570a697b88ff': '下',
     '0cb8891b4b93f0060b25a8a190b37ebf0fe4837e': '科',
     'c6cd476937866c3aa89dd73db226af18e9d4e3f4': '1',
@@ -169,7 +181,7 @@ font_mapping = {
     'a67d95e35ce49467e2b0ff549a173043460742d8': '2',
     '0889937589fdd669a172f4e65707938a3dc2242a': '刘',
     'f18e8a977aeb769874d0d8714c3153109658d1b5': '士',
-    '1b25a4e145326143b528672986fea06f0549d180': '陈',
+    '0c61399311739c5a4d584447f4ef7d3b268cc51f': '陈',
     '7604e45e05cf4b3a98804474c15f2c4096fa410b': '高',
     'cd5372f2cd6103cd7895a4ca1847860da14a7e59': '大',
     'c901ab9eb8a4d5539778a3a34f17f0515cb2ef64': '0',
@@ -179,7 +191,6 @@ font_mapping = {
     '9a379807d2bf090c94f1a03cf3fd18c6282882c1': '校',
     '77880914931fb6dda97269a9156404745f609d35': '黄'
 }
-
 
 # def main():
 #     runner = FontAnalysis()
