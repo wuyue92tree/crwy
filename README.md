@@ -1,7 +1,10 @@
 # Crwy
 
 [![PyPI Version](https://img.shields.io/pypi/v/Crwy.svg)](https://pypi.python.org/pypi/Crwy)
-[![Build Status](https://travis-ci.org/wuyue92tree/crwy.svg?branch=1.5.4)](https://travis-ci.org/wuyue92tree/crwy)
+[![Download Status](https://img.shields.io/pypi/dm/django-adminlte-ui.svg)](https://pypi.python.org/pypi/Crwy)
+[![Build Status](https://travis-ci.org/wuyue92tree/crwy.svg)](https://travis-ci.org/wuyue92tree/crwy)
+[![License Status](https://img.shields.io/github/license/wuyue92tree/crwy)](https://raw.githubusercontent.com/wuyue92tree/crwy/master/LICENS)
+
 
 # 简介
 
@@ -34,7 +37,7 @@ pip install crwy
 ```
 
 or
-前往下载: https://pypi.python.org/pypi/Crwy/1.5.4/
+前往下载: https://pypi.python.org/pypi/Crwy/
 
 # 使用手册
 
