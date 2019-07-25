@@ -24,7 +24,7 @@ like：
 
 '77880914931fb6dda97269a9156404745f609d35': '黄'
 
-hash值与文字对应mapping需要人工，通过字体软件对应 推荐 fontforge，或百度字体工具在线编辑 http://fontstore.baidu.com/static/editor/index.html
+hash值与文字对应mapping需要人工，通过字体软件对应 推荐 fontforge
 
 5. 通过人工确认的mapping，找到页面上字符与真实字体的对应关系；
 6. 替换原始页面中的字符
@@ -33,7 +33,7 @@ hash值与文字对应mapping需要人工，通过字体软件对应 推荐 font
 
 import base64
 import hashlib
-import json
+# import json
 import os
 import re
 import uuid
@@ -42,20 +42,16 @@ from crwy.spider import Spider
 
 
 class FontAnalysis(Spider):
-    def __init__(self, html=None, font_path=None, xml_path=None):
+    def __init__(self, html=None):
         super(FontAnalysis, self).__init__()
         uid = str(uuid.uuid1())
-        self.font_path = font_path \
-            if font_path else './data/font/font-{}.woff'.format(uid)
-        self.xml_path = xml_path \
-            if xml_path else './data/xml/font-{}.xml'.format(uid)
+        self.font_path = './data/font/font-{}.woff'.format(uid)
+        self.xml_path = './data/xml/font-{}.xml'.format(uid)
         self.html = html if html else self.get_test_html()
 
-    def get_test_html(self, url=None):
+    def get_test_html(self):
         # 58简历页
-        url = url if url else 'https://bj.58.com/qzyewu/pn2/?' \
-                              'PGTID=0d303353-0000-1188-' \
-                              '7c8a-829b2b71d0e8&ClickID=2'
+        url = 'https://bj.58.com/qzyewu/pn2/?PGTID=0d303353-0000-1188-7c8a-829b2b71d0e8&ClickID=2'
 
         res = self.html_downloader.download(url)
 
@@ -92,7 +88,6 @@ class FontAnalysis(Spider):
         with open(self.xml_path, 'rb') as xml:
             soups = self.html_parser.parser(xml.read())
             ttglyph_lst = soups.find('glyf').find_all('ttglyph')[1:]
-            # 字体对应关系通过cmap进行处理
             map_lst = soups.find('cmap').find_all('map')
             map_dict = {}
             for map in map_lst:
@@ -104,23 +99,29 @@ class FontAnalysis(Spider):
                 analysis_dict['ttglyph_name'] = ttglyph.get('name')
                 # analysis_dict['html_name'] = '&#x{};'.format(
                 #     analysis_dict['ttglyph_name'][3:].lower())
+                # x_distance = str(int(ttglyph.get('xmax')) - int(ttglyph.get('xmin')))
+                # y_distance = str(int(ttglyph.get('ymax')) - int(ttglyph.get('ymin')))
                 analysis_dict['html_name'] = '&#x{};'.format(
                     map_dict.get(ttglyph.get('name'))[2:])
                 ttglyph_value = []
                 contour_lst = ttglyph.find_all('contour')
                 for contour in contour_lst:
                     pt_lst = contour.find_all('pt')
-                    for pt in pt_lst:
-                        ttglyph_value.append(pt.attrs)
+                    for pt in pt_lst[:1]:
+                        tmp = str(int(pt.get('x')) - int(pt.get('y')))
+                        # pt['y'] = str(int(y_distance) - int(pt.get('y')))
+                        ttglyph_value.append(tmp)
+                analysis_dict['ttglyph_value'] = str(sorted(ttglyph_value))
                 analysis_dict['font_hash'] = hashlib.sha1(
-                    json.dumps(ttglyph_value, sort_keys=True).encode(
-                        'utf-8')).hexdigest()
+                    analysis_dict['ttglyph_value'].encode('utf-8')
+                ).hexdigest()
                 analysis_res.append(analysis_dict)
 
                 if debug:
                     print(analysis_dict['ttglyph_name'],  # 字体key
                           analysis_dict['html_name'],  # web页面显示值
-                          analysis_dict['font_hash'])  # 字体内容哈希值
+                          analysis_dict['font_hash'],  # 字体内容哈希值
+                          analysis_dict['ttglyph_value'])
 
             if is_clean:
                 os.remove(self.font_path)
@@ -129,11 +130,14 @@ class FontAnalysis(Spider):
             return analysis_res
 
     @staticmethod
-    def get_real_font_mapping(analysis_res, font_mapping):
+    def get_real_font_mapping(analysis_res, font_mapping, debug=False):
         real_font_mapping = dict()
         for item in analysis_res:
             real_font_mapping[item['html_name']] = font_mapping[
                 item['font_hash']]
+            if debug is True:
+                print(item['html_name'], font_mapping[item['font_hash']])
+
         return real_font_mapping
 
     @staticmethod
@@ -144,52 +148,52 @@ class FontAnalysis(Spider):
 
 
 font_mapping = {
-    'e8933be932e70f9afa7eaa9289db728428381314': '',
-    '4fff0f1b24d0de9d52025a7a3a27da552ff57885': '技',
-    '8cc5efb98e3e8f3cd7c5349a081a8a5c4584ff9b': '6',
-    'd23c43c80a7498c5076156adc55826fbca139650': '经',
-    'b7539565b06268d70a91cea2cd4178b4da798089': '王',
-    '97817f695aacb359ffb5b8ca0717ca6344e84ccb': '应',
-    'cc315ddd20b6361ef77cc82fbbc59f9ac40c3bd5': '专',
-    '644caa33f64d9751aca184327eb27928b26775a7': '赵',
-    'edc7496ac07d57b44a026de002422eec4f2ee1c4': '李',
-    'cec031df25f4fc961f481e6029e9787fd0860d43': '以',
-    'a07a8e4e1b273d55773605c33dbeb2b35ab0feff': '吴',
-    '91106b5585628e13a9dd99c023436f0720204c33': '女',
-    '50e496f505193e183f9114a98d1d84cd170d6841': '杨',
-    '00acb9148038506dd725b383c8190a2db56ea763': '7',
-    'ba582a83c79f815c38356c5d74b1695f08b62877': '5',
-    'f60ba3e0090eb10b4a1815e0c054fa44b7303aa0': '张',
-    '651cc305ff99243489da82fbfecf020446d7c342': 'B',
-    'd5f3892cd55e9f22947ac2aba291329711533e81': '本',
-    '22e30284b63bcf5f442f1ee12a1057d3601b11f3': '男',
-    '3267ee0dd0cb0e11617788ae753cc369a5c4baae': '博',
-    'fd05decfb4e1794a224a9129f6ef92993d325a81': '3',
-    '14b002b6241afb1b968cf0b812854d9b0a212cdf': '无',
-    'f3686b516fafbdcca4eeef2648e0951f3889de32': '9',
-    'a03d1be9168f50f083686d63411c82cbea6db391': '生',
-    '4f20412aff68f7f19790761a1cbcaeaa7db0c9e9': '验',
-    '1354e12807c09a95d08ec737b6e94abf0396eeb0': '8',
-    'a935b6d4b4c63c3c25314ed2e497570a697b88ff': '下',
-    '0cb8891b4b93f0060b25a8a190b37ebf0fe4837e': '科',
-    'c6cd476937866c3aa89dd73db226af18e9d4e3f4': '1',
-    'f95ae3a1652a55f24f34d9c2f32eeac3f5230b2d': '4',
-    '4083c6fe15c7f55624286691f09d18c8a54bc4f1': 'M',
-    '9c22abfda3684ef55fb4d14c8abb2c8cc191cb74': '中',
-    'a0d2037fded629d8ee3d3563c2974935e84f6e41': '硕',
-    '40d32e734682aee7df1bacdae7db056019b7fdd6': '届',
-    'a67d95e35ce49467e2b0ff549a173043460742d8': '2',
-    '0889937589fdd669a172f4e65707938a3dc2242a': '刘',
-    'f18e8a977aeb769874d0d8714c3153109658d1b5': '士',
-    '0c61399311739c5a4d584447f4ef7d3b268cc51f': '陈',
-    '7604e45e05cf4b3a98804474c15f2c4096fa410b': '高',
-    'cd5372f2cd6103cd7895a4ca1847860da14a7e59': '大',
-    'c901ab9eb8a4d5539778a3a34f17f0515cb2ef64': '0',
-    '4b498c37e97d53a91d68bda4cfd4848adc977f06': 'E',
-    '3486580a1462d28776136bf1f620b3dec79c982b': '周',
-    '1ac40770b08fa65fac385230e8d9799257b47380': 'A',
-    '9a379807d2bf090c94f1a03cf3fd18c6282882c1': '校',
-    '77880914931fb6dda97269a9156404745f609d35': '黄'
+    '7fd63556d48347cd5a50007b3151e2735f93bed2': '',
+    'ed465eefa32423091781b4cf7136d16d3ebce463': '技',
+    'f9e740d4af46806fd75ab69783555c87f6ec7706': '6',
+    '50365252b61dbe2651e0c83bebc8d00ef763a158': '经',
+    'ecc7ed15aa268e5a699eb8ddbe73ad2b27911ee1': '王',
+    '891090dd6e752593d367a61dc3891f1cb110f0dc': '应',
+    '6aea2037fa2d83b11da6dcc837443c7b2a9be22e': '专',
+    '7138fba5e0f9093c696c20ac994857385f257c1e': '赵',
+    '2609770c8afd922eb37758dd8828db1b566c7fd6': '李',
+    '02c3341d2d8085eded8233ece3f54b6540322eac': '以',
+    '75859289bdf9b78f1842ed692daf445f403e2b88': '吴',
+    'f9dcd3c88958fc85f6fbf770532929d3b3891a53': '女',
+    'e83dc230a3f59d5361bbcdc82973529c6fcbf443': '杨',
+    '8371e4d560301720541aa2b18c92d7624ff11082': '7',
+    '19abe86dc73d03989b6e2c9ba3e86d05f187a3c6': '5',
+    'fdb060ded208610d1923ff00a5cee237a021be83': '张',
+    'b032add2a6287c5d6ab051bef17e37c45d714f40': 'B',
+    '5b262e3ff34a8ec29d9b5b271e0de2396de260ce': '本',
+    '512adeb01f06bca832fd2a6dea974f09029edeeb': '男',
+    '6f15d67b48b66a140ca1858aae74897c4a5a79f6': '博',
+    'b2f5589957afac462f1620e6647e7c33f05dce96': '3',
+    'e24ed92db7331e919161e6d2961d35ccaae0593a': '无',
+    '3cd650e51bbe8268ffb4ec2ab9537937eddac0dd': '9',
+    'e1eb5abd0f77e1c2627a50eda8a4765c4be7a606': '生',
+    '04783616ad232d7ad4d886876f4eaaf5a0bbb580': '验',
+    '374446ca738266d7c1da2a551f15c54cdd12e460': '8',
+    'e2af36b0e0add44124e65c78e0bb388a91da5373': '下',
+    '679f2fd459c646e6e1668938a57f7c1a248f806d': '科',
+    '6924fddd64c781721e91d3797742761616b58532': '1',
+    'c81c0fe74c783fdc90d8ff7bcb801ac73646f5bf': '4',
+    '07aa1ed8e3c9b283fd20a9942fd81d925fb49de2': 'M',
+    '968f86f893ff4e01575e3acc1e61c940b424d479': '中',
+    '7b9ef322a4ea16ddd46ce3afbf9ae7265b638947': '硕',
+    '5ac2c4226b898a1cb133c1cd012506399c291253': '届',
+    'e51700563d6f6c7c82def8c408b972ae28870a7e': '2',
+    '44b8aeb98a4556a2d9e0121848d1ce5ddd1cf820': '刘',
+    'b1df1706be1e25ce632329d0967bc4d87de7a0ce': '士',
+    'b412e5268df2f25d418a5547c902e0794ed33a7c': '陈',
+    'c0fdac37111eee42dde8f1481eddf803c1c6eafd': '高',
+    '859502b5860c99ec88061eb60dfc0c2af03e1778': '大',
+    'afd6a61616dbb4215b9327194e177e6caa71ace9': '0',
+    'f4d6418264b302bc9d70693b5cc3d4a7da01a445': 'E',
+    'b74117c62c7ff7ae79a1d01dfe0baa21874d3ae8': '周',
+    '9372bfdc75a272eceb0f4fbf8bd5c86bc21b4b1d': 'A',
+    '9e2c166141627880782747ba69b9972885ca798a': '校',
+    'f38c4fe982d55a9bcb4460b82db43f995bc5a992': '黄'
 }
 
 # def main():
