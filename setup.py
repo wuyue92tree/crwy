@@ -1,18 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from os.path import dirname, join
 from setuptools import setup, find_packages
-
-with open(join(dirname(__file__), 'crwy/VERSION'), 'rb') as f:
-    version = f.read().decode('ascii').strip()
+from crwy import version
 
 setup(
     name='Crwy',
     version=version,
     url='https://github.com/wuyue92tree/crwy',
     description='A Simple Web Crawling and Web Scraping framework',
-    long_description=open('README.md').read(),
+    long_description=open('README.rst').read(),
     author='wuyue',
     author_email='wuyue92tree@163.com',
     maintainer='wuyue',

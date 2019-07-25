@@ -11,6 +11,7 @@ from crwy.commands.startproject import Command as StartprojectCommand
 from crwy.commands.createspider import Command as CreatespiderCommand
 from crwy.commands.list import Command as ListCommand
 from crwy.settings.default_settings import BASE_DIR
+from crwy import version
 
 try:
     import ConfigParser
@@ -99,8 +100,7 @@ def execute():
             print('[ERROR] Please makesure that you are under project path!!!')
 
     if project == 'version':
-        version_path = os.path.join(BASE_DIR, 'VERSION')
-        print(open(version_path, 'r').read())
+        print(version)
 
 
 if __name__ == '__main__':
