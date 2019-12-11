@@ -38,10 +38,10 @@ import os
 import re
 import uuid
 from fontTools.ttLib import TTFont
-from crwy.spider import Spider
+from crwy.spider import BaseSpider
 
 
-class FontAnalysis(Spider):
+class FontAnalysis(BaseSpider):
     def __init__(self, html=None):
         super(FontAnalysis, self).__init__()
         uid = str(uuid.uuid1())
