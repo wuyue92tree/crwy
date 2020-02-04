@@ -4,6 +4,13 @@
 from setuptools import setup, find_packages
 from crwy import version
 
+install_requires = []
+
+with open('requirements.txt', 'r') as f:
+    for req in f.readlines():
+        install_requires.append(req.strip('\n'))
+
+
 setup(
     name='Crwy',
     version=version,
@@ -21,11 +28,5 @@ setup(
     entry_points={
         'console_scripts': ['crwy = crwy.cmdline:execute']
     },
-    install_requires=[
-        'beautifulsoup4>=4.5.1',
-        'requests>=2.20.0',
-        'configparser>=3.5.0',
-        'gevent>=1.2.1',
-        'redis>=2.10.5,<3.0.0'
-    ],
+    install_requires=install_requires,
 )

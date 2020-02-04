@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+
+from __future__ import print_function
+import logging
+import scrapy
+from crwy.spider import BaseSpider
+
+
+class $classname(scrapy.Spider, BaseSpider):
+    name = '$name'
+    allowed_domains = ['$domain']
+    start_urls = ['http://$domain/']
+
+    custom_settings = {
+        'LOG_LEVEL': logging.INFO,
+        'LOG_ENCODING': 'utf-8',
+        'LOG_FORMAT': '%(asctime)s %(filename)s %(funcName)s %(processName)s '
+                      '%(threadName)s [line:%(lineno)d] '
+                      '%(levelname)s: %(message)s'
+    }
+
+    def __init__(self, *args, **kwargs):
+        super($classname, self).__init__(*args, **kwargs)
+        BaseSpider.__init__(self)
+
+    def parse(self, response):
+        pass

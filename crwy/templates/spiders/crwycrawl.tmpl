@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+
+from __future__ import print_function
+import logging
+import scrapy
+from scrapy.linkextractors import LinkExtractor
+from scrapy.spiders import CrawlSpider, Rule
+from crwy.spider import BaseSpider
+
+
+class $classname(CrawlSpider, BaseSpider):
+    name = '$name'
+    allowed_domains = ['$domain']
+    start_urls = ['http://$domain/']
+
+    custom_settings = {
+        'LOG_LEVEL': logging.INFO,
+        'LOG_ENCODING': 'utf-8',
+        'LOG_FORMAT': '%(asctime)s %(filename)s %(funcName)s %(processName)s '
+                      '%(threadName)s [line:%(lineno)d] '
+                      '%(levelname)s: %(message)s'
+    }
+
+    rules = (
+        Rule(LinkExtractor(allow=r'Items/'), callback='parse_item', follow=True),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super($classname, self).__init__(*args, **kwargs)
+        BaseSpider.__init__(self)
+
+    def parse_item(self, response):
+        item = {}
+        #item['domain_id'] = response.xpath('//input[@id="sid"]/@value').get()
+        #item['name'] = response.xpath('//div[@id="name"]').get()
+        #item['description'] = response.xpath('//div[@id="description"]').get()
+        return item

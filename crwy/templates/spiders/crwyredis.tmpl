@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+
+from __future__ import print_function
+import logging
+import scrapy
+from scrapy_redis.spiders import RedisSpider
+from crwy.spider import BaseSpider
+
+
+class $classname(RedisSpider, BaseSpider):
+    name = '$name'
+    allowed_domains = ['$domain']
+    redis_key = 'crawl_task:$name:start_urls'
+
+    custom_settings = {
+        'SPIDER_NAME': '$name',
+        'DUPEFILTER_DO_HASH': False,
+        # 'DUPEFILTER_DELAY_DAY': 2,
+        'DUPEFILTER_CLASS':
+            'crwy.utils.scrapy_plugs.dupefilters.RedisRFPDupeFilter',
+        'REDIS_URL': 'redis://root:password@host:port/db',
+        'LOG_LEVEL': logging.INFO,
+        'LOG_ENCODING': 'utf-8',
+        'LOG_FORMAT': '%(asctime)s %(filename)s %(funcName)s %(processName)s '
+                      '%(threadName)s [line:%(lineno)d] '
+                      '%(levelname)s: %(message)s'
+    }
+
+    def __init__(self, *args, **kwargs):
+        super($classname, self).__init__(*args, **kwargs)
+        BaseSpider.__init__(self)
+
+    def parse(self, response):
+        # use dupefilter_key filter with redis set or sorted set
+        # 1. add a dupefilter_key, meta['dupefilter_key'] = url.encode('utf-8')
+        # 2. rm a dupefilter_key, release_dupefilter_key.call(spider, request.meta.get('dupefilter_key'))
+        pass
