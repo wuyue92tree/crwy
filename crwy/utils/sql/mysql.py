@@ -20,11 +20,11 @@ except ImportError:
         "You should install pymysql first! try: pip install "
         "pymysql")
 try:
-    from DBUtils.PersistentDB import PersistentDB
+    from dbutils.persistent_db import PersistentDB
 except ImportError:
     raise CrwyImportException(
         "You should install DBUtils first! try: pip install "
-        "dbutils")
+        "dbutils>=2.0")
 
 
 @cls2singleton
