@@ -19,11 +19,11 @@ except ImportError:
     raise CrwyImportException("You should install PyGreSQL first! try: pip "
                               "install PyGreSQL")
 try:
-    from DBUtils.PersistentDB import PersistentDB
+    from dbutils.persistent_db import PersistentDB
 except ImportError:
     raise CrwyImportException(
         "You should install DBUtils first! try: pip install "
-        "dbutils")
+        "dbutils>=2.0")
 
 
 @cls2singleton
