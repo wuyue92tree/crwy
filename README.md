@@ -13,7 +13,7 @@ Crwy是一个轻量级的爬虫抓取框架，参考Scrapy框架结构开发而�
 # 运行环境
 
 
- * Python2 & Python3
+ * Python3
  * Works on Linux, Mac OSX
 
 # 安装
