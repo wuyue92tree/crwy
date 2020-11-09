@@ -102,7 +102,7 @@ class FontAnalysis(BaseSpider):
                 # x_distance = str(int(ttglyph.get('xmax')) - int(ttglyph.get('xmin')))
                 # y_distance = str(int(ttglyph.get('ymax')) - int(ttglyph.get('ymin')))
                 analysis_dict['html_name'] = '&#x{};'.format(
-                    map_dict.get(ttglyph.get('name'))[2:])
+                    map_dict.get(ttglyph.get('name'))[2:].upper())
                 ttglyph_value = []
                 contour_lst = ttglyph.find_all('contour')
                 for contour in contour_lst:
